@@ -11,5 +11,4 @@ import org.springframework.stereotype.Controller;
 ************/
 @Controller
 public class commController {
-    // 두근 두근 슬랙 연동
 }
