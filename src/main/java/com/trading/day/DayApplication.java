@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableJpaAuditing
-@EnableJpaRepositories(basePackages = {"trading.day"})
 public class DayApplication {
 
 	public static void main(String[] args) {
