@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberJpaRepository repository;
-    private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
 
-    public MemberDTO save(MemberDTO inDto) {
+    public Long save(MemberDTO inDto) {
 
         //Entity 변환 작업
         Member member = modelMapper.map(inDto, Member.class);
@@ -25,14 +25,27 @@ public class MemberService {
 
         Member save = repository.save(member);
 
-
         // Entity 결과 to DTO
         MemberDTO out = modelMapper.map(save, MemberDTO.class);
         System.out.println("DTO : " + out.getName());
 
-        return out;
+
+
+        return out.getId();
     }
 
+
+    public MemberDTO findByName(MemberDTO inDto) {
+
+        // Entity
+        Member member = modelMapper.map(inDto, Member.class);
+
+        Member result = repository.findByName(member);
+
+        // DTO
+        MemberDTO out = modelMapper.map(result, MemberDTO.class);
+        return out;
+    }
 
 
 

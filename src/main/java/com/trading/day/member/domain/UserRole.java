@@ -18,14 +18,18 @@ public class UserRole {
     private Long id;
 
     // 다 : 1 -> 다쪽에 ManyToOne
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member MemberId;
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member MemberId;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "role_id")
+//    private Role roleId;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
-
-    @CreatedDate
-    private LocalDateTime modifiedDate;
+//    @CreatedDate
+//    private LocalDateTime createdDate;
+//
+//    @CreatedDate
+//    private LocalDateTime modifiedDate;
 
 }

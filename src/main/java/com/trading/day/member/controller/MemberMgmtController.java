@@ -30,7 +30,7 @@ public class MemberMgmtController {
     private final MemberService service;
 
     @PostMapping("/member/mgmt/v1/save")
-    public MemberDTO save(@RequestParam String name) {
+    public Long save(@RequestParam String name) {
 
         // parameter to DTO
         MemberDTO inDto = MemberDTO.builder()
@@ -39,9 +39,10 @@ public class MemberMgmtController {
         System.out.println("Controller : " + inDto.getName());
 
 
-        MemberDTO save = service.save(inDto);
+        Long result = service.save(inDto);
 
-        return save;
+
+        return result;
     }
 
 }//class
