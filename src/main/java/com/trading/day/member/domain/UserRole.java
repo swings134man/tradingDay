@@ -13,23 +13,25 @@ import java.time.LocalDateTime;
 @Table(name = "USER_ROLE")
 public class UserRole {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_role_id")
     private Long id;
 
     // 다 : 1 -> 다쪽에 ManyToOne
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member MemberId;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "role_id")
-//    private Role roleId;
+    // UserRole 은 하나의 멤버만 가질수 있음.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member MemberId;
 
-//    @CreatedDate
-//    private LocalDateTime createdDate;
-//
-//    @CreatedDate
-//    private LocalDateTime modifiedDate;
+    // N : 1
+    // 하나의 role 에 여러개 UserRole
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role roleId;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @CreatedDate
+    private LocalDateTime modifiedDate;
 
 }

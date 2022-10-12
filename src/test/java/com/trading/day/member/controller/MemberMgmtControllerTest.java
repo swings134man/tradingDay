@@ -22,10 +22,13 @@ class MemberMgmtControllerTest {
     @Test
     void save() {
 
-        MemberDTO inDto = new MemberDTO();
-        inDto.setName("봄");
 
-        Long in = 8L;
+
+
+        MemberDTO inDto = new MemberDTO();
+        inDto.setName("아이유");
+
+        Long in = 2L;
         Long out = service.save(inDto);
 
 
@@ -33,7 +36,6 @@ class MemberMgmtControllerTest {
         System.out.println("out : " + out);
 
         Assertions.assertThat(in).isEqualTo(out);
-
 
     }
 }

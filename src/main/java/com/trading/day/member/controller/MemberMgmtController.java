@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 /************
 * @info : 고객관리 컨트롤러
@@ -36,7 +37,6 @@ public class MemberMgmtController {
         MemberDTO inDto = MemberDTO.builder()
                 .name(name)
                 .build();
-        System.out.println("Controller : " + inDto.getName());
 
 
         Long result = service.save(inDto);

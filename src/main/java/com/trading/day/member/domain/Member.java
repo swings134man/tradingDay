@@ -19,22 +19,28 @@ import java.util.List;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
     private String name;
 
+    @OneToMany(mappedBy = "MemberId")
+    private List<UserRole> userRoles = new ArrayList<>();
 
 
 //    @OneToMany(mappedBy = "MemberId") // 1:N 관계에서 어떤것이랑 연결이 되어있는지 -> UserRole 객체 변수명인 "MemberId"
 //    private List<UserRole> userRoles = new ArrayList<>();
 
 
+    @CreatedDate
+    private LocalDateTime createDate;
+    @CreatedDate
+    private LocalDateTime modifiedDate;
 
-//    @CreatedDate
-//    private LocalDateTime createDate;
-//    @CreatedDate
-//    private LocalDateTime modifiedDate;
-
+    // 편의 메서드
+    public void addUserRoles (UserRole userRole) {
+        userRoles.add(userRole);
+        userRole.setMemberId(this);
+    }
 }
