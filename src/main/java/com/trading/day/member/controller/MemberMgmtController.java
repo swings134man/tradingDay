@@ -1,15 +1,13 @@
 package com.trading.day.member.controller;
 
+import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +28,7 @@ public class MemberMgmtController {
 
     private final MemberService service;
 
+    // 회원 가입
     @PostMapping("/member/mgmt/v1/save")
     public Long save(@RequestParam String name) {
 
@@ -42,6 +41,48 @@ public class MemberMgmtController {
         Long result = service.save(inDto);
 
 
+        return result;
+    }
+    //ID로 회원정보 검색 (PK)
+    public MemberDTO findById (@RequestParam Long id) {
+        MemberDTO inDto = MemberDTO.builder()
+                .id(id)
+                .build();
+        MemberDTO result = service.findById(inDto);
+        return result;
+    }
+
+    // 이름으로 회원정보 검색
+    @GetMapping("/member/v1/findbyname")
+    public MemberDTO findByName(@RequestParam String name) {
+        MemberDTO inDto = MemberDTO.builder()
+                .name(name)
+                .build();
+
+        MemberDTO result = service.findByName(inDto);
+
+        return result;
+    }
+
+    // 회원 이름 update
+    @PutMapping("/member/v1/updatename")
+    public MemberDTO updateName(@RequestParam String name) {
+        MemberDTO inDto = MemberDTO.builder()
+                .name(name)
+                .build();
+
+        MemberDTO out = service.updateMember(inDto);
+        return out;
+    }
+
+    // 회원 삭제
+    @DeleteMapping("/member/v1/deletemember")
+    public int deleteMember(@RequestParam Long id) {
+        MemberDTO inDto = MemberDTO.builder()
+                .id(id)
+                .build();
+
+        int result = service.deleteMember(inDto);
         return result;
     }
 
