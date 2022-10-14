@@ -3,6 +3,7 @@ package com.trading.day.item.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.trading.day.config.BaseTimeEntity;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
@@ -24,4 +25,21 @@ public class ItemBoardDTO  {
 
     private String createdDate;
     private String modifiedDate;
-}
+
+        // paging 변환
+        public Page<ItemBoardDTO> toPageDTO(Page<ItemBoard> entity) {
+            Page<ItemBoardDTO> boardListPage = entity.map(m ->
+                    ItemBoardDTO.builder()
+                            .id(m.getId())
+                            .title(m.getTitle())
+                            .content(m.getContent())
+                            .writer(m.getWriter())
+                            .type(m.getType())
+                            .view(m.getView())
+                            .createdDate(m.getCreatedDate())
+                            .modifiedDate(m.getModifiedDate())
+                            .build()
+                    );
+            return boardListPage;
+        }
+}//class

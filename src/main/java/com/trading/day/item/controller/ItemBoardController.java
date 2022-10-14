@@ -8,9 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /************
 * @info : Item 물품 게시판 컨트롤러 클래스
@@ -43,12 +41,60 @@ public class ItemBoardController {
     }//savePost
 
 
-    @GetMapping("/Item/v1/findAllPage")
+    /**
+    * @info    : 게시판 전체조회 Paging
+    * @name    : findAllPage
+    * @date    : 2022/10/14 4:54 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : Pageable
+    * @return  : Page<ItemBoardDTO>
+    */
+    @GetMapping("/item/v1/findAllPage")
     public Page<ItemBoardDTO> findAllPage(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ItemBoardDTO> result = service.findAllPage(pageable);
         return result;
     }//findAllPage
 
 
+    /**
+    * @info    : 게시물 한개 삭제
+    * @name    : deletePostOne
+    * @date    : 2022/10/14 5:08 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : Long
+    * @return  : int
+    */
+    @DeleteMapping("/item/v1/deletePostOne")
+    public int deletePostOne(@RequestParam Long id) {
+        ItemBoardDTO inDTO = new ItemBoardDTO();
+        inDTO.setId(id);
+
+        int result = service.deletePostOne(inDTO);
+        // Page path
+//        if(result == 1){
+//            return "/items/success";
+//        }else {
+//            return "/items/fail";
+//        }
+        return result;
+    }//deletePostOne
+
+
+    /**
+    * @info    : 게시물 한개 수정
+    * @name    : updatePost
+    * @date    : 2022/10/14 5:09 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : ItemBoardDTO
+    * @return  : ItemBoardDTO
+    */
+    @PutMapping("/item/v1/updatePost")
+    public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
+        ItemBoardDTO result = service.updatePost(inDTO);
+        return result;
+    }//updatePost
 
 }//class
