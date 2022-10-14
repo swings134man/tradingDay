@@ -59,7 +59,7 @@ public class MemberService {
 
         // 실제 사용 코드 user Role Table
         UserRole userRole = new UserRole();
-        userRole.setMemberId(member); // 저장할 MEMBER Entity 객체 -- PARAM : MEMBER ENTITY - TYPE ENTITY
+        userRole.setMember(member); // 저장할 MEMBER Entity 객체 -- PARAM : MEMBER ENTITY - TYPE ENTITY
 //        userRole.setRoleId(role);   // Role 권한 정보
         userRole.setRoleId(role.get()); // 실사용 코드
         userRole.setCreatedDate(LocalDateTime.now());
@@ -73,17 +73,26 @@ public class MemberService {
         // Entity 결과 to DTO
         MemberDTO out = modelMapper.map(save, MemberDTO.class);
 
-        return out.getId();
+        return out.getMemberNo();
     }
 
-    // ID(PK) 로 회원 정보 검색
+    // ID(PK)- Member_No 로 회원 정보 검색
     public MemberDTO findById(MemberDTO inDto) {
 
-        Optional<Member> result = repository.findById(inDto.getId());
+        Optional<Member> result = repository.findById(inDto.getMemberNo());
 
         // to DTO
         MemberDTO out = modelMapper.map(result.get(), MemberDTO.class);
         return out;
+    }
+
+    // ID - memberId 로 회원 객체 검색
+    public MemberDTO findByMemberId(MemberDTO inDTO) {
+        Member resultEntity = repository.findByMemberId(inDTO.getMemberId());
+
+        // to DTO
+        MemberDTO outDTO = modelMapper.map(resultEntity, MemberDTO.class);
+        return outDTO;
     }
 
 
@@ -121,9 +130,9 @@ public class MemberService {
 
     public int deleteMember(MemberDTO inDto) {
         // Test 를 위한  PK 하드코딩
-        inDto.setId(3L);
+        inDto.setMemberNo(3L);
 
-        Optional<Member> findResult = repository.findById(inDto.getId());
+        Optional<Member> findResult = repository.findById(inDto.getMemberNo());
         if(findResult.isPresent()) {
             repository.delete(findResult.get());
             return 1;

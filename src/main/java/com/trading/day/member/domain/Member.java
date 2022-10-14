@@ -19,13 +19,14 @@ import java.util.List;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_no")
+    private Long memberNo;
 
+    private String memberId;
     private String name;
 
-    @OneToMany(mappedBy = "MemberId")
+    @OneToMany(mappedBy = "member")
     private List<UserRole> userRoles = new ArrayList<>();
 
 
@@ -41,6 +42,6 @@ public class Member {
     // 편의 메서드
     public void addUserRoles (UserRole userRole) {
         userRoles.add(userRole);
-        userRole.setMemberId(this);
+        userRole.setMember(this);
     }
 }
