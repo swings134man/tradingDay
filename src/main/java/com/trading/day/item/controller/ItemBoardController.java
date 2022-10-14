@@ -58,6 +58,28 @@ public class ItemBoardController {
 
 
     /**
+    * @info    : 게시물 조건검색 페이징(제목, 작성자 중1)
+    * @name    : findTitleOrWriter
+    * @date    : 2022/10/14 7:21 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   :
+    * @return  :
+    */
+    @GetMapping("/item/v1/findTitleOrWriter")
+    public Page<ItemBoardDTO> findTitleOrWriter(@RequestParam(required = true) String keyWord, @RequestParam String keyType,
+                                  @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+                                  ) {
+
+        ItemBoardDTO inDTO = new ItemBoardDTO().findTitleOrWriter(keyType, keyWord);
+        Page<ItemBoardDTO> result = service.findTitleOrWriter(inDTO, pageable);
+        return result;
+    }
+
+
+
+
+    /**
     * @info    : 게시물 한개 삭제
     * @name    : deletePostOne
     * @date    : 2022/10/14 5:08 PM

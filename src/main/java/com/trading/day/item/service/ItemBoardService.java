@@ -81,6 +81,39 @@ public class ItemBoardService {
         return outDTO;
     }// Paging all
 
+
+    /**
+    * @info    : 게시물 조건검색 페이징(제목, 작성자 중1)
+    * @name    : findTitleOrWriter
+    * @date    : 2022/10/14 7:07 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : String keyType, String keyWord, Pageable
+    * @return  : Page<ItemBoardDTO>
+    */
+    //String keyType, String keyWord,
+    public Page<ItemBoardDTO> findTitleOrWriter(ItemBoardDTO inDTO ,Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        pageable = PageRequest.of(page, 10, Sort.by("id").descending());
+
+        ItemBoard entity = new ItemBoard();
+        if(inDTO.getKeyType().equals("title")) {
+            // title
+            Page<ItemBoard> titleResult = repository.findByTitleContaining(inDTO.getKeyWord(), pageable);
+            Page<ItemBoardDTO> outDTO = new ItemBoardDTO().toPageDTO(titleResult);
+
+            return outDTO;
+        }else {
+            // writer
+            Page<ItemBoard> writerResult = repository.findByWriterContaining(inDTO.getKeyWord(), pageable);
+            Page<ItemBoardDTO> outDTO = new ItemBoardDTO().toPageDTO(writerResult);
+
+            return outDTO;
+        }
+    }//find title or Wirter
+
+
+
     /**
     * @info    : 게시물 한개 삭제
     * @name    : deletePost
