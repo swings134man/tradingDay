@@ -3,6 +3,8 @@ package com.trading.day.item.service;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.item.domain.ItemBoardDTO;
 import com.trading.day.item.repository.ItemBoardJpaRepository;
+import com.trading.day.member.domain.Member;
+import com.trading.day.member.repository.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class ItemBoardService {
 
     private final ItemBoardJpaRepository repository;
+    private final MemberJpaRepository memberRepository;
     private final ModelMapper modelMapper; // modelMapper
 
     /************
@@ -40,10 +43,19 @@ public class ItemBoardService {
     * @version : 1.0.0
     ************/
     public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
+        // Member 조회 -> 차후 세션 값으로 조회 가능 예정
+        Member resultMember = memberRepository.findByMemberId(inDTO.getWriter()); //ID로 조회해서 PK 가져옴.
+
+
         // to Entity
         ItemBoard item = modelMapper.map(inDTO, ItemBoard.class);
-
+        item.setMember(resultMember);
+        // 게시판 save
         ItemBoard entityResult = repository.save(item);
+
+
+        // Member List add
+        resultMember.addItemBoards(item); // member Entity
 
         ItemBoardDTO outDTO = modelMapper.map(entityResult, ItemBoardDTO.class);
         return outDTO;

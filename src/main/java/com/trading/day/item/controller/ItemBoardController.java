@@ -36,6 +36,7 @@ public class ItemBoardController {
     @PostMapping("/item/v1/savePost")
     // parameter @RequestBody 확인 필요
     public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
+        inDTO.setView(0L); // 초기 게시판 생성시 조회수는 0 default
         ItemBoardDTO result = service.savePost(inDTO);
         return result;
     }//savePost
