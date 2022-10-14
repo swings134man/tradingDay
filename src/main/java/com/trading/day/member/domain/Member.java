@@ -1,5 +1,6 @@
 package com.trading.day.member.domain;
 
+import com.trading.day.qna.domain.Qna;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<UserRole> userRoles = new ArrayList<>();
-
 
 //    @OneToMany(mappedBy = "MemberId") // 1:N 관계에서 어떤것이랑 연결이 되어있는지 -> UserRole 객체 변수명인 "MemberId"
 //    private List<UserRole> userRoles = new ArrayList<>();
