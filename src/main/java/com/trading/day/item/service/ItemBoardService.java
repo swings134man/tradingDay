@@ -69,6 +69,7 @@ public class ItemBoardService {
     * @author : SeokJun Kang(swings134@gmail.com)
     * @version : 1.0.0
     ************/
+    @Transactional(readOnly = true)
     public Page<ItemBoardDTO> findAllPage(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
         pageable = PageRequest.of(page, 10, Sort.by("id").descending());
@@ -104,6 +105,7 @@ public class ItemBoardService {
     * @return  : Page<ItemBoardDTO>
     */
     //String keyType, String keyWord,
+    @Transactional(readOnly = true)
     public Page<ItemBoardDTO> findTitleOrWriter(ItemBoardDTO inDTO ,Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
         pageable = PageRequest.of(page, 10, Sort.by("id").descending());
@@ -123,7 +125,6 @@ public class ItemBoardService {
             return outDTO;
         }
     }//find title or Wirter
-
 
 
     /**

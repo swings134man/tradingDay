@@ -2,6 +2,7 @@ package com.trading.day.item.controller;
 
 import com.trading.day.item.domain.ItemBoardDTO;
 import com.trading.day.item.service.ItemBoardService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class ItemBoardController {
     * @param   : ItemBoardDTO
     * @return  : ItemBoardDTO
     */
+    @ApiOperation(value = "게시물 저장 API", notes = "게시물 작성시 저장.")
     @PostMapping("/item/v1/savePost")
     // parameter @RequestBody 확인 필요
     public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
@@ -51,6 +53,7 @@ public class ItemBoardController {
     * @param   : Pageable
     * @return  : Page<ItemBoardDTO>
     */
+    @ApiOperation(value = "게시물 전체조회 Paging API", notes = "조건 상관없이 모든 게시물 조회 후 페이징처리.")
     @GetMapping("/item/v1/findAllPage")
     public Page<ItemBoardDTO> findAllPage(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ItemBoardDTO> result = service.findAllPage(pageable);
@@ -67,6 +70,7 @@ public class ItemBoardController {
     * @param   :
     * @return  :
     */
+    @ApiOperation(value = "게시물 조건 검색 API", notes = "작성자, 제목 중 하나의 조건으로 조회 후 페이징 처리.")
     @GetMapping("/item/v1/findTitleOrWriter")
     public Page<ItemBoardDTO> findTitleOrWriter(@RequestParam(required = true) String keyWord, @RequestParam String keyType,
                                   @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
@@ -89,6 +93,7 @@ public class ItemBoardController {
     * @param   : Long
     * @return  : int
     */
+    @ApiOperation(value = "게시물 삭제 API", notes = "선택한 게시물 한개 삭제.")
     @DeleteMapping("/item/v1/deletePostOne")
     public int deletePostOne(@RequestParam Long id) {
         ItemBoardDTO inDTO = new ItemBoardDTO();
@@ -114,6 +119,7 @@ public class ItemBoardController {
     * @param   : ItemBoardDTO
     * @return  : ItemBoardDTO
     */
+    @ApiOperation(value = "게시물 정보 수정 API", notes = "게시물 수정시 저장.")
     @PutMapping("/item/v1/updatePost")
     public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
         ItemBoardDTO result = service.updatePost(inDTO);
