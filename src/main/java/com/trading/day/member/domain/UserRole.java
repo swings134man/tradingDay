@@ -20,8 +20,8 @@ public class UserRole {
     // 다 : 1 -> 다쪽에 ManyToOne
     // UserRole 은 하나의 멤버만 가질수 있음.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member MemberId;
+    @JoinColumn(name = "member_no")
+    private Member member;
 
     // N : 1
     // 하나의 role 에 여러개 UserRole

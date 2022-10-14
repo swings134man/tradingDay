@@ -20,13 +20,14 @@ import java.util.List;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_no")
+    private Long memberNo;
 
+    private String memberId;
     private String name;
 
-    @OneToMany(mappedBy = "MemberId")
+    @OneToMany(mappedBy = "member")
     private List<UserRole> userRoles = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "MemberId") // 1:N 관계에서 어떤것이랑 연결이 되어있는지 -> UserRole 객체 변수명인 "MemberId"
@@ -41,6 +42,6 @@ public class Member {
     // 편의 메서드
     public void addUserRoles (UserRole userRole) {
         userRoles.add(userRole);
-        userRole.setMemberId(this);
+        userRole.setMember(this);
     }
 }

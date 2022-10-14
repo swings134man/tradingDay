@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 public class MemberDTO {
 
-    private Long id;
+    private Long memberNo;
+    private String memberId;
     private String name;
 
     

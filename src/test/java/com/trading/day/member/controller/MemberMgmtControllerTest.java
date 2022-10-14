@@ -22,9 +22,10 @@ class MemberMgmtControllerTest {
     @Test
     void save() {
         MemberDTO inDto = new MemberDTO();
-        inDto.setName("민지");
+        inDto.setMemberId("iu");
+        inDto.setName("아이유");
 
-        Long in = 3L;
+        Long in = 1L;
         Long out = service.save(inDto);
 
 

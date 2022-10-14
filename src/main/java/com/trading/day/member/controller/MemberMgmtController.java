@@ -30,10 +30,11 @@ public class MemberMgmtController {
 
     // 회원 가입
     @PostMapping("/member/mgmt/v1/save")
-    public Long save(@RequestParam String name) {
+    public Long save(@RequestParam String name, @RequestParam String memberId) {
 
         // parameter to DTO
         MemberDTO inDto = MemberDTO.builder()
+                .memberId(memberId)
                 .name(name)
                 .build();
 
@@ -46,7 +47,7 @@ public class MemberMgmtController {
     //ID로 회원정보 검색 (PK)
     public MemberDTO findById (@RequestParam Long id) {
         MemberDTO inDto = MemberDTO.builder()
-                .id(id)
+                .memberNo(id)
                 .build();
         MemberDTO result = service.findById(inDto);
         return result;
@@ -61,6 +62,16 @@ public class MemberMgmtController {
 
         MemberDTO result = service.findByName(inDto);
 
+        return result;
+    }
+
+    // 회원 아이디로 회원 객체 검색
+    @GetMapping("/member/v1/findByMemberId")
+    public MemberDTO findByMemberId(@RequestParam String memberId) {
+        MemberDTO inDTO = MemberDTO.builder()
+                .memberId(memberId)
+                .build();
+        MemberDTO result = service.findByMemberId(inDTO);
         return result;
     }
 
@@ -79,7 +90,7 @@ public class MemberMgmtController {
     @DeleteMapping("/member/v1/deletemember")
     public int deleteMember(@RequestParam Long id) {
         MemberDTO inDto = MemberDTO.builder()
-                .id(id)
+                .memberNo(id)
                 .build();
 
         int result = service.deleteMember(inDto);
