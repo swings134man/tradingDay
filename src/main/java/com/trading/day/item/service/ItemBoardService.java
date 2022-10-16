@@ -171,4 +171,22 @@ public class ItemBoardService {
     }//updatePost
 
 
+    /**
+    * @info    : 게시물 상세 페이지
+    * @name    : detailPost
+    * @date    : 2022/10/16 5:40 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : Long
+    * @return  : ItemBoardDTO
+    */
+    public ItemBoardDTO detailPost(Long id) {
+        Optional<ItemBoard> result = Optional.ofNullable(repository.findById(id).orElseThrow(
+                                                        () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")));
+        ItemBoard entity = result.get();
+        entity.increaseView(); // 조회수 증가
+
+        return modelMapper.map(entity, ItemBoardDTO.class);
+    }
+
 }//class

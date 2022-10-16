@@ -57,6 +57,7 @@ public class ItemBoardController {
     @ApiOperation(value = "게시물 전체조회 Paging API", notes = "조건 상관없이 모든 게시물 조회 후 페이징처리.")
     @GetMapping("findAllPage")
     public Page<ItemBoardDTO> findAllPage(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        // Page.page : 몇번째 페이지인지, Page.size : 한화면에 몇개의 항목
         Page<ItemBoardDTO> result = service.findAllPage(pageable);
         return result;
     }//findAllPage
@@ -127,4 +128,20 @@ public class ItemBoardController {
         return result;
     }//updatePost
 
+
+    /**
+    * @info    : 게시물 상세 페이지
+    * @name    : detailPost
+    * @date    : 2022/10/16 5:39 PM
+    * @author  : SeokJun Kang(swings134@gmail.com)
+    * @version : 1.0.0
+    * @param   : Long
+    * @return  : ItemBoardDTO
+    */
+    @ApiOperation(value = "게시물 상세 페이지 API", notes = "게시물 상세페이지 이동.")
+    @GetMapping("detailPost")
+    public ItemBoardDTO detailPost(@RequestParam Long id) {
+        ItemBoardDTO itemBoardDTO = service.detailPost(id);
+        return itemBoardDTO;
+    }
 }//class

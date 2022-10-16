@@ -30,4 +30,9 @@ public class ItemBoard extends BaseTimeEntity {
     @JoinColumn(name = "member_no")     // PK를 Mapping 한다면 생략 가능.
     private Member member; //member_no (Member 의 PK값) 프론트에서 입력받은 writer를 그대로 writer 컬럼에 set, ItemBoard에서는 해당 writer의 PK 값 저장 -> 이게 좋음
     // fetch join 이득또한 있고, writer 컬럼이 존재하는데 또 member_id 매핑할 이유가 없음.
+
+    // 조회수 증가
+    public void increaseView() {
+        this.view ++;
+    }
 }
