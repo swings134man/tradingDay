@@ -60,7 +60,7 @@ public class MemberService {
         // 실제 사용 코드 user Role Table
         UserRole userRole = new UserRole();
         userRole.setMember(member); // 저장할 MEMBER Entity 객체 -- PARAM : MEMBER ENTITY - TYPE ENTITY
-//        userRole.setRoleId(role);   // Role 권한 정보
+//        userRole.setRoleId(role);   // Role 권한 정보 TEST
         userRole.setRoleId(role.get()); // 실사용 코드
         userRole.setCreatedDate(LocalDateTime.now());
         userRole.setModifiedDate(LocalDateTime.now());

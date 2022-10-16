@@ -1,7 +1,12 @@
 package com.trading.day.item.domain;
 
+import com.trading.day.item.reply.domain.ItemBoardReply;
+import com.trading.day.item.reply.domain.ItemBoardReplyDTO;
 import lombok.*;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -25,6 +30,7 @@ public class ItemBoardDTO  {
     private String keyWord;     // 검색어
     private String keyType;     // 검색 조건
 
+    private List<ItemBoardReply> replys;
         // paging 변환
         public Page<ItemBoardDTO> toPageDTO(Page<ItemBoard> entity) {
             Page<ItemBoardDTO> boardListPage = entity.map(m ->
@@ -50,4 +56,19 @@ public class ItemBoardDTO  {
                     .build();
             return  dto;
         }
+
+        // 상세 Page & 댓글 List
+//        public void findPostAndReply(ItemBoard entity) {
+//            id = entity.getId();
+//            title = entity.getTitle();
+//            writer = entity.getWriter();
+//            content = entity.getContent();
+//            type = entity.getType();
+//            view = entity.getView();
+//            createdDate = entity.getCreatedDate();
+//            modifiedDate = entity.getModifiedDate();
+//            replys = entity.getReplys().stream()
+//                    .map(ItemBoardReplyDTO::new)
+//                    .collect(Collectors.toList());
+//        }
 }//class

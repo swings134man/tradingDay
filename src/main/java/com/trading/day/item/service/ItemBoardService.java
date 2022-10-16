@@ -2,6 +2,7 @@ package com.trading.day.item.service;
 
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.item.domain.ItemBoardDTO;
+import com.trading.day.item.reply.domain.ItemBoardReply;
 import com.trading.day.item.repository.ItemBoardJpaRepository;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.repository.MemberJpaRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /************
@@ -135,7 +137,7 @@ public class ItemBoardService {
     public int deletePostOne(ItemBoardDTO inDTO) {
         // new ResourceNotFoundException("inDTO", "id", id)) -> 대체 가능
         Optional<ItemBoard> findResult = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")
+                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + inDTO.getId())
         ));
 
         // TODO : 게시물 삭제시 연관된 댓글 All Delete가 선행되어야 함. 댓글 삭제 -> 게시물 삭제.
@@ -157,7 +159,7 @@ public class ItemBoardService {
     public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
         // TODO : 회원관리 domain 개발 완료시 -> 조회 파라미터 수정필요
         Optional<ItemBoard> entity = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")
+                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + inDTO.getId())
         ));
             ItemBoard setting = entity.get();
                 setting.setId(inDTO.getId());
@@ -182,8 +184,15 @@ public class ItemBoardService {
     */
     public ItemBoardDTO detailPost(Long id) {
         Optional<ItemBoard> result = Optional.ofNullable(repository.findById(id).orElseThrow(
-                                                        () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")));
+                                                        () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + id)));
         ItemBoard entity = result.get();
+
+        // 댓글
+//        List<ItemBoardReply> replys = entity.getReplys();
+//        entity.setReplys(replys);
+//        System.out.println(replys.get(0).getContent());
+
+
         entity.increaseView(); // 조회수 증가
 
         return modelMapper.map(entity, ItemBoardDTO.class);
