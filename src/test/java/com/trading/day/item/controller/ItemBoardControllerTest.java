@@ -21,15 +21,15 @@ class ItemBoardControllerTest {
 
         ItemBoardDTO inDTO = new ItemBoardDTO();
 
-            inDTO.setTitle("제목13" );
-            inDTO.setWriter("작성자13");
-            inDTO.setContent("내용13");
-            inDTO.setType("중고");
+            inDTO.setTitle("아이린");
+            inDTO.setWriter("iu");
+            inDTO.setContent("아이린");
+            inDTO.setType("신품");
             inDTO.setView(0L);
 
         ItemBoardDTO result = service.savePost(inDTO);
         Long findId = result.getId();
-        Long wantId = 13L;
+        Long wantId = 2L;
 
         System.out.println("DTO : " + result);
 

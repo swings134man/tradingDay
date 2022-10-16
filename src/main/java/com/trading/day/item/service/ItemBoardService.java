@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /************
@@ -43,7 +42,7 @@ public class ItemBoardService {
     * @version : 1.0.0
     ************/
     public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
-        // Member 조회 -> 차후 세션 값으로 조회 가능 예정
+        // TODO :  Member 조회 파라미터 값에 따라 수정 -> 세션 값에서 조회 (pk, member_id) 둘중 하나.
         Member resultMember = memberRepository.findByMemberId(inDTO.getWriter()); //ID로 조회해서 PK 가져옴.
 
 
@@ -57,8 +56,7 @@ public class ItemBoardService {
         // Member List add
         resultMember.addItemBoards(item); // member Entity
 
-        ItemBoardDTO outDTO = modelMapper.map(entityResult, ItemBoardDTO.class);
-        return outDTO;
+        return modelMapper.map(entityResult, ItemBoardDTO.class);
     }// savePost
 
 
@@ -90,8 +88,7 @@ public class ItemBoardService {
 //                        .modifiedDate(m.getModifiedDate())
 //                        .build());
         // Refactoring ver.
-        Page<ItemBoardDTO> outDTO = new ItemBoardDTO().toPageDTO(findEntity);
-        return outDTO;
+        return new ItemBoardDTO().toPageDTO(findEntity);
     }// Paging all
 
 
@@ -120,9 +117,8 @@ public class ItemBoardService {
         }else {
             // writer
             Page<ItemBoard> writerResult = repository.findByWriterContaining(inDTO.getKeyWord(), pageable);
-            Page<ItemBoardDTO> outDTO = new ItemBoardDTO().toPageDTO(writerResult);
 
-            return outDTO;
+            return new ItemBoardDTO().toPageDTO(writerResult);
         }
     }//find title or Wirter
 
@@ -137,13 +133,15 @@ public class ItemBoardService {
     * @return  : int
     */
     public int deletePostOne(ItemBoardDTO inDTO) {
-        Optional<ItemBoard> findResult = repository.findById(inDTO.getId());
-        if(findResult.isPresent()){
-            repository.delete(findResult.get());
-            return 1;
-        }
+        // new ResourceNotFoundException("inDTO", "id", id)) -> 대체 가능
+        Optional<ItemBoard> findResult = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")
+        ));
 
-        return 0;
+        // TODO : 게시물 삭제시 연관된 댓글 All Delete가 선행되어야 함. 댓글 삭제 -> 게시물 삭제.
+
+        repository.delete(findResult.get());
+        return 1;
     }//delete
 
 
@@ -157,20 +155,19 @@ public class ItemBoardService {
     * @return  : ItemBoardDTO
     */
     public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
-        // 회원관리 domain 개발 완료시 -> 조회 파라미터 수정필요
-        Optional<ItemBoard> entity = repository.findById(inDTO.getId());
-        if(entity.isPresent()){
+        // TODO : 회원관리 domain 개발 완료시 -> 조회 파라미터 수정필요
+        Optional<ItemBoard> entity = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다.")
+        ));
             ItemBoard setting = entity.get();
-            setting.setId(inDTO.getId());
-            setting.setTitle(inDTO.getTitle());
-            setting.setContent(inDTO.getContent());
-            setting.setType(inDTO.getType());
-            setting.setView(setting.getView());
+                setting.setId(inDTO.getId());
+                setting.setTitle(inDTO.getTitle());
+                setting.setContent(inDTO.getContent());
+                setting.setType(inDTO.getType());
+                setting.setView(setting.getView());
+                setting.setWriter(setting.getMember().getMemberId()); // 화면에서 받아온 게시물ID
 
-            // toDTO
-            return modelMapper.map(setting, ItemBoardDTO.class);
-        }
-        return null;
+         return modelMapper.map(setting, ItemBoardDTO.class);
     }//updatePost
 
 

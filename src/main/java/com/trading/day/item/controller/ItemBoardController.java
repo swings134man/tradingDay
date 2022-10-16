@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/item/v1/")
 public class ItemBoardController {
 
     private final ItemBoardService service;
@@ -35,7 +36,7 @@ public class ItemBoardController {
     * @return  : ItemBoardDTO
     */
     @ApiOperation(value = "게시물 저장 API", notes = "게시물 작성시 저장.")
-    @PostMapping("/item/v1/savePost")
+    @PostMapping("savePost")
     // parameter @RequestBody 확인 필요
     public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
         inDTO.setView(0L); // 초기 게시판 생성시 조회수는 0 default
@@ -54,7 +55,7 @@ public class ItemBoardController {
     * @return  : Page<ItemBoardDTO>
     */
     @ApiOperation(value = "게시물 전체조회 Paging API", notes = "조건 상관없이 모든 게시물 조회 후 페이징처리.")
-    @GetMapping("/item/v1/findAllPage")
+    @GetMapping("findAllPage")
     public Page<ItemBoardDTO> findAllPage(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ItemBoardDTO> result = service.findAllPage(pageable);
         return result;
@@ -71,7 +72,7 @@ public class ItemBoardController {
     * @return  :
     */
     @ApiOperation(value = "게시물 조건 검색 API", notes = "작성자, 제목 중 하나의 조건으로 조회 후 페이징 처리.")
-    @GetMapping("/item/v1/findTitleOrWriter")
+    @GetMapping("findTitleOrWriter")
     public Page<ItemBoardDTO> findTitleOrWriter(@RequestParam(required = true) String keyWord, @RequestParam String keyType,
                                   @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
                                   ) {
@@ -94,7 +95,7 @@ public class ItemBoardController {
     * @return  : int
     */
     @ApiOperation(value = "게시물 삭제 API", notes = "선택한 게시물 한개 삭제.")
-    @DeleteMapping("/item/v1/deletePostOne")
+    @DeleteMapping("deletePostOne")
     public int deletePostOne(@RequestParam Long id) {
         ItemBoardDTO inDTO = new ItemBoardDTO();
         inDTO.setId(id);
@@ -120,7 +121,7 @@ public class ItemBoardController {
     * @return  : ItemBoardDTO
     */
     @ApiOperation(value = "게시물 정보 수정 API", notes = "게시물 수정시 저장.")
-    @PutMapping("/item/v1/updatePost")
+    @PutMapping("updatePost")
     public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
         ItemBoardDTO result = service.updatePost(inDTO);
         return result;
