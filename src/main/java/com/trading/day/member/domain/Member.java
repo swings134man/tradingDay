@@ -1,5 +1,6 @@
 package com.trading.day.member.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.qna.domain.Qna;
 import lombok.Getter;

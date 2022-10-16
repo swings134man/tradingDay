@@ -1,6 +1,7 @@
 package com.trading.day.item.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.item.reply.domain.ItemBoardReply;
 import com.trading.day.member.domain.Member;
@@ -36,6 +37,7 @@ public class ItemBoard extends BaseTimeEntity {
     // fetch join 이득또한 있고, writer 컬럼이 존재하는데 또 member_id 매핑할 이유가 없음.
 
     // 댓글 Entity
+    @JsonManagedReference
     @OneToMany(mappedBy = "boardId", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<ItemBoardReply> replys = new ArrayList<>();

@@ -182,20 +182,24 @@ public class ItemBoardService {
     * @param   : Long
     * @return  : ItemBoardDTO
     */
+    @Transactional(readOnly = true)
     public ItemBoardDTO detailPost(Long id) {
         Optional<ItemBoard> result = Optional.ofNullable(repository.findById(id).orElseThrow(
                                                         () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + id)));
         ItemBoard entity = result.get();
 
         // 댓글
-//        List<ItemBoardReply> replys = entity.getReplys();
+//        entity.getReplys();
+        List<ItemBoardReply> replys = entity.getReplys();
 //        entity.setReplys(replys);
 //        System.out.println(replys.get(0).getContent());
 
 
         entity.increaseView(); // 조회수 증가
 
-        return modelMapper.map(entity, ItemBoardDTO.class);
+        ItemBoardDTO outDTO = modelMapper.map(entity, ItemBoardDTO.class);
+        outDTO.setReplys(replys);
+        return outDTO;
     }
 
 }//class

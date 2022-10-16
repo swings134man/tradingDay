@@ -1,5 +1,6 @@
 package com.trading.day.item.controller;
 
+import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.item.domain.ItemBoardDTO;
 import com.trading.day.item.service.ItemBoardService;
 import io.swagger.annotations.ApiOperation;
@@ -143,5 +144,7 @@ public class ItemBoardController {
     public ItemBoardDTO detailPost(@RequestParam Long id) {
         ItemBoardDTO itemBoardDTO = service.detailPost(id);
         return itemBoardDTO;
+//        return service.test(id);
+
     }
 }//class
