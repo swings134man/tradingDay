@@ -33,8 +33,8 @@ public class QnaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Qna> findById(@RequestParam String memberId) {
-        List<Qna> resultSearch = qnaRepository.findByMemberId(memberId);
+    public List<Qna> findById(@RequestParam String memberNo) {
+        List<Qna> resultSearch = qnaRepository.findByMemberNo(memberNo);
         System.out.println("resultSearch --> : " + resultSearch);
         return resultSearch;
     }

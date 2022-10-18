@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface QnaRepository extends JpaRepository<Qna,Long> {
     // 특정 고객이 남긴 문의글만 조회
-    List<Qna> findByMemberId(String memberId);
+    List<Qna> findByMemberNo(String memberId);
 }

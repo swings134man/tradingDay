@@ -23,7 +23,7 @@ public class Qna extends BaseTimeEntity {
     @Column(name = "qna_id")
     private Long qnaId;
 
-    private String memberId;
+    private String memberNo;
     private String title;
     private String writer;
     private String content;

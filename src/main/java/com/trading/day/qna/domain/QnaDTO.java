@@ -21,5 +21,5 @@ public class QnaDTO {
     private String contetnt;
     private String createdDate;
     private String modifiedDate;
-    private String memberId;
+    private String memberNo;
 }
