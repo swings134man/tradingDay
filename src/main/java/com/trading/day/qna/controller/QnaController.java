@@ -7,13 +7,9 @@ import com.trading.day.qna.service.QnaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,20 +21,24 @@ public class QnaController {
 
 
     @ApiOperation(value = "문의글 리스트 전체 조회 api", notes = "조건에 상관없이 모든 문의를 조회함")
-    @GetMapping(value = "/qna")
+    @GetMapping(value = "/qnaList")
     public List<Qna> findAll() {
         return qnaService.findAll();
     }
 
-    @ApiOperation(value ="게시글 저장 api", notes = "게시글 작성시 저장함")
-    @PostMapping("/qna")
-    public QnaDTO saveQna( @RequestParam String title ,
-                           @RequestParam String writer) {
+    @ApiOperation(value = "memberId로 해당 고객이 남긴 문의글 조회 api", notes = "해당 고객이 남긴 문의글만 조회함")
+    @GetMapping(value = "/qnaById")
+    public List<Qna> findById(@RequestParam String memberId) {
+        return qnaService.findById(memberId);
+    }
 
-        QnaDTO inQnaDTO = QnaDTO.builder()
-                                .Writer(writer)
-                                .title(title)
-                                .build();
+    @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
+    @PostMapping("/qna")
+//    public QnaDTO saveQna( @RequestParam String title ,
+//                           @RequestParam String writer,
+//                           @RequestParam Long memberId) {
+
+    public QnaDTO saveQna(QnaDTO inQnaDTO) {
         return qnaService.saveQna(inQnaDTO);
     }
 

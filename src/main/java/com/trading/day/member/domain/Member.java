@@ -28,7 +28,7 @@ public class Member {
 
     private String memberId;
     private String name;
-
+    private String email;
     @OneToMany(mappedBy = "member")
     private List<UserRole> userRoles = new ArrayList<>();
 

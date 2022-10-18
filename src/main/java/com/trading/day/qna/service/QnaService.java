@@ -10,8 +10,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -26,21 +29,28 @@ public class QnaService {
 
     @Transactional(readOnly = true)
     public List<Qna> findAll() {
-        return qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "qnaId"));
+        return qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
     }
+
+    @Transactional(readOnly = true)
+    public List<Qna> findById(@RequestParam String memberId) {
+        List<Qna> resultSearch = qnaRepository.findByMemberId(memberId);
+        System.out.println("resultSearch --> : " + resultSearch);
+        return resultSearch;
+    }
+
+
 
     public QnaDTO saveQna(QnaDTO inQnaDTO) {
         Qna qnaEntity =  modelMapper.map(inQnaDTO, Qna.class);
-
-
-
         Qna resultEntity = qnaRepository.save(qnaEntity);
-
         QnaDTO outDTO = modelMapper.map(resultEntity, QnaDTO.class);
-
-
 
         return outDTO;
     }
+
+
+
+
 
 }

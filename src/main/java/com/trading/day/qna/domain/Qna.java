@@ -2,18 +2,12 @@ package com.trading.day.qna.domain;
 
 
 import com.trading.day.config.BaseTimeEntity;
-import com.trading.day.member.domain.Member;
-import com.trading.day.member.domain.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -28,8 +22,14 @@ public class Qna extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "qna_id")
     private Long qnaId;
+
+    private String memberId;
     private String title;
     private String writer;
+    private String content;
+    private String createdDate;
+    private String modifiedDate;
+
 
     // fetchType.LAZY --> jpa 사용 전략 --> 즉시 로딩(Eager Loading)과 지연 로딩(Lazy Loading)
     // 특정 엔티티를 조회할 때 연관된 모든 엔티티를 같이 로딩하는 것을 즉시 로딩(Eager Loading)이라고 합니다.

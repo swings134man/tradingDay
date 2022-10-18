@@ -50,4 +50,7 @@ class MemberMgmtControllerTest {
         Assertions.assertThat(inDto.getName()).isEqualTo(outName);
     }
 
+
+
+
 }

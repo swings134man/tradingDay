@@ -18,9 +18,8 @@ public class QnaDTO {
     private Long qnaId;
     private String title;
     private String Writer;
-
-    //private String memberId;
-
+    private String contetnt;
     private String createdDate;
     private String modifiedDate;
+    private String memberId;
 }
