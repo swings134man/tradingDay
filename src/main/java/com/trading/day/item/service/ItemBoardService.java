@@ -189,11 +189,7 @@ public class ItemBoardService {
         ItemBoard entity = result.get();
 
         // 댓글
-//        entity.getReplys();
         List<ItemBoardReply> replys = entity.getReplys();
-//        entity.setReplys(replys);
-//        System.out.println(replys.get(0).getContent());
-
 
         entity.increaseView(); // 조회수 증가
 

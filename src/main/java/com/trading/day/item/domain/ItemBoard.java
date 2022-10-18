@@ -37,6 +37,17 @@ public class ItemBoard extends BaseTimeEntity {
     // fetch join 이득또한 있고, writer 컬럼이 존재하는데 또 member_id 매핑할 이유가 없음.
 
     // 댓글 Entity
+    /*
+        순환참조 문제
+        1. post 직렬화
+        2. post 내부의 replys 직렬화
+        3. 각 replys 내부에 있는 posts 를 직렬화
+        - 무한반복 문제
+        -@JsonManagedReference
+            - 연관관계 주인 반대편에 선언 - 정상적으로 직렬화 수행
+        -@JsonBackReference
+            - 직렬화가 되지 않도록 수행
+    행*/
     @JsonManagedReference
     @OneToMany(mappedBy = "boardId", cascade = CascadeType.REMOVE)
     @JsonIgnore
@@ -46,8 +57,6 @@ public class ItemBoard extends BaseTimeEntity {
         reply.setBoardId(this);
         replys.add(reply);
     }
-
-
 
     // 조회수 증가
     public void increaseView() {

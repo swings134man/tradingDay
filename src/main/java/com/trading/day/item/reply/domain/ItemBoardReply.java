@@ -22,7 +22,7 @@ public class ItemBoardReply extends BaseTimeEntity {
     private String writer;  // 작성자
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id_board_id")
     private ItemBoard boardId; // 게시물 ID -> 어디에 연관된 댓글인지 구분
 
