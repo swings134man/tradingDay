@@ -39,13 +39,11 @@ public class QnaService {
         return resultSearch;
     }
 
-
-
     public QnaDTO saveQna(QnaDTO inQnaDTO) {
         Qna qnaEntity =  modelMapper.map(inQnaDTO, Qna.class);
         Qna resultEntity = qnaRepository.save(qnaEntity);
         QnaDTO outDTO = modelMapper.map(resultEntity, QnaDTO.class);
-
+//
         return outDTO;
     }
 

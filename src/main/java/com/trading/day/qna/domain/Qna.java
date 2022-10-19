@@ -30,7 +30,6 @@ public class Qna extends BaseTimeEntity {
     private String createdDate;
     private String modifiedDate;
 
-
     // fetchType.LAZY --> jpa 사용 전략 --> 즉시 로딩(Eager Loading)과 지연 로딩(Lazy Loading)
     // 특정 엔티티를 조회할 때 연관된 모든 엔티티를 같이 로딩하는 것을 즉시 로딩(Eager Loading)이라고 합니다.
     // 즉시 로딩은 연관된 엔티티를 모두 가져온다는 장점이 있지만, 실무에서 엔티티간의 관계가 복잡해질수록 조인으로 인한 성능 저하를 피할 수 없음.
