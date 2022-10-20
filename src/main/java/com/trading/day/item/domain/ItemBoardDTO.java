@@ -57,18 +57,22 @@ public class ItemBoardDTO  {
             return  dto;
         }
 
-        // 상세 Page & 댓글 List
-//        public void findPostAndReply(ItemBoard entity) {
-//            id = entity.getId();
-//            title = entity.getTitle();
-//            writer = entity.getWriter();
-//            content = entity.getContent();
-//            type = entity.getType();
-//            view = entity.getView();
-//            createdDate = entity.getCreatedDate();
-//            modifiedDate = entity.getModifiedDate();
-//            replys = entity.getReplys().stream()
-//                    .map(ItemBoardReplyDTO::new)
-//                    .collect(Collectors.toList());
-//        }
+    // Request 전용 inner class (save, update)
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Request {
+        private Long id;            // 게시판 ID
+        private String title;       // 제목
+        private String writer;      // 작성자
+        private String content;     // 내용
+        private String type;        // 물건 타입 -> 신품/중고
+        private Long view;          // 조회수
+
+
+        private String keyWord;     // 검색어
+        private String keyType;     // 검색 조건
+    }
+
 }//class

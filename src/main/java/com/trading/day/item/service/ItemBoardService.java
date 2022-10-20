@@ -43,9 +43,12 @@ public class ItemBoardService {
     * @author : SeokJun Kang(swings134@gmail.com)
     * @version : 1.0.0
     ************/
-    public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
+    public ItemBoardDTO savePost(ItemBoardDTO.Request inDTO) {
         // TODO :  Member 조회 파라미터 값에 따라 수정 -> 세션 값에서 조회 (pk, member_id) 둘중 하나.
         Member resultMember = memberRepository.findByMemberId(inDTO.getWriter()); //ID로 조회해서 PK 가져옴.
+        if(resultMember == null) {
+            throw new IllegalArgumentException("해당 작성자가 존재하지 않습니다 - " + inDTO.getId());
+        }
 
 
         // to Entity
@@ -53,7 +56,6 @@ public class ItemBoardService {
         item.setMember(resultMember);
         // 게시판 save
         ItemBoard entityResult = repository.save(item);
-
 
         // Member List add
         resultMember.addItemBoards(item); // member Entity
@@ -156,7 +158,7 @@ public class ItemBoardService {
     * @param   : ItemBoardDTO
     * @return  : ItemBoardDTO
     */
-    public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
+    public ItemBoardDTO updatePost(ItemBoardDTO.Request inDTO) {
         // TODO : 회원관리 domain 개발 완료시 -> 조회 파라미터 수정필요
         Optional<ItemBoard> entity = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + inDTO.getId())

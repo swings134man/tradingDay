@@ -24,6 +24,7 @@ class MemberMgmtControllerTest {
         MemberDTO inDto = new MemberDTO();
         inDto.setMemberId("iu");
         inDto.setName("아이유");
+        inDto.setMemberId("iu1234");
 
         Long in = 1L;
         Long out = service.save(inDto);

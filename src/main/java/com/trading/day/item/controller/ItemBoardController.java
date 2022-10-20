@@ -39,7 +39,7 @@ public class ItemBoardController {
     @ApiOperation(value = "게시물 저장 API", notes = "게시물 작성시 저장.")
     @PostMapping("savePost")
     // parameter @RequestBody 확인 필요
-    public ItemBoardDTO savePost(ItemBoardDTO inDTO) {
+    public ItemBoardDTO savePost(ItemBoardDTO.Request inDTO) {
         inDTO.setView(0L); // 초기 게시판 생성시 조회수는 0 default
         ItemBoardDTO result = service.savePost(inDTO);
         return result;
@@ -124,7 +124,7 @@ public class ItemBoardController {
     */
     @ApiOperation(value = "게시물 정보 수정 API", notes = "게시물 수정시 저장.")
     @PutMapping("updatePost")
-    public ItemBoardDTO updatePost(ItemBoardDTO inDTO) {
+    public ItemBoardDTO updatePost(ItemBoardDTO.Request inDTO) {
         ItemBoardDTO result = service.updatePost(inDTO);
         return result;
     }//updatePost

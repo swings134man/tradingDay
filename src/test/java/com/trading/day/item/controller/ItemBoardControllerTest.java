@@ -19,7 +19,7 @@ class ItemBoardControllerTest {
     @Test
     void savePost() {
 
-        ItemBoardDTO inDTO = new ItemBoardDTO();
+        ItemBoardDTO.Request inDTO = new ItemBoardDTO.Request();
 
             inDTO.setTitle("아이린");
             inDTO.setWriter("iu");
@@ -29,7 +29,7 @@ class ItemBoardControllerTest {
 
         ItemBoardDTO result = service.savePost(inDTO);
         Long findId = result.getId();
-        Long wantId = 2L;
+        Long wantId = 1L;
 
         System.out.println("DTO : " + result);
 
