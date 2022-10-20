@@ -62,7 +62,7 @@ public class ItemBoardDTO  {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Request {
+    public static class ItemRequest {
         private Long id;            // 게시판 ID
         private String title;       // 제목
         private String writer;      // 작성자

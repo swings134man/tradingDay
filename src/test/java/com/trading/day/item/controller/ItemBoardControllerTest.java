@@ -19,7 +19,7 @@ class ItemBoardControllerTest {
     @Test
     void savePost() {
 
-        ItemBoardDTO.Request inDTO = new ItemBoardDTO.Request();
+        ItemBoardDTO.ItemRequest inDTO = new ItemBoardDTO.ItemRequest();
 
             inDTO.setTitle("아이린");
             inDTO.setWriter("iu");
