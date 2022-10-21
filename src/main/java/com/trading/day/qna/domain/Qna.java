@@ -2,12 +2,12 @@ package com.trading.day.qna.domain;
 
 
 import com.trading.day.config.BaseTimeEntity;
+import com.trading.day.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,16 +19,22 @@ public class Qna extends BaseTimeEntity {
     // --> pk지정
     // id 값을 null로 하면 DB가 AUTO_INCREMENT
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "qna_id")
     private Long qnaId;
 
-    private String memberNo;
+    @ManyToOne(fetch = FetchType.LAZY)  // 조회만 할때는 member에 대한 정보는 필요없음. 필요하다면 FK에 저장된 member.id로 접근. -> member값 실제 사용시에 로딩.
+    @JoinColumn(name = "member_no")     // PK를 Mapping 한다면 생략 가능.
+    private Member member;
+
     private String title;
     private String writer;
     private String content;
-    private String createdDate;
+    private String createDate;
     private String modifiedDate;
+}
+
 
     // fetchType.LAZY --> jpa 사용 전략 --> 즉시 로딩(Eager Loading)과 지연 로딩(Lazy Loading)
     // 특정 엔티티를 조회할 때 연관된 모든 엔티티를 같이 로딩하는 것을 즉시 로딩(Eager Loading)이라고 합니다.
@@ -39,4 +45,4 @@ public class Qna extends BaseTimeEntity {
 //    @JoinColumn(name = "member_id")
 //     private Member MemberId;
 
-}
+

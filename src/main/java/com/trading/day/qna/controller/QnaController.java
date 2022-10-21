@@ -26,11 +26,11 @@ public class QnaController {
         return qnaService.findAll();
     }
 
-    @ApiOperation(value = "memberId로 해당 고객이 남긴 문의글 조회 api", notes = "해당 고객이 남긴 문의글만 조회함")
-    @GetMapping(value = "/qnaById")
-    public List<Qna> findById(@RequestParam String memberNo) {
-        return qnaService.findById(memberNo);
-    }
+//    @ApiOperation(value = "memberId로 해당 고객이 남긴 문의글 조회 api", notes = "해당 고객이 남긴 문의글만 조회함")
+//    @GetMapping(value = "/qnaById")
+//    public List<Qna> findById(@RequestParam String memberNo) {
+//        return qnaService.findById(memberNo);
+//    }
 
     @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
     @PostMapping("/qna")
