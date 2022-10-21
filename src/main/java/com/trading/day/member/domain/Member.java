@@ -41,6 +41,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<ItemBoard> itemBoards = new ArrayList<>();
 
+    // Qna mapping
+    @OneToMany(mappedBy = "member")
+    private List<Qna> qnas = new ArrayList<>();
 
     // 편의 메서드
     public void addUserRoles (UserRole userRole) {
