@@ -42,8 +42,15 @@ public class Member {
     private List<ItemBoard> itemBoards = new ArrayList<>();
 
     // Qna mapping
+    @JsonIgnore // --> Json으로 변환 과정중에 무한으로 참조가 순환문제를 해결 --> 무한 순환을 끊어줌
     @OneToMany(mappedBy = "member")
     private List<Qna> qnas = new ArrayList<>();
+
+
+    public void addQnas (Qna qna) {
+        qnas.add(qna);
+        qna.setMember(this);
+    }
 
     // 편의 메서드
     public void addUserRoles (UserRole userRole) {
