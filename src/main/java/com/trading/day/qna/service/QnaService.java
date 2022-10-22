@@ -36,13 +36,13 @@ public class QnaService {
         Optional<Qna> searchResult = Optional.ofNullable(qnaRepository.findById(qnaInDTO.getQnaId()).orElseThrow(
                 () -> new IllegalArgumentException("게시물 업데이트에 실패했습니다."))); // NoSuchElementException::new));
 
-            Qna updateDTO = searchResult.get();
-            updateDTO.setQnaId(searchResult.get().getQnaId());
-            updateDTO.setWriter(qnaInDTO.getWriter());
-            updateDTO.setTitle(qnaInDTO.getTitle());
-            updateDTO.setContent(qnaInDTO.getContent());
+            Qna updateEntity = searchResult.get();
+            updateEntity.setQnaId(searchResult.get().getQnaId());
+            updateEntity.setWriter(qnaInDTO.getWriter());
+            updateEntity.setTitle(qnaInDTO.getTitle());
+            updateEntity.setContent(qnaInDTO.getContent());
 
-        return modelMapper.map(updateDTO, QnaDTO.class);
+        return modelMapper.map(updateEntity, QnaDTO.class);
     }
 
     public int deleteQna(QnaDTO qnaInDTO) {
