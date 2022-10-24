@@ -27,7 +27,7 @@ public class SwaggerConfig {
     private static final String API_URL = "http://localhost:8080/";
 
     @Bean
-    public Docket api() {
+    public Docket api() {  
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
