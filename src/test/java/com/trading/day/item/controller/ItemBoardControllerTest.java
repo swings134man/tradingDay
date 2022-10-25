@@ -13,30 +13,30 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ItemBoardControllerTest {
 
-    @Autowired
-    ItemBoardService service;
-
-    @Test
-    void savePost() {
-
-        ItemBoardDTO.ItemRequest inDTO = new ItemBoardDTO.ItemRequest();
-
-            inDTO.setTitle("아이린");
-            inDTO.setWriter("iu");
-            inDTO.setContent("아이린");
-            inDTO.setType("신품");
-            inDTO.setView(0L);
-
-        ItemBoardDTO result = service.savePost(inDTO);
-        Long findId = result.getId();
-        Long wantId = 1L;
-
-        System.out.println("DTO : " + result);
-
-        assertThat(wantId).isEqualTo(findId);
-    }
-
-    @Test
-    void findAllPage() {
-    }
+//    @Autowired
+//    ItemBoardService service;
+//
+//    @Test
+//    void savePost() {
+//
+//        ItemBoardDTO.ItemRequest inDTO = new ItemBoardDTO.ItemRequest();
+//
+//            inDTO.setTitle("아이린");
+//            inDTO.setWriter("iu");
+//            inDTO.setContent("아이린");
+//            inDTO.setType("신품");
+//            inDTO.setView(0L);
+//
+//        ItemBoardDTO result = service.savePost(inDTO);
+//        Long findId = result.getId();
+//        Long wantId = 1L;
+//
+//        System.out.println("DTO : " + result);
+//
+//        assertThat(wantId).isEqualTo(findId);
+//    }
+//
+//    @Test
+//    void findAllPage() {
+//    }
 }

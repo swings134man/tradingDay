@@ -13,43 +13,43 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MemberMgmtControllerTest {
 
-    @Autowired
-    MemberService service;
-
-    @Autowired
-    MemberJpaRepository repository;
-
-    @Test
-    void save() {
-        MemberDTO inDto = new MemberDTO();
-        inDto.setMemberId("iu");
-        inDto.setName("아이유");
-        inDto.setMemberId("iu1234");
-
-        Long in = 1L;
-        Long out = service.save(inDto);
-
-
-        System.out.println("in : " + in);
-        System.out.println("out : " + out);
-
-        Assertions.assertThat(in).isEqualTo(out);
-
-    }
-
-    @Test
-    void updateName() {
-        MemberDTO inDto = new MemberDTO();
-        inDto.setName("아이유");
-
-        MemberDTO outDto = service.updateMember(inDto);
-        String outName = outDto.getName();
-
-        System.out.println("in : " + inDto.getName());
-        System.out.println("out : " + outName);
-
-        Assertions.assertThat(inDto.getName()).isEqualTo(outName);
-    }
+//    @Autowired
+//    MemberService service;
+//
+//    @Autowired
+//    MemberJpaRepository repository;
+//
+//    @Test
+//    void save() {
+//        MemberDTO inDto = new MemberDTO();
+//        inDto.setMemberId("iu");
+//        inDto.setName("아이유");
+//        inDto.setMemberId("iu1234");
+//
+//        Long in = 1L;
+//        Long out = service.save(inDto);
+//
+//
+//        System.out.println("in : " + in);
+//        System.out.println("out : " + out);
+//
+//        Assertions.assertThat(in).isEqualTo(out);
+//
+//    }
+//
+//    @Test
+//    void updateName() {
+//        MemberDTO inDto = new MemberDTO();
+//        inDto.setName("아이유");
+//
+//        MemberDTO outDto = service.updateMember(inDto);
+//        String outName = outDto.getName();
+//
+//        System.out.println("in : " + inDto.getName());
+//        System.out.println("out : " + outName);
+//
+//        Assertions.assertThat(inDto.getName()).isEqualTo(outName);
+//    }
 
 
 
