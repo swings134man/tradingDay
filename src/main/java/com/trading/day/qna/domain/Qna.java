@@ -9,7 +9,17 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-
+/**
+ * packageName :
+ * fileName : Qna
+ * author : taeil
+ * date :
+ * description : 1:1 문의에 대한 Entity class
+ * =======================================================
+ * DATE          AUTHOR                      NOTE
+ * -------------------------------------------------------
+ *               김태일                       최초생성
+ */
 @Entity
 @Getter
 @Setter
@@ -38,6 +48,6 @@ public class Qna extends BaseTimeEntity {
     private String title;
     private String writer;
     private String content;
-    private String createDate;
-    private String modifiedDate;
+    //private String createdDate;
+    //private String modifiedDate;
 }

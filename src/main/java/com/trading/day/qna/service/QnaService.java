@@ -8,6 +8,9 @@ import com.trading.day.qna.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
+/**
+ * packageName :
+ * fileName : QnaRepository
+ * author : taeil
+ * date :
+ * description : 1:1 문의에 대한 Service class
+ * =======================================================
+ * DATE          AUTHOR                      NOTE
+ * -------------------------------------------------------
+ * 김태일                       최초생성
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,11 +40,26 @@ public class QnaService {
     private final MemberJpaRepository memberJpaRepository;
     private final ModelMapper modelMapper;
 
+    /**
+     * methodName : findAll
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return list
+     */
     @Transactional(readOnly = true)
     public List<Qna> findAll() {
         return qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
     }
 
+    /**
+     * methodName : updateQna
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param qnaInDTO
+     * @return qna dto
+     */
     public QnaDTO updateQna(QnaDTO qnaInDTO) {
         //pk로 업데이트
         Optional<Qna> searchResult = Optional.ofNullable(qnaRepository.findById(qnaInDTO.getQnaId()).orElseThrow(
@@ -45,6 +74,14 @@ public class QnaService {
         return modelMapper.map(updateEntity, QnaDTO.class);
     }
 
+    /**
+     * methodName : deleteQna
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param qnaInDTO
+     * @return int
+     */
     public int deleteQna(QnaDTO qnaInDTO) {
         //TODO 다건으로할까 단건으로할까..
         // pk를 담을 리스트
@@ -64,13 +101,32 @@ public class QnaService {
         return result;
     }
 
+    /**
+     * methodName : findByWriter
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param writer
+     * @param pageable
+     * @return page
+     */
     @Transactional(readOnly = true)
-    public List<Qna> findByWriter(@RequestParam String writer) {
-        // qna테이블을 아이디로 조회
-        List<Qna> resultSearch = qnaRepository.findByWriter(writer);
-        return resultSearch;
+    public Page<QnaDTO> findByWriter(String writer, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        pageable = PageRequest.of(page, 10, Sort.by("createdDate").descending());
+        Page<Qna> findQnaEntity = qnaRepository.findByWriter(writer, pageable);
+
+        return new QnaDTO().toPageDTO(findQnaEntity);
     }
 
+    /**
+     * methodName : saveQna
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param inQnaDTO
+     * @return qna dto
+     */
     public QnaDTO saveQna(QnaDTO inQnaDTO) {
         //memberId를 기준으로 member 테이블 조회 --> writer 작성자
         Member selectMemberNo = memberJpaRepository.findByMemberId(inQnaDTO.getWriter());
