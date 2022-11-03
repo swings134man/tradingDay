@@ -30,12 +30,13 @@ public class MemberMgmtController {
 
     // 회원 가입
     @PostMapping("/member/mgmt/v1/save")
-    public Long save(@RequestParam String name, @RequestParam String memberId) {
+    public Long save(@RequestParam String name, @RequestParam String memberId, @RequestParam String email) {
 
         // parameter to DTO
         MemberDTO inDto = MemberDTO.builder()
                 .memberId(memberId)
                 .name(name)
+                .email(email)
                 .build();
 
 

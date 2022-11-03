@@ -37,31 +37,31 @@ public class MemberService {
 
 
         //TEST ONLY role  권한 info Set
-        Role role = new Role();
-        role.setRoleNumber(1);
-        role.setRoleName("USER");
-
-        Role role2 = new Role();
-        role2.setRoleNumber(2);
-        role2.setRoleName("MANAGER");
-
-        Role role3 = new Role();
-        role3.setRoleNumber(3);
-        role3.setRoleName("ADMIN");
-
-        roleRepository.save(role);
-        roleRepository.save(role2);
-        roleRepository.save(role3);
+//        Role role = new Role();
+//        role.setRoleNumber(1);
+//        role.setRoleName("USER");
+//
+//        Role role2 = new Role();
+//        role2.setRoleNumber(2);
+//        role2.setRoleName("MANAGER");
+//
+//        Role role3 = new Role();
+//        role3.setRoleNumber(3);
+//        role3.setRoleName("ADMIN");
+//
+//        roleRepository.save(role);
+//        roleRepository.save(role2);
+//        roleRepository.save(role3);
 
         // 실제 사용 코드 Role - > USER
-        //Optional<Role> role = roleFind(1L); //1L 값 = USER
+        Optional<Role> role = roleFind(1L); //1L 값 = USER
 
 
         // 실제 사용 코드 user Role Table
         UserRole userRole = new UserRole();
         userRole.setMember(member); // 저장할 MEMBER Entity 객체 -- PARAM : MEMBER ENTITY - TYPE ENTITY
-        userRole.setRoleId(role);   // Role 권한 정보 TEST
-        //userRole.setRoleId(role.get()); // 실사용 코드
+//        userRole.setRoleId(role);   // Role 권한 정보 TEST
+        userRole.setRoleId(role.get()); // 실사용 코드
         userRole.setCreatedDate(LocalDateTime.now());
         userRole.setModifiedDate(LocalDateTime.now());
         UserRole saveUserRole = urRepository.save(userRole); // UserRole 저장.

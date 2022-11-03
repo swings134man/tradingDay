@@ -15,7 +15,7 @@ public class MemberDTO {
     private Long memberNo;
     private String memberId;
     private String name;
-
+    private String email;
     
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
