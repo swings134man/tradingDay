@@ -1,5 +1,7 @@
 package com.trading.day.item.service;
 
+import com.trading.day.common.file.ImageFile;
+import com.trading.day.common.file.ImageFileService;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.item.domain.ItemBoardDTO;
 import com.trading.day.item.reply.domain.ItemBoardReply;
@@ -15,7 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +38,7 @@ public class ItemBoardService {
 
     private final ItemBoardJpaRepository repository;
     private final MemberJpaRepository memberRepository;
+    private final ImageFileService imageFileService;
     private final ModelMapper modelMapper; // modelMapper
 
     /************
@@ -200,4 +205,54 @@ public class ItemBoardService {
         return outDTO;
     }
 
+    /**
+     * @info    : 게시물, 이미지 save
+     * @name    : savePostImage
+     * @date    : 2022/11/04 6:06 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description : TODO : image FIle 다건 save error issue
+     */
+
+    public ItemBoardDTO savePostImage(ItemBoardDTO.ItemRequest inDTO, MultipartFile file, List<MultipartFile> files) {
+        // TODO :  Member 조회 파라미터 값에 따라 수정 -> 세션 값에서 조회 (pk, member_id) 둘중 하나.
+        Member resultMember = memberRepository.findByMemberId(inDTO.getWriter()); //ID로 조회해서 PK 가져옴.
+        if(resultMember == null) {
+            throw new IllegalArgumentException("해당 작성자가 존재하지 않습니다 - " + inDTO.getId());
+        }
+
+        // to Entity
+        ItemBoard item = modelMapper.map(inDTO, ItemBoard.class);
+        item.setMember(resultMember);
+        // 게시판 save
+        ItemBoard entityResult = repository.save(item);
+
+        // Image save ALl
+//            try{
+//                List<ImageFile> imageResult = imageFileService.saveImageList(file);
+//                for(int i=0; i<imageResult.size(); i++){
+//                    entityResult.addImages(imageResult.get(i));
+//                }
+//            }catch (IOException e){};
+
+        ImageFile imageFile = new ImageFile();
+        try {
+                imageFile = imageFileService.saveImage(file);
+
+//                for(MultipartFile multi : files){
+//                    imageFile = imageFileService.saveImage(multi);
+//                }
+
+            entityResult.addImages(imageFile);
+        }catch (IOException e){}
+
+
+        // Member List add
+        resultMember.addItemBoards(item); // member Entity
+
+
+        return modelMapper.map(entityResult, ItemBoardDTO.class);
+    }// savePost
 }//class

@@ -11,6 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 /************
 * @info : Item 물품 게시판 컨트롤러 클래스
@@ -145,6 +149,29 @@ public class ItemBoardController {
         ItemBoardDTO itemBoardDTO = service.detailPost(id);
         return itemBoardDTO;
 //        return service.test(id);
-
     }
+
+    /**
+     * @info    : 게시물, 이미지 save
+     * @name    : savePostImage
+     * @date    : 2022/11/04 6:07 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+
+    @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
+    @PostMapping(value = "savePost/images",consumes = {"multipart/form-data"})
+    // parameter @RequestBody 확인 필요
+    public ItemBoardDTO savePostImage(ItemBoardDTO.ItemRequest inDTO,
+                                      @RequestParam(value = "file", required = false) MultipartFile file,
+                                      @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
+        inDTO.setView(0L);
+
+        ItemBoardDTO itemBoardDTO = service.savePostImage(inDTO,file ,files);
+
+        return itemBoardDTO;
+    }//savePost
 }//class

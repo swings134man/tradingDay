@@ -1,6 +1,8 @@
 package com.trading.day.common.file;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.trading.day.config.BaseTimeEntity;
+import com.trading.day.item.domain.ItemBoard;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,12 @@ public class ImageFile extends BaseTimeEntity {
     private String orgNm;   // 원본 파일명
     private String saveNm;  // 저장 파일명 - uuid
     private String savePath;// 저장 경로
+
+    // ItemBoard 게시판
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private ItemBoard boardId;
 
     // 편의 메서드
     @Builder

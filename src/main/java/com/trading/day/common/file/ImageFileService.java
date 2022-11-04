@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -68,6 +70,55 @@ public class ImageFileService {
         ImageFile saveResult = repository.save(file);
 
         return file;
+    }//save
+
+    /**
+     * @info    : 이미지 다건 save
+     * @name    : saveImageList
+     * @date    : 2022/11/04 5:24 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+
+    public List<ImageFile> saveImageList(List<MultipartFile> files) throws IOException {
+        if(files.isEmpty()){
+            return null;
+        }
+        List<ImageFile> list = new ArrayList<>();
+
+        for(MultipartFile file : files) {
+
+            // 파일 원본 이름 추출
+            String origName = file.getOriginalFilename();
+            // 파일이름으로 사용할 uuid
+            String uuid = UUID.randomUUID().toString();
+            // 확장자 추출
+            String extension = origName.substring(origName.lastIndexOf("."));
+            // uuid + 확장자 결합
+            String saveName = uuid + extension;
+            // 파일을 불러올 떄 사용할 파일 경로
+            String savePath = filePath + saveName;
+
+            //Entity
+            ImageFile fileEntity = ImageFile.builder()
+                    .orgNm(origName)
+                    .saveNm(saveName)
+                    .savePath(savePath)
+                    .build();
+
+            // Directory에 uuid를 파일명으로 저장
+            file.transferTo(new File(savePath));
+
+            list.add(fileEntity);
+        }
+
+        // DB 파일정보 save
+        List<ImageFile> imageFiles = repository.saveAll(list);
+
+        return imageFiles;
     }//save
 
     /************

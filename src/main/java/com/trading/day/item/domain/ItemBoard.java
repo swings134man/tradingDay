@@ -2,6 +2,7 @@ package com.trading.day.item.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trading.day.common.file.ImageFile;
 import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.item.reply.domain.ItemBoardReply;
 import com.trading.day.member.domain.Member;
@@ -56,6 +57,16 @@ public class ItemBoard extends BaseTimeEntity {
     public void addReplys(ItemBoardReply reply) {
         reply.setBoardId(this);
         replys.add(reply);
+    }
+
+    // Image
+    @JsonManagedReference
+    @OneToMany(mappedBy = "boardId", cascade = CascadeType.REMOVE)
+    private List<ImageFile> images = new ArrayList<>();
+
+    public void addImages(ImageFile file) {
+        file.setBoardId(this);
+        images.add(file);
     }
 
     // 조회수 증가
