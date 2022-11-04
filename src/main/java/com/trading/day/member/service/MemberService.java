@@ -7,9 +7,11 @@ import com.trading.day.member.domain.UserRole;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
 import com.trading.day.member.repository.UserRoleJpaRepository;
+import com.trading.day.qna.domain.Qna;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

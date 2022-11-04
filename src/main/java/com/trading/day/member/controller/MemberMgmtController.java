@@ -3,6 +3,8 @@ package com.trading.day.member.controller;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
+import com.trading.day.qna.domain.Qna;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /************
 * @info : 고객관리 컨트롤러

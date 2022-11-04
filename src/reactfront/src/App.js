@@ -1,28 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect, useMemo} from 'react';
+import Button from "./Button";
+import TableTest from "./TableTest";
 
 
 function App() {
-  const [message, setMessage] = useState("");
+    const [qnaList, setQnaList] = useState([]);
 
-  useEffect(() => {
-    fetch('/v2/test')
-        .then(response => response.text())
-        .then(message => {
-          setMessage(message);
-        });
-  }, [])
+
+
+
+    const getData = async () => {
+        const res = await fetch('http://localhost:3000/qna/v1/qnaList');
+        const data = await res.json();
+        console.log("나는 인덱스 0 번이예요",data[0]);
+        console.log("나는 전체 데이터예요", data);
+
+
+        setQnaList(data[0]);
+        console.log(qnaList);
+    };
+
+
+
 
   return (
-      <div className='App'>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{message}</h1>
-        </header>
-        <p className='App-intro'>
-          To get started, edit3333 <code>src/App.js</code>
-        </p>
+
+    <div>
+          <hr/>
+          <Button text={"once"} />
+          <hr/>
+          <Button text={"many"}/>
+          <hr/>
+          <button onClick={getData}>게시판 정보 가져오기</button>
+          <TableTest data={qnaList} />
+          {/*<table border={1}>*/}
+          {/*    <caption>게시판정보 조회하기</caption>*/}
+          {/*    <thead>*/}
+          {/*    <tr>*/}
+          {/*        <th scope="col">고객번호</th>*/}
+          {/*        <th scope="col">고객 ID</th>*/}
+          {/*        <th scope="col">이름</th>*/}
+          {/*        <th scope="col">내용</th>*/}
+          {/*        <th scope="col">전화번호</th>*/}
+          {/*    </tr>*/}
+          {/*    </thead>*/}
+          {/*    <tbody>*/}
+          {/*    <tr>*/}
+          {/*        <th scope="row"></th>*/}
+          {/*        <td>{data.qnaId}</td>*/}
+          {/*        <td>{data.writer}</td>*/}
+          {/*        <td>{data.name}</td>*/}
+          {/*        <td>{data.content}</td>*/}
+          {/*        <td></td>*/}
+          {/*        <td></td>*/}
+          {/*        <td></td>*/}
+          {/*        <td></td>*/}
+          {/*    </tr>*/}
+          {/*    </tbody>*/}
+          {/*</table>*/}
       </div>
   )
 }
