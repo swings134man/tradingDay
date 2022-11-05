@@ -5,19 +5,17 @@ import TableTest from "./TableTest";
 
 function App() {
     const [qnaList, setQnaList] = useState([]);
+    const onSubmit = (event) => {
+        event.preventDefault();
 
 
-
-
+    }
     const getData = async () => {
         const res = await fetch('http://localhost:3000/qna/v1/qnaList');
         const data = await res.json();
-        console.log("나는 인덱스 0 번이예요",data[0]);
-        console.log("나는 전체 데이터예요", data);
 
+        setQnaList(data);
 
-        setQnaList(data[0]);
-        console.log(qnaList);
     };
 
 
@@ -31,8 +29,11 @@ function App() {
           <hr/>
           <Button text={"many"}/>
           <hr/>
+
+        <form onSubmit={onSubmit}>
           <button onClick={getData}>게시판 정보 가져오기</button>
           <TableTest data={qnaList} />
+        </form>
           {/*<table border={1}>*/}
           {/*    <caption>게시판정보 조회하기</caption>*/}
           {/*    <thead>*/}
