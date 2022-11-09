@@ -1,5 +1,6 @@
 package com.trading.day.item.domain;
 
+import com.trading.day.common.file.ImageFile;
 import com.trading.day.item.reply.domain.ItemBoardReply;
 import com.trading.day.item.reply.domain.ItemBoardReplyDTO;
 import lombok.*;
@@ -30,7 +31,9 @@ public class ItemBoardDTO  {
     private String keyWord;     // 검색어
     private String keyType;     // 검색 조건
 
-    private List<ItemBoardReply> replys;
+    private List<ItemBoardReply> replys; // 댓글
+    private List<ImageFile> images;
+
         // paging 변환
         public Page<ItemBoardDTO> toPageDTO(Page<ItemBoard> entity) {
             Page<ItemBoardDTO> boardListPage = entity.map(m ->

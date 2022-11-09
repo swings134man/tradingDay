@@ -51,7 +51,6 @@ public class ItemBoard extends BaseTimeEntity {
     행*/
     @JsonManagedReference
     @OneToMany(mappedBy = "boardId", cascade = CascadeType.REMOVE)
-    @JsonIgnore
     private List<ItemBoardReply> replys = new ArrayList<>();
 
     public void addReplys(ItemBoardReply reply) {
@@ -62,6 +61,7 @@ public class ItemBoard extends BaseTimeEntity {
     // Image
     @JsonManagedReference
     @OneToMany(mappedBy = "boardId", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<ImageFile> images = new ArrayList<>();
 
     public void addImages(ImageFile file) {

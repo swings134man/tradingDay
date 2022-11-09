@@ -2,6 +2,7 @@ package com.trading.day.common.file;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,7 @@ public class ImageFileService {
     private String filePath; // file path : /Users/seokjunKang/intellij-gradle/day-file/
 
     private final ImageFileJpaRepository repository; //repo
+    private final ModelMapper modelMapper;
 
 
     /**
@@ -134,5 +136,24 @@ public class ImageFileService {
 
         return fileEntity;
     }// showImage
+
+    /**
+     * @info    : 게시판 ID로 해당 이미지 출력
+     * @name    : showImageByBoardId
+     * @date    : 2022/11/08 5:12 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+    public Optional<ImageFile> showImageByBoardId(Long boardId) {
+//        ImageFile result = repository.findByBoardId(boardId);
+
+        Optional<ImageFile> result = Optional.ofNullable(repository.findByBoardId(boardId).orElseThrow(
+                () -> new IllegalArgumentException("해당 이미지가 존재 하지 않습니다." + boardId)));
+
+        return result;
+    }
 
 }//class

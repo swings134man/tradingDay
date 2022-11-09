@@ -200,6 +200,11 @@ public class ItemBoardService {
 
         entity.increaseView(); // 조회수 증가
 
+        // 이미지
+        List<ImageFile> images = entity.getImages();
+
+
+        // To DTO
         ItemBoardDTO outDTO = modelMapper.map(entity, ItemBoardDTO.class);
         outDTO.setReplys(replys);
         return outDTO;
