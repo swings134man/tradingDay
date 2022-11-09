@@ -6,14 +6,18 @@ import {
 } from "react-router-dom";
 import Home from "./routes/Home";
 import QnaDetail from "./routes/QnaDetail";
+import MainLayout from "./components/MainLayout";
+
 
 function App() {
   return (
       <Router>
           <Routes>
-              <Route path="/qnaBoard" element={<QnaBoard />} />
-              <Route path="/" element={<Home />} />
-              <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
+
+                  <Route path="/qnaBoard" element={<QnaBoard />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
+
           </Routes>
       </Router>
   )

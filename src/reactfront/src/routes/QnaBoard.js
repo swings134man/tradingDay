@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import Button from "../Button";
 import TableTest from "../components/TableTest";
+import  { Outlet} from 'react-router-dom'
 
 
 function QnaBoard() {
@@ -14,12 +15,14 @@ function QnaBoard() {
         setQnaList(data);
     };
     return (
+
         <div>
             <form onSubmit={onSubmit}>
                 <button onClick={getData}>게시판 정보 가져오기</button>
                 <TableTest data={qnaList} />
             </form>
         </div>
+
     )
 }
 
