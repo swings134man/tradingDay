@@ -8,6 +8,7 @@ import com.trading.day.qna.service.QnaService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,6 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
+@CrossOrigin("*")
 @RequestMapping("/qna/v1")
 public class QnaController {
 
@@ -47,6 +49,21 @@ public class QnaController {
     public List<Qna> findAll() {
         return qnaService.findAll();
     }
+
+    /**
+     * methodName : findByQnaId
+     * author : TAEIL KIM
+     * description :
+     * 상세페이지를 위한 문의글 상세 조회 api
+     * @param qnaId
+     * @return QnaDTO
+     */
+    @ApiOperation(value = "문의글 번호로 문의글 조회 api", notes = "문의글 번호로 특정 문의글 상세정보를 조회")
+    @GetMapping(value = "/findByQnaId")
+    public QnaDTO findByQnaId(Long qnaId) {
+        return qnaService.findByQnaId(qnaId);
+    }
+
 
     /**
      * methodName : deleteQna

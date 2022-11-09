@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QnaServiceTest {
 
-    @Test
-    void deleteQna() {
-
-
-
-    }
+//    @Test
+//    void deleteQna() {
+//
+//
+//
+//    }
 }

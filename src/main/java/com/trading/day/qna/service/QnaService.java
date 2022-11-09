@@ -53,6 +53,19 @@ public class QnaService {
     }
 
     /**
+     * methodName : findByQnaId
+     * author : TAEIL KIM
+     * description : 상세페이지를 위한 문의글 상세 조회 api
+     *
+     * @return list
+     */
+    @Transactional(readOnly = true)
+    public QnaDTO findByQnaId(Long qnaId) {
+        Qna searchResult = qnaRepository.findByQnaId(qnaId);
+        return modelMapper.map(searchResult, QnaDTO.class);
+    }
+
+    /**
      * methodName : updateQna
      * author : TAEIL KIM
      * description :
