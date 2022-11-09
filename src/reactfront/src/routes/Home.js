@@ -13,11 +13,12 @@ function Home() {
         <div>
             <Header />
             <NavigationBar />
-            <BodyContent />
-            <h1>나는 인덱스</h1>
             <hr/>
             <Button text={"once"}/>
             <hr/>
+            <BodyContent />
+            <h1>나는 인덱스</h1>
+
             <Footer />
         </div>
     )

@@ -12,3 +12,9 @@
     border: 0;
     border-Radius: 10px;
 }
+
+.btn_area {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

@@ -14,15 +14,15 @@ function QnaBoard() {
         const data = await res.json();
         setQnaList(data);
     };
+
     return (
 
-        <div>
+        <div align="center" style={{padding: 100}}>
             <form onSubmit={onSubmit}>
                 <button onClick={getData}>게시판 정보 가져오기</button>
                 <TableTest data={qnaList} />
             </form>
         </div>
-
     )
 }
 
