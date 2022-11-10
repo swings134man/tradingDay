@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styles from "./Button.module.css";
+import styles from "../css/Button.module.css";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 

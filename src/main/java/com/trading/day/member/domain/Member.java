@@ -24,18 +24,20 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_no")
-    private Long memberNo;
+    private Long memberNo;                 /* 고객번호 */
+    private String memberId;               /* 고객 ID */
+    private String name;                   /* 이름 */
+    private String email;                  /* 이메일*/
+    //private String telNo;                  /* 전화번호 */
 
-    private String memberId;
-    private String name;
-    private String email;
+    @CreatedDate
+    private LocalDateTime createDate;      /* 가입 날짜 */
+    @CreatedDate
+    private LocalDateTime modifiedDate;     /* 수정 날짜 */
+
+    // 권한 테이블 mapping
     @OneToMany(mappedBy = "member")
     private List<UserRole> userRoles = new ArrayList<>();
-
-    @CreatedDate
-    private LocalDateTime createDate;
-    @CreatedDate
-    private LocalDateTime modifiedDate;
 
     // Item 게시판 Mapping
     @OneToMany(mappedBy = "member")

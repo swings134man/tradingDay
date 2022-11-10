@@ -1,4 +1,4 @@
-import styles from "../styles.css";
+
 
 function Header() {
     return (
