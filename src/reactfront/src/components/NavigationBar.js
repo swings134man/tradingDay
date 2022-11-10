@@ -11,7 +11,7 @@ function NavigationBar() {
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item"><a className="nav-link" href="#!">Trade!</a></li>
                         <li className="nav-item"><a className="nav-link" href="#!">Community</a></li>
-                        <Link to={`/qnaBoard`}> <li className="nav-item"><a className="nav-link" href="">Support </a></li></Link>
+                        <Link to={`qna/qnaBoard`}> <li className="nav-item"><a className="nav-link" href="">Support </a></li></Link>
                         <li className="nav-item"><a className="nav-link" href="#!">Sign Up</a></li>
                         <li className="nav-item"><a className="nav-link" href="#!">Log In</a></li>
                     </ul>
