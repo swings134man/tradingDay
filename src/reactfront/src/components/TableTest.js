@@ -5,7 +5,6 @@ import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
 
 
 function TableTest({data}) {
-
     return (
 
         <div>
@@ -71,6 +70,12 @@ function TableTest({data}) {
                             <th className="active">내용</th>
                             <td>
                                 {data.content}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="active">작성 날짜</th>
+                            <td>
+                                {data.createdDate}
                             </td>
                         </tr>
                         </tbody>

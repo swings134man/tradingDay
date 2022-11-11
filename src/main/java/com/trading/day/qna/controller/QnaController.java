@@ -110,6 +110,10 @@ public class QnaController {
     @ApiOperation(value = "qna문의 수정 api", notes = "해당 고객이 남긴 문의글을 수정함")
     @PutMapping("/updateQna")
     public QnaDTO updateQna(QnaDTO qnaInDTO) {
+        log.debug(qnaInDTO.getContent());
+        log.debug(qnaInDTO.getWriter());
+
+
         return qnaService.updateQna(qnaInDTO);
     }
 

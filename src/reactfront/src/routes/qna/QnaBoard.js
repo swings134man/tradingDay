@@ -8,7 +8,7 @@ function QnaBoard() {
         event.preventDefault();
     }
     const getData = async () => {
-        const res = await fetch('http://localhost:8080/qna/v1/qnaList');
+        const res = await fetch('/qna/v1/qnaList');
         const data = await res.json();
         setQnaList(data);
     };
