@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
 
 
 function TableTest({data}) {
-    console.log("나는 데이터", data.qnaId);
+
     return (
 
         <div>

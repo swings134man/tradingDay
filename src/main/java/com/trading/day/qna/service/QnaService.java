@@ -49,7 +49,7 @@ public class QnaService {
      */
     @Transactional(readOnly = true)
     public List<Qna> findAll() {
-        return qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
+        return qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "qnaId"));
     }
 
     /**

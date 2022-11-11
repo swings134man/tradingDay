@@ -13,12 +13,13 @@ function RouterPages () {
         <Routes>
             {/*qna관련 route*/}
             <Route path="qna/qnaBoard" element={<QnaBoard />} />
+            <Route path="/" element={<Home />} />
             <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
         </Routes>
 
-        <Routes>
-            <Route path="/" element={<Home />} />
-        </Routes>
+        {/*<Routes>*/}
+        {/*    <Route path="/" element={<Home />} />*/}
+        {/*</Routes>*/}
 
     </Router>
     )
