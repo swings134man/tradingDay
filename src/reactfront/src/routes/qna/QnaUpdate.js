@@ -1,16 +1,44 @@
 import {useParams} from "react-router-dom";
-import TableTest from "../../components/TableTest";
 import {useEffect, useState, useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 function QnaUpdate() {
     const { qnaId, title, writer, content, createdDate  } = useParams();
-    const [changeQna, setChangeQna] = useState([qnaId, title, writer, content, createdDate ]);
-
     const titleRef = useRef(null);
     const contentRef = useRef(null);
+    const navigate = useNavigate();
+
     function onSubmit(e) {
         e.preventDefault();
-    }
+        console.log("나는 title" ,titleRef.current.value);
+        console.log("나는 content" ,contentRef.current.value);
+        console.log("나는 qnaId" , qnaId);
+
+        const titleVal = titleRef.current.value;
+        const contentVal = contentRef.current.value;
+        console.log(titleVal);
+        console.log(contentVal);
+        const uri = `http://localhost:8080/qna/v1/updateQna/`;
+                //const uri = `/qna/v1/updateQna?${changeQna[0]}&${changeQna[1]}&${changeQna[3]}`;
+        const encoded = encodeURI(uri);
+        fetch(encoded, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+                qnaId: qnaId,
+                title: titleVal,
+                content: contentVal,
+                writer: writer
+            }),
+        }).then(res => {
+            if(res.ok) {
+                alert("성공적으로 수정했다!");
+                navigate('/qna/qnaBoard');
+            }
+        })
+     }
 
     // const onUpdate = async () => {
     //     const confirm = window.confirm("수정 하시겠습니까?");
@@ -37,29 +65,25 @@ function QnaUpdate() {
     //     }
     // }
 
-    const onUpdate = () => {
-        const confirm = window.confirm("수정 하시겠습니까?");
-        if (confirm === true) {
-                fetch(`http://localhost:8080/qna/v1/updateQna`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json charset=utf-8',
-                    },
-                    body: JSON.stringify({
-                        qnaId: qnaId,
-                        title: titleRef.current,
-                        content: contentRef.current,
-                        writer: writer,
-                        createdDate: createdDate
-                    })
-                }).then(res => {
-                    if(res.ok) {
-                        alert("수정 성공");
-                    }
-                }
-            );
-        }
-    }
+    // const onUpdate = () => {
+    //     const confirm = window.confirm("수정 하시겠습니까?");
+    //     if (confirm === true) {
+    //             fetch(`http://localhost:8080/qna/v1/updateQna/`, {
+    //                 method: 'PUT',
+    //                 headers: {
+    //                     'Content-Type': 'application/json charset=utf-8',
+    //                 },
+    //                 body: JSON.stringify({
+    //                     qnaId": 13,
+    //                 })
+    //             }).then(res => {
+    //                 if(res.ok) {
+    //                     alert("수정 성공");
+    //                 }
+    //             }
+    //         );
+    //     }
+    // }
 
 
 
@@ -68,16 +92,12 @@ function QnaUpdate() {
     //         //const uri = `/qna/v1/updateQna?${changeQna[0]}&${changeQna[1]}&${changeQna[3]}`;
     //         //const encoded = encodeURI(uri);
     //         await fetch(`http://localhost:8080/qna/v1/updateQna`, {
-    //             method: "POST",
+    //             method: "PUT",
     //             headers: {
     //                 "Content-type": "application/json charset=utf-8",
     //             },
     //             body: JSON.stringify({
-    //                 qnaId: qnaId,
-    //                 title: titleRef.current,
-    //                 content: contentRef.current,
-    //                 writer: writer,
-    //                 createdDate: createdDate
+    //                 qnaId: qnaId
     //             }),
     //         })
     //     //         .then(res => {
@@ -120,10 +140,8 @@ function QnaUpdate() {
                 </tr>
                 </tbody>
             </table>
-
-
             <div align="right">
-                <button className="btn btn-warning" onClick={onUpdate}> 수정하기 </button>
+                <button className="btn btn-warning" > 수정하기 </button>
             </div>
             </form>
             </div>
