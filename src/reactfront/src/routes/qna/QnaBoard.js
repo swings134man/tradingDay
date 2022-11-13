@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import TableTest from "../../components/TableTest";
 import 'bootstrap/dist/css/bootstrap.css';
+import {Link} from "react-router-dom";
 
 function QnaBoard() {
     const [qnaList, setQnaList] = useState([]);
@@ -27,7 +28,11 @@ function QnaBoard() {
                 </div>
                 <TableTest data={qnaList} />
                 <div align="right">
-                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>문의하기</button>
+                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>
+                        <Link to={"/qnawrite"}>
+                        문의하기
+                        </Link>
+                    </button>
                 </div>
             </div>
 

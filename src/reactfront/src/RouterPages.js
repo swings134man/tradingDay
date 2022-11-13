@@ -5,6 +5,7 @@ import Home from "./routes/Home";
 import QnaDetail from "./routes/qna/QnaDetail";
 import QnaUpdate from "./routes/qna/QnaUpdate";
 import React from "react";
+import QnaWrite from "./routes/qna/QnaWrite";
 
 function RouterPages () {
     return (
@@ -17,6 +18,7 @@ function RouterPages () {
             <Route path="qna/qnaBoard" element={<QnaBoard />} />
             <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
             <Route path="qnaUpdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
+            <Route path="/qnaWrite" element={<QnaWrite />} />
         </Routes>
 
         {/*<Routes>*/}

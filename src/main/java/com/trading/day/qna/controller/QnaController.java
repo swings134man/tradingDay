@@ -122,8 +122,11 @@ public class QnaController {
      * @return qna dto
      */
     @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
-    @PostMapping("/qna")
-    public QnaDTO saveQna(QnaDTO inQnaDTO) {
+    @PutMapping("/qna")
+    public QnaDTO saveQna(@RequestBody QnaDTO inQnaDTO) {
+        log.debug("qnaDTO" + inQnaDTO.getWriter());
+        log.debug("qnaDTO" + inQnaDTO.getTitle());
+        log.debug("qnaDTO" + inQnaDTO.getContent());
         return qnaService.saveQna(inQnaDTO);
     }
 

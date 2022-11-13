@@ -10,17 +10,13 @@ function QnaUpdate() {
 
     function onSubmit(e) {
         e.preventDefault();
-        console.log("나는 title" ,titleRef.current.value);
-        console.log("나는 content" ,contentRef.current.value);
-        console.log("나는 qnaId" , qnaId);
 
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
-        console.log(titleVal);
-        console.log(contentVal);
+
         const uri = `http://localhost:8080/qna/v1/updateQna/`;
-                //const uri = `/qna/v1/updateQna?${changeQna[0]}&${changeQna[1]}&${changeQna[3]}`;
         const encoded = encodeURI(uri);
+
         fetch(encoded, {
             method: "POST",
             headers: {
@@ -34,78 +30,14 @@ function QnaUpdate() {
             }),
         }).then(res => {
             if(res.ok) {
-                alert("성공적으로 수정했다!");
                 navigate('/qna/qnaBoard');
+            } else {
+                alert("문의 수정에 실패했습니다. 잠시 후 다시 시도해주세요");
             }
         })
      }
 
-    // const onUpdate = async () => {
-    //     const confirm = window.confirm("수정 하시겠습니까?");
-    //     if (confirm === true) {
-    //         //const uri = `http://localhost:8080/qna/v1/updateQna`;
-    //         //const uri = `/qna/v1/updateQna?${changeQna[0]}&${changeQna[1]}&${changeQna[3]}`;
-    //         //const encoded = encodeURI(uri);
-    //         const json = await (
-    //             await fetch(`http://localhost:8080/qna/v1/updateQna`, {
-    //                 method: 'PUT',
-    //                 headers: {
-    //                     'Content-Type': 'application/json charset=utf-8',
-    //                 },
-    //                 body: JSON.stringify({
-    //                     qnaId: qnaId,
-    //                     title: titleRef.current.value,
-    //                     content: contentRef.current.value,
-    //                     writer: writer,
-    //                     createdDate: createdDate
-    //                 })
-    //             })
-    //         ).json();
-    //         console.log(json);
-    //     }
-    // }
 
-    // const onUpdate = () => {
-    //     const confirm = window.confirm("수정 하시겠습니까?");
-    //     if (confirm === true) {
-    //             fetch(`http://localhost:8080/qna/v1/updateQna/`, {
-    //                 method: 'PUT',
-    //                 headers: {
-    //                     'Content-Type': 'application/json charset=utf-8',
-    //                 },
-    //                 body: JSON.stringify({
-    //                     qnaId": 13,
-    //                 })
-    //             }).then(res => {
-    //                 if(res.ok) {
-    //                     alert("수정 성공");
-    //                 }
-    //             }
-    //         );
-    //     }
-    // }
-
-
-
-    // const onUpdate = async () => {
-    //         //const uri = `http://localhost:8080/qna/v1/updateQna/`;
-    //         //const uri = `/qna/v1/updateQna?${changeQna[0]}&${changeQna[1]}&${changeQna[3]}`;
-    //         //const encoded = encodeURI(uri);
-    //         await fetch(`http://localhost:8080/qna/v1/updateQna`, {
-    //             method: "PUT",
-    //             headers: {
-    //                 "Content-type": "application/json charset=utf-8",
-    //             },
-    //             body: JSON.stringify({
-    //                 qnaId: qnaId
-    //             }),
-    //         })
-    //     //         .then(res => {
-    //     // if (res.ok) {
-    //     //     alert("성공적으로 수정하였습니다");
-    //     // }
-    // //})
-    // }
     return (
         <div>
         <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330, }}>
