@@ -33,6 +33,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 @RequestMapping("/item/v1/")
 public class ItemBoardController {
 

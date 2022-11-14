@@ -7,6 +7,8 @@ import QnaUpdate from "./routes/qna/QnaUpdate";
 import React from "react";
 import QnaWrite from "./routes/qna/QnaWrite";
 import Footer from "./components/Footer";
+import ItemBoard from "./routes/item/ItemBoard";
+import ItemDetail from "./routes/item/ItemDetail";
 function RouterPages () {
     return (
         <div>
@@ -20,6 +22,10 @@ s
             <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
             <Route path="qnaUpdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
             <Route path="/qnaWrite" element={<QnaWrite />} />
+
+            {/* item route */}
+            <Route path="/item/itemBoard" element={<ItemBoard/>}/>
+            <Route path="/itemDetail/:id" element={<ItemDetail />} />
         </Routes>
 
         {/*<Routes>*/}
