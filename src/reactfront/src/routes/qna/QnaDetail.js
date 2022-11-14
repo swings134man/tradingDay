@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import TableTest from "../../components/TableTest";
 import { useNavigate } from "react-router-dom";
 
 
@@ -9,7 +8,7 @@ function QnaDetail() {
     const {qnaId} = useParams();
     const navigate = useNavigate();
 
-    // pk로 조회 후 단건 세팅
+    //pk로 조회 후 단건 세팅
     const getData = async () => {
         const uri = `/qna/v1/findByQnaId?qnaId=${qnaId}`;
         const encoded = encodeURI(uri);
@@ -19,8 +18,11 @@ function QnaDetail() {
         setQna(json);
     }
     useEffect(() => {
-        getData();
-    }, []);
+        getData().then(res => {console.log('성공')});
+    },[]);
+
+
+
 
     // delete onclick event
     const onRemove = async () => {
@@ -40,9 +42,10 @@ function QnaDetail() {
                     window.alert('성공적으로 삭제하였습니다.');
                     navigate('/qna/qnaBoard');
                 }
-
         }
     }; //remove function end
+
+
 
     return (
         // padding: 5px 1px 2px 3px
@@ -50,8 +53,46 @@ function QnaDetail() {
             <div align="center" style={{ padding : 100 , paddingRight: 330, paddingLeft: 330}}>
                 <h1>나는 문의글에 detail.</h1>
                 <div align="left">
-                    <TableTest data={qna} />
+                    <table className="table table-striped table-bordered table-hover">
+                        <colgroup>
+                            <col width="150px"/>
+                            <col/>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th className="active">문의번호</th>
+                            <td>
+                                {qna.qnaId}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="active">작성자</th>
+                            <td>
+                                {qna.writer}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="active">제목</th>
+                            <td>
+                                {qna.title}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="active">내용</th>
+                            <td>
+                                {qna.content}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className="active">작성 날짜</th>
+                            <td>
+                                {qna.createdDate}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+
                 <div align="right">
                         <button className="btn btn-warning" >
                             <Link to={`/qnaUpdate/${qna.qnaId}/${qna.title}/${qna.writer}/${qna.content}/${qna.createdDate}`}>

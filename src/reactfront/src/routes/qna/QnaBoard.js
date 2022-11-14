@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import TableTest from "../../components/TableTest";
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
@@ -6,32 +6,16 @@ import Paging from "../../components/Paging";
 
 function QnaBoard() {
     const [qnaList, setQnaList] = useState([]);
-    // const getData = async () => {
-    //     const res = await fetch('/qna/v1/qnaList');
-    //     const data = await res.json();
-    //     setQnaList(data);
-    // };
-    //
-    // useEffect(() =>{
-    //     getData();
-    // }, []);
 
-
-    const getData = async () => {
-        const res = await fetch(`/qna/v1/qnabylist?pageNumber=0&pageSize=10`);
-        const data = await res.json();
-        setQnaList(data);
-    }
     useEffect(() => {
+        const getData = async () => {
+            const res = await fetch(`/qna/v1/qnabylist?pageNumber=0&pageSize=10`);
+            const data = await res.json();
+            setQnaList(data);
+        }
         getData();
+
     }, [])
-
-
-
-
-
-
-
 
     return (
 
@@ -51,7 +35,6 @@ function QnaBoard() {
                 </div>
             <Paging />
             </div>
-
         </div>
     )
 }
