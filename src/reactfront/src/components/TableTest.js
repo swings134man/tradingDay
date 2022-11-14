@@ -43,48 +43,48 @@ function TableTest({data}) {
                 </tbody>
                     </table>
                     ) : (
-                        // <div>
-                        //     <h1>Null!</h1>
-                        // </div>
+                        <div>
+                            <h1>Null!</h1>
+                        </div>
 
-                    <table className="table table-striped table-bordered table-hover">
-                        <colgroup>
-                            <col width="150px"/>
-                            <col/>
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <th className="active">문의번호</th>
-                            <td>
-                                {data.content.qnaId}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="active">작성자</th>
-                            <td>
-                                {data.content.writer}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="active">제목</th>
-                            <td>
-                                {data.content.title}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="active">내용</th>
-                            <td>
-                                {data.content.content}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="active">작성 날짜</th>
-                            <td>
-                                {data.content.createdDate}
-                            </td>
-                        </tr>}
-                        </tbody>
-                    </table>
+                    // <table className="table table-striped table-bordered table-hover">
+                    //     <colgroup>
+                    //         <col width="150px"/>
+                    //         <col/>
+                    //     </colgroup>
+                    //     <tbody>
+                    //     <tr>
+                    //         <th className="active">문의번호</th>
+                    //         <td>
+                    //             {data.content.qnaId}
+                    //         </td>
+                    //     </tr>
+                    //     <tr>
+                    //         <th className="active">작성자</th>
+                    //         <td>
+                    //             {data.content.writer}
+                    //         </td>
+                    //     </tr>
+                    //     <tr>
+                    //         <th className="active">제목</th>
+                    //         <td>
+                    //             {data.content.title}
+                    //         </td>
+                    //     </tr>
+                    //     <tr>
+                    //         <th className="active">내용</th>
+                    //         <td>
+                    //             {data.content.content}
+                    //         </td>
+                    //     </tr>
+                    //     <tr>
+                    //         <th className="active">작성 날짜</th>
+                    //         <td>
+                    //             {data.content.createdDate}
+                    //         </td>
+                    //     </tr>}
+                    //     </tbody>
+                    // </table>
 
                     ) // 분기 end
                     } // if end
