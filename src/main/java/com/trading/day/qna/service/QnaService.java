@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -125,12 +126,22 @@ public class QnaService {
      */
     @Transactional(readOnly = true)
     public Page<QnaDTO> findByWriter(String writer, Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
-        pageable = PageRequest.of(page, 10, Sort.by("createdDate").descending());
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by("qnaId").descending());
         Page<Qna> findQnaEntity = qnaRepository.findByWriter(writer, pageable);
 
         return new QnaDTO().toPageDTO(findQnaEntity);
     }
+
+    @Transactional(readOnly = true)
+    public Page<QnaDTO> findAllPaging(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by("qnaId").descending());
+
+        Page<Qna> findQnaEntity = qnaRepository.findAll(pageable);
+        return new QnaDTO().toPageDTO(findQnaEntity);
+    }
+
 
     /**
      * methodName : saveQna

@@ -32,5 +32,6 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
     Qna findByQnaId(Long QnaId);
     // id로 작성자 검색
     Page<Qna> findByWriter(String Writer, Pageable pageable);
+    Page<Qna> findAll(Pageable pageable);
 
 }

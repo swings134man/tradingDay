@@ -28,7 +28,8 @@ public class Member {
     private String memberId;               /* 고객 ID */
     private String name;                   /* 이름 */
     private String email;                  /* 이메일*/
-    //private String telNo;                  /* 전화번호 */
+    private String telNo;                  /* 전화번호 */
+    //private String address;                /* 주소 */
 
     @CreatedDate
     private LocalDateTime createDate;      /* 가입 날짜 */
@@ -37,6 +38,7 @@ public class Member {
 
     // 권한 테이블 mapping
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     private List<UserRole> userRoles = new ArrayList<>();
 
     // Item 게시판 Mapping

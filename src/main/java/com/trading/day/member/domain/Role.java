@@ -1,5 +1,6 @@
 package com.trading.day.member.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +24,7 @@ public class Role {
     private String roleName; // admin, manager ,user
 
     @OneToMany(mappedBy = "roleId")
+    @JsonIgnore
     private List<UserRole> roles = new ArrayList<>();
 
 }

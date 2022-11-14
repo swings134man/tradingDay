@@ -6,12 +6,13 @@ import QnaDetail from "./routes/qna/QnaDetail";
 import QnaUpdate from "./routes/qna/QnaUpdate";
 import React from "react";
 import QnaWrite from "./routes/qna/QnaWrite";
-
+import Footer from "./components/Footer";
 function RouterPages () {
     return (
+        <div>
         <Router>
         <NavigationBar />
-
+s
         <Routes>
             {/*qna관련 route*/}
             <Route path="/" element={<Home />} />
@@ -24,8 +25,9 @@ function RouterPages () {
         {/*<Routes>*/}
         {/*    <Route path="/" element={<Home />} />*/}
         {/*</Routes>*/}
-
+        <Footer />
     </Router>
+</div>
     )
 }
 

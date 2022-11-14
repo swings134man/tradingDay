@@ -5,10 +5,12 @@ import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
 
 
 function TableTest({data}) {
+    console.log(data.content);
     return (
 
         <div>
-                {data.length > 1 ? (
+                {/*{data.length > 1 ? (*/}
+                {data.content.length > 1 ? (
                     <table className="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
@@ -20,7 +22,7 @@ function TableTest({data}) {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map(dataList => (
+                {data.content.map(dataList => (
                         <tr key={v4()}>
                             <td>
                                 {dataList.qnaId}
@@ -41,8 +43,11 @@ function TableTest({data}) {
                 </tbody>
                     </table>
                     ) : (
-                    <table className="table table-striped table-bordered table-hover">
+                        // <div>
+                        //     <h1>Null!</h1>
+                        // </div>
 
+                    <table className="table table-striped table-bordered table-hover">
                         <colgroup>
                             <col width="150px"/>
                             <col/>
@@ -51,41 +56,40 @@ function TableTest({data}) {
                         <tr>
                             <th className="active">문의번호</th>
                             <td>
-                                {data.qnaId}
+                                {data.content.qnaId}
                             </td>
                         </tr>
                         <tr>
                             <th className="active">작성자</th>
                             <td>
-                                {data.writer}
+                                {data.content.writer}
                             </td>
                         </tr>
                         <tr>
                             <th className="active">제목</th>
                             <td>
-                                {data.title}
+                                {data.content.title}
                             </td>
                         </tr>
                         <tr>
                             <th className="active">내용</th>
                             <td>
-                                {data.content}
+                                {data.content.content}
                             </td>
                         </tr>
                         <tr>
                             <th className="active">작성 날짜</th>
                             <td>
-                                {data.createdDate}
+                                {data.content.createdDate}
                             </td>
-                        </tr>
+                        </tr>}
                         </tbody>
                     </table>
-                    )}
+
+                    ) // 분기 end
+                    } // if end
         </div>
     )
-
-
-
 }
 
 export default TableTest;

@@ -100,6 +100,25 @@ public class QnaController {
     }
 
     /**
+     * methodName : findByWriter
+     * author : TAEIL KIM
+     * description : 전체 리스트 페이징
+     *
+     * @param writer
+     * @param pageable
+     * @return page
+     */
+    @ApiOperation(value = "문의글 전체 조회 페이징 api", notes = "문의글 전체 페이징 처리 조회함")
+    @GetMapping(value = "/qnabylist")
+    public Page<QnaDTO> findAllPaging (
+            @PageableDefault(size = 10, sort = "qnaId", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<QnaDTO> result = qnaService.findAllPaging(pageable);
+        return result;
+    }
+
+
+
+    /**
      * methodName : updateQna
      * author : TAEIL KIM
      * description :
@@ -124,14 +143,7 @@ public class QnaController {
     @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
     @PutMapping("/qna")
     public QnaDTO saveQna(@RequestBody QnaDTO inQnaDTO) {
-        log.debug("qnaDTO" + inQnaDTO.getWriter());
-        log.debug("qnaDTO" + inQnaDTO.getTitle());
-        log.debug("qnaDTO" + inQnaDTO.getContent());
         return qnaService.saveQna(inQnaDTO);
     }
-
-
-
-
 
 }
