@@ -8,18 +8,18 @@ function QnaDetail() {
     const {qnaId} = useParams();
     const navigate = useNavigate();
 
-    //pk로 조회 후 단건 세팅
-    const getData = async () => {
-        const uri = `/qna/v1/findByQnaId?qnaId=${qnaId}`;
-        const encoded = encodeURI(uri);
-        const json = await (
-            await fetch(encoded)
-        ).json();
-        setQna(json);
-    }
     useEffect(() => {
-        getData().then(res => {console.log('성공')});
-    },[]);
+        //pk로 조회 후 단건 세팅
+        const getData = async () => {
+            const uri = `/qna/v1/findByQnaId?qnaId=${qnaId}`;
+            const encoded = encodeURI(uri);
+            const json = await (
+                await fetch(encoded)
+            ).json();
+            setQna(json);
+        }
+        getData();
+    },[qna]);
 
 
 
