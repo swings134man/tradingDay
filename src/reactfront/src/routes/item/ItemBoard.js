@@ -19,6 +19,7 @@ function ItemBoard() {
     };
 
     // use Effect
+    useEffect(() => {
     const getData = async () => {
         try {
             const item = await axios.get(`/item/v1/findAllPage`, {
@@ -29,9 +30,7 @@ function ItemBoard() {
         } catch (err) {
             console.log(err);
         };
-
     }
-    useEffect(() => {
         getData();
     }, [page])//use eff
 
