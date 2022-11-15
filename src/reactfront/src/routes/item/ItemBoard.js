@@ -11,7 +11,6 @@ import Pagination from "react-js-pagination";
 function ItemBoard() {
     const [itemList, setItemList] = React.useState([]); // post
     const [page, setPage] = React.useState(1);
-    let total = 0;
 
     // paging handelr
     const handlePageChange = (page) => {
@@ -19,25 +18,16 @@ function ItemBoard() {
     };
 
     // use Effect
-    const getData = async () => {
-        try {
+    useEffect(() => {
+        const getData = async () => {
             const item = await axios.get(`/item/v1/findAllPage`, {
                 params: {page}
             });
             setItemList(item.data);
             console.log(itemList);
-        } catch (err) {
-            console.log(err);
-        };
-
-    }
-    useEffect(() => {
+        }
         getData();
     }, [page])//use eff
-
-    // 페이징 total count 를 위한 형변환.
-    total = itemList.totalElements;
-    total *= 1;
 
     return (
         <div>
@@ -98,7 +88,7 @@ function ItemBoard() {
                 <Pagination
                     activePage={page} // 현재 페이지
                     itemsCountPerPage={10} // 한 페이지 당 보여줄 아이템 갯수
-                    totalItemsCount={total} // 총 아이템 갯수
+                    totalItemsCount={item.totalElements} // 총 아이템 갯수
                     pageRangeDisplayed={5} // paginator의 페이지 범위
                     prevPageText={"‹"} // "이전"을 나타낼 텍스트
                     nextPageText={"›"} // "다음"을 나타낼 텍스트
