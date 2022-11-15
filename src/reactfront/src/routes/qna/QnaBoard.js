@@ -16,6 +16,9 @@ function QnaBoard() {
         getData();
 
     }, [])
+    console.log('qnaList',qnaList);
+    console.log('qnaList',qnaList.totalElements);
+    console.log('qnaList',qnaList.totalPages);
 
     return (
 
