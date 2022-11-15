@@ -9,9 +9,8 @@ function ItemDetail() {
     const [data, setData] = React.useState([]);
     const {id} = useParams();
 
+    //use Effect
     useEffect(() => {
-        console.log("나는 파라미터!" + id);
-
         const getData = async () => {
             // 파라미터 -> 보낼이름 : data
 
@@ -24,7 +23,9 @@ function ItemDetail() {
             console.log(item);
         }
         getData();
-    }, []);//use
+    }, []);//use Effect
+
+
 
 
 }//func

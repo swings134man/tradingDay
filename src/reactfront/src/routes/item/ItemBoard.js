@@ -6,18 +6,28 @@ import axios from "axios";
 
 import Paging from "../../components/Paging";
 import TableTest from "../../components/TableTest";
+import Pagination from "react-js-pagination";
 
 function ItemBoard() {
-    const[itemList, setItemList] = React.useState([]);
+    const [itemList, setItemList] = React.useState([]); // post
+    const [page, setPage] = React.useState(1);
 
+    // paging handelr
+    const handlePageChange = (page) => {
+        setPage(page);
+    };
+
+    // use Effect
     useEffect(() => {
         const getData = async () => {
-            const item = await axios.get(`/item/v1/findAllPage?pageNumber=0&pageSize=10`);
+            const item = await axios.get(`/item/v1/findAllPage`, {
+                params: {page}
+            });
             setItemList(item.data);
             console.log(itemList);
         }
         getData();
-    }, [])//use eff
+    }, [page])//use eff
 
     return (
         <div>
@@ -73,7 +83,17 @@ function ItemBoard() {
                 {/*        </Link>*/}
                 {/*    </button>*/}
                 {/*</div>*/}
-                <Paging />
+
+                {/*  paging  */}
+                <Pagination
+                    activePage={page} // 현재 페이지
+                    itemsCountPerPage={10} // 한 페이지 당 보여줄 아이템 갯수
+                    totalItemsCount={itemList.totalElements} // 총 아이템 갯수
+                    pageRangeDisplayed={5} // paginator의 페이지 범위
+                    prevPageText={"‹"} // "이전"을 나타낼 텍스트
+                    nextPageText={"›"} // "다음"을 나타낼 텍스트
+                    onChange={handlePageChange} // 페이지 변경을 핸들링하는 함수
+                />
             </div>
         </div>
     )//return

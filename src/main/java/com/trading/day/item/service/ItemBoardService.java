@@ -189,7 +189,7 @@ public class ItemBoardService {
     * @param   : Long
     * @return  : ItemBoardDTO
     */
-    @Transactional(readOnly = true)
+    @Transactional
     public ItemBoardDTO detailPost(Long id) {
         Optional<ItemBoard> result = Optional.ofNullable(repository.findById(id).orElseThrow(
                                                         () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + id)));
@@ -198,11 +198,13 @@ public class ItemBoardService {
         // 댓글
         List<ItemBoardReply> replys = entity.getReplys();
 
-        entity.increaseView(); // 조회수 증가
-
         // 이미지
         List<ImageFile> images = entity.getImages();
 
+        // 조회수 증가
+        Long count = entity.getView() + 1L;
+        entity.increaseView(count);
+//        entity.setView(count++);
 
         // To DTO
         ItemBoardDTO outDTO = modelMapper.map(entity, ItemBoardDTO.class);

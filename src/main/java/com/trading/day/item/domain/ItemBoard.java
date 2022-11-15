@@ -70,7 +70,7 @@ public class ItemBoard extends BaseTimeEntity {
     }
 
     // 조회수 증가
-    public void increaseView() {
-        this.view ++;
+    public void increaseView(Long count) {
+        this.view = count;
     }
 }
