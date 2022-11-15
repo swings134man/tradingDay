@@ -10,7 +10,6 @@ function QnaBoard() {
     const [page, setPage] = useState(1);
 
     const handlePageChange = (page) => {
-        console.log('page', page);
         setPage(page);
     };
 
@@ -19,27 +18,9 @@ function QnaBoard() {
             const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
             const data = await res.json();
             setQnaList(data);
-            console.log('나는 page 변경',data);
         }
         getData();
     }, [page])
-
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const res = await fetch(`/qna/v1/qnabylist?pageNumber=${page}&pageSize=10`);
-    //         const data = await res.json();
-    //         setQnaList(data);
-    //         console.log('나는 최초 페이지', data);
-    //     }
-    //     getData();
-    //
-    // }, [])
-
-
-
-
-
-
 
     return (
 
@@ -61,7 +42,7 @@ function QnaBoard() {
                 <Pagination
                     activePage={page} // 현재 페이지
                     itemsCountPerPage={10} // 한 페이지 당 보여줄 아이템 갯수
-                    totalItemsCount={30} // 총 아이템 갯수
+                    totalItemsCount={qnaList.totalElements} // 총 아이템 갯수
                     pageRangeDisplayed={5} // paginator의 페이지 범위
                     prevPageText={"‹"} // "이전"을 나타낼 텍스트
                     nextPageText={"›"} // "다음"을 나타낼 텍스트
