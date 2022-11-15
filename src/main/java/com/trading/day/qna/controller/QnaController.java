@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 /**
@@ -112,6 +113,9 @@ public class QnaController {
     @GetMapping(value = "/qnabylist")
     public Page<QnaDTO> findAllPaging (
             @PageableDefault(size = 10, sort = "qnaId", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        System.out.println("@@" + pageable.getPageNumber());
+
         Page<QnaDTO> result = qnaService.findAllPaging(pageable);
         return result;
     }

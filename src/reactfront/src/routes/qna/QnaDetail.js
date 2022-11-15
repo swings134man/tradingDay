@@ -19,7 +19,8 @@ function QnaDetail() {
             setQna(json);
         }
         getData();
-    },[qna]);
+
+    },[]);
 
 
 

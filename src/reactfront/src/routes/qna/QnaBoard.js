@@ -3,22 +3,43 @@ import TableTest from "../../components/TableTest";
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link} from "react-router-dom";
 import Paging from "../../components/Paging";
+import Pagination from "react-js-pagination";
 
 function QnaBoard() {
     const [qnaList, setQnaList] = useState([]);
+    const [page, setPage] = useState(1);
+
+    const handlePageChange = (page) => {
+        console.log('page', page);
+        setPage(page);
+    };
 
     useEffect(() => {
         const getData = async () => {
-            const res = await fetch(`/qna/v1/qnabylist?pageNumber=0&pageSize=10`);
+            const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
             const data = await res.json();
             setQnaList(data);
+            console.log('나는 page 변경',data);
         }
         getData();
+    }, [page])
 
-    }, [])
-    console.log('qnaList',qnaList);
-    console.log('qnaList',qnaList.totalElements);
-    console.log('qnaList',qnaList.totalPages);
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const res = await fetch(`/qna/v1/qnabylist?pageNumber=${page}&pageSize=10`);
+    //         const data = await res.json();
+    //         setQnaList(data);
+    //         console.log('나는 최초 페이지', data);
+    //     }
+    //     getData();
+    //
+    // }, [])
+
+
+
+
+
+
 
     return (
 
@@ -36,7 +57,16 @@ function QnaBoard() {
                         </Link>
                     </button>
                 </div>
-            <Paging />
+            {/*<Paging />*/}
+                <Pagination
+                    activePage={page} // 현재 페이지
+                    itemsCountPerPage={10} // 한 페이지 당 보여줄 아이템 갯수
+                    totalItemsCount={30} // 총 아이템 갯수
+                    pageRangeDisplayed={5} // paginator의 페이지 범위
+                    prevPageText={"‹"} // "이전"을 나타낼 텍스트
+                    nextPageText={"›"} // "다음"을 나타낼 텍스트
+                    onChange={handlePageChange} // 페이지 변경을 핸들링하는 함수
+                />
             </div>
         </div>
     )
