@@ -10,10 +10,10 @@ import Pagination from "react-js-pagination";
 
 function ItemBoard() {
     const [itemList, setItemList] = React.useState([]); // post
-    const [page, setPage] = React.useState(1);
+    const [page, setPage] = React.useState(1); // page Data
     let total = 0;
 
-    // paging handelr
+    // paging handler
     const handlePageChange = (page) => {
         setPage(page);
     };
@@ -38,6 +38,25 @@ function ItemBoard() {
     total = itemList.totalElements;
     total *= 1;
 
+    // 검색
+    // drop down
+    const [select, setSelect] = React.useState(''); // 조건 타입 : title, writer
+    const onChangeSelect = (e) => {
+        setSelect(e.target.value);
+        // console.log(e.target.value);
+        // console.log(select);
+    }
+    // 검색키워드
+    const [keyWord, setKeyWord] = React.useState(""); // 조건 검색 키워드
+    const onChangeKeyWord = (e) => {
+        setKeyWord(e.target.value);
+    }
+    // 버튼
+    const onClickBtn = () => {
+        console.log("드롭다운 : " + select + " 인풋박스 : " + keyWord);
+    }
+
+
     return (
         <div>
             <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>
@@ -52,14 +71,13 @@ function ItemBoard() {
                         <tr>
                             <th scope="col">게시글 번호</th>
                             <th scope="col">제목</th>
-                            <th scope="col">내용</th>
-                            <th scope="col">이름</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">제품 상태</th>
                             <th scope="col">작성 날짜</th>
                             <th scope="col">조회수</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {/* 이부분 코드 이해 */}
                         {itemList.content && itemList.content.map(data => (
                             <tr key={v4()}>
                                 <td>
@@ -69,10 +87,10 @@ function ItemBoard() {
                                     <Link to={`/itemDetail/${data.id}`}> {data.title} </Link>
                                 </td>
                                 <td>
-                                    {data.content}
+                                    {data.writer}
                                 </td>
                                 <td>
-                                    {data.writer}
+                                    {data.type}
                                 </td>
                                 <td>
                                     {data.createdDate}
@@ -85,13 +103,24 @@ function ItemBoard() {
                     </table>
                 </div>
 
-                {/*<div align="right">*/}
-                {/*    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>*/}
-                {/*        <Link to={"/qnawrite"}>*/}
-                {/*            문의하기*/}
-                {/*        </Link>*/}
-                {/*    </button>*/}
-                {/*</div>*/}
+                <div align="right">
+                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>
+                        <Link to={"/itemWrite"}>
+                            글작성
+                        </Link>
+                    </button>
+                </div>
+
+                <div align="center">
+                    <select value={select} onChange={onChangeSelect}>
+                        <option value='none'>== 선택 ==</option>
+                        <option value='title'>제목</option>
+                        <option value='writer'>작성자</option>
+                    </select>
+
+                    <input id="keyWord" type="text" placeholder="작성자 혹은 제목을 입력." onChange={onChangeKeyWord}/>
+                    <button onClick={onClickBtn}>검색</button>
+                </div>
 
                 {/*  paging  */}
                 <Pagination
