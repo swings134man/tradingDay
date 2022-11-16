@@ -14,12 +14,9 @@ function QnaWrite() {
 
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
-        console.log(titleVal);
-        console.log(contentVal);
 
         const uri = `http://localhost:8080/qna/v1/qna`;
         const encoded = encodeURI(uri);
-
         fetch(encoded, {
             method: "PUT",
             headers: {
@@ -41,7 +38,7 @@ function QnaWrite() {
 
     return (
         <div>
-            <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330, }}>
+            <div align="center" style={{padding : 100}}>
                 <div >
                     <h1>나는 qna등록 페이지</h1>
                 </div>
@@ -54,20 +51,21 @@ function QnaWrite() {
                             <td >xodlf5363</td>
                         </tr>
                         <tr>
-                            <th scope="row">제목</th>
+                            <th scope="row" >제목</th>
                             <td colSpan="3">
-                                <input type="text"ref={titleRef} />
+                                <input type="text"ref={titleRef} placeholder="제목을 입력하세요"/>
                             </td>
                         </tr>
                         <tr>
+                            <th scope="row">내용</th>
                             <td colSpan="4" className="view_text">
-                                <textarea ref={contentRef}></textarea>
+                                <textarea ref={contentRef} style={{width: 500, height: 200}} placeholder="내용을 입력하세요"></textarea>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                     <div align="right">
-                        <button className="btn btn-warning" >문의등록</button>
+                        <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100}} >문의등록</button>
                     </div>
                 </form>
             </div>
