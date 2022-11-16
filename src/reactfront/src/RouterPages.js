@@ -9,6 +9,9 @@ import QnaWrite from "./routes/qna/QnaWrite";
 import Footer from "./components/Footer";
 import ItemBoard from "./routes/item/ItemBoard";
 import ItemDetail from "./routes/item/ItemDetail";
+import SignIn from "./routes/member/SignIn";
+import SignUp from "./routes/member/SignUp";
+
 function RouterPages () {
     return (
         <div>
@@ -16,8 +19,13 @@ function RouterPages () {
         <NavigationBar />
 s
         <Routes>
-            {/*qna관련 route*/}
             <Route path="/" element={<Home />} />
+            {/*member 관련 route*/}
+            <Route path="/member/signin" element={<SignIn />}/>
+            <Route path="/member/signup" element={<SignUp />}/>
+
+
+            {/*qna관련 route*/}
             <Route path="qna/qnaBoard" element={<QnaBoard />} />
             <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
             <Route path="qnaUpdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />

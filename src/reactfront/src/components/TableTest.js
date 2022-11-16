@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 
 
 function TableTest({data}) {
+    let date = "";
 
     return (
         <div>
@@ -12,7 +13,6 @@ function TableTest({data}) {
                     <tr>
                         <th scope="col">문의글 번호</th>
                         <th scope="col">제목</th>
-                        <th scope="col">내용</th>
                         <th scope="col">이름</th>
                         <th scope="col">작성 날짜</th>
                     </tr>
@@ -26,14 +26,14 @@ function TableTest({data}) {
                             <td>
                                 <Link to={`/qnaDetail/${dataList.qnaId}`}> {dataList.title} </Link>
                             </td>
-                            <td>
-                                {dataList.content}
-                            </td>
+                            {/*<td>*/}
+                            {/*    {dataList.content}*/}
+                            {/*</td>*/}
                             <td>
                                 {dataList.writer}
                             </td>
                             <td>
-                                {dataList.createdDate}
+                                {date = dataList.createdDate.substring(0, 10)}
                             </td>
                         </tr> ))}
                 </tbody>

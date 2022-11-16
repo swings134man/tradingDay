@@ -26,28 +26,23 @@ function QnaBoard() {
 
     }, [page])
 
-
-
-
-
     return (
 
         <div>
-            <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>
+            {/*<div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>*/}
+            <div align="center" style={{padding : 100}}>
                 <div>
                     <h1>문의 게시판</h1>
-                    <h3>{qnaList.totalElements}</h3>
                 </div>
 
                 <TableTest data={qnaList} />
                 <div align="right">
-                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>
-                        <Link to={"/qnawrite"}>
+                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
+                        <Link to={"/qnawrite"} style={{color: "white"}}>
                         문의하기
                         </Link>
                     </button>
                 </div>
-            {/*<Paging />*/}
                 <Pagination
                     activePage={page} // 현재 페이지
                     itemsCountPerPage={10} // 한 페이지 당 보여줄 아이템 갯수

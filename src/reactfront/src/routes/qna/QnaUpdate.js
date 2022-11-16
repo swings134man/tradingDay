@@ -8,6 +8,8 @@ function QnaUpdate() {
     const contentRef = useRef(null);
     const navigate = useNavigate();
 
+    let date = "";
+
     function onSubmit(e) {
         e.preventDefault();
 
@@ -40,7 +42,8 @@ function QnaUpdate() {
 
     return (
         <div>
-        <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330, }}>
+        {/*<div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330, }}>*/}
+        <div align="center" style={{padding : 100}}>
             <div >
             <h1>나는 qna수정 페이지</h1>
             </div>
@@ -51,29 +54,33 @@ function QnaUpdate() {
                 <tr>
                     <th scope="row">글 번호</th>
                     <td>{qnaId}</td>
+
+                </tr>
+                <tr>
                     <th scope="row">작성일</th>
-                    <td>{createdDate}</td>
+                    <td>{date = createdDate.substring(0, 10)}</td>
                 </tr>
                 <tr>
                     <th scope="row">작성자</th>
-                    <td >{writer}</td>
+                    <td colSpan="2" >{writer}</td>
 
                 </tr>
                 <tr>
                     <th scope="row">제목</th>
                     <td colSpan="3">
-                        <input type="text" id="title" name="title" defaultValue={title} ref={titleRef} />
+                        <input type="text" id="title" name="title" defaultValue={title} ref={titleRef} style={{width: 500}} />
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row">내용</th>
                     <td colSpan="4" className="view_text">
-                            <textarea ref={contentRef} title="내용"  name="contents" defaultValue={content}></textarea>
+                            <textarea style={{width: 500, height: 200}} ref={contentRef}  title="내용"  name="contents" defaultValue={content}></textarea>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div align="right">
-                <button className="btn btn-warning" > 수정하기 </button>
+                <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100}}> 수정하기 </button>
             </div>
             </form>
             </div>
