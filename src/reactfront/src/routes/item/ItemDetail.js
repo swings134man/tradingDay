@@ -32,12 +32,14 @@ function ItemDetail() {
     /*
         각 버튼 이벤트.
      */
-
+    const onClickGame = () => {
+        window.alert('해당 기능은 현재 준비중입니다! 조만간 봐용!');
+    }
 
     return (
         // padding: 5px 1px 2px 3px
         <div>
-            <div align="center" style={{ padding : 50 , paddingRight: 60, paddingLeft: 60, paddingTop: 100}}>
+            <div align="center" style={{ padding : 50 , paddingRight: 60, paddingLeft: 60, paddingTop: 100, paddingBottom: 60}}>
                 <h1>상세 게시판: {data.title}</h1>
                 <div align="left">
                     <table className="table table-striped table-bordered table-hover">
@@ -62,11 +64,11 @@ function ItemDetail() {
                         </tr>
                         <tr>
                             <td colSpan="6" align="center">
-                                <button>한방게임 버튼~</button>
+                                <button onClick={onClickGame} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 150, color: "white"}}>한방게임 버튼~</button>
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan="6" >
+                            <td colSpan="6" height="300">
                                 {data.content}
                             </td>
                         </tr>
@@ -75,12 +77,12 @@ function ItemDetail() {
                 </div>
 
                 <div align="right">
-                    <button className="btn btn-warning" >
-                        <Link to={`/qnaUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`}>
+                    <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} >
+                        <Link to={`/qnaUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`} style={{color: "white"}}>
                             게시글 수정
                         </Link>
                     </button>
-                    <button className="btn btn-danger">게시글 삭제</button>
+                    <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>게시글 삭제</button>
                 </div>
             </div>
         </div>
