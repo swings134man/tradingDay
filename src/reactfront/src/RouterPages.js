@@ -11,6 +11,7 @@ import ItemBoard from "./routes/item/ItemBoard";
 import ItemDetail from "./routes/item/ItemDetail";
 import SignIn from "./routes/member/SignIn";
 import SignUp from "./routes/member/SignUp";
+import ItemWrite from "./routes/item/ItemWrite";
 
 function RouterPages () {
     return (
@@ -34,6 +35,7 @@ s
             {/* item route */}
             <Route path="/item/itemBoard" element={<ItemBoard/>}/>
             <Route path="/itemDetail/:id" element={<ItemDetail />} />
+            <Route path="/itemWrite" element={<ItemWrite />} />
         </Routes>
 
         {/*<Routes>*/}

@@ -61,7 +61,10 @@ function ItemBoard() {
         버튼 클릭 이벤트.
      */
     const onClickBtn = () => {
-        if(keyWord == "") {
+        if(select === '' || select === 'none'){
+            window.alert("검색 타입을 선택하지 않았습니다.");
+            return;
+        } else if(keyWord == "") {
             window.alert("검색어가 입력되지 않았습니다.");
             return;
         } else if(keyWord == " ") {
@@ -142,22 +145,24 @@ function ItemBoard() {
                 </div>
 
                 <div align="right">
-                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white"}}>
-                        <Link to={"/itemWrite"}>
+                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
+                        <Link to={"/itemWrite"} style={{color: "white"}}>
                             글작성
                         </Link>
                     </button>
                 </div>
 
                 <div align="center">
-                    <select value={select} onChange={onChangeSelect}>
+                    <select value={select} onChange={onChangeSelect} className="size num1" style={{width:120}}>
                         <option value='none'>== 선택 ==</option>
                         <option value='title'>제목</option>
                         <option value='writer'>작성자</option>
                     </select>
 
-                    <input id="keyWord" type="text" placeholder="작성자 혹은 제목을 입력." onChange={onChangeKeyWord} onKeyPress={onKeyPress}/>
-                    <button onClick={onClickBtn}>검색</button>
+                    <input id="keyWord" type="text" placeholder="작성자 혹은 제목을 입력." onChange={onChangeKeyWord} onKeyPress={onKeyPress} className="size" style={{width:350}}/>
+                    <button onClick={onClickBtn} className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
+                        검색
+                    </button>
                 </div>
 
                 {/*  paging  */}
