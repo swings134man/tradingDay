@@ -34,11 +34,15 @@ function ItemBoard() {
         getData();
     }, [page])//use eff
 
-    // 페이징 total count 를 위한 형변환.
+    /*
+        페이징 total count 를 위한 형변환.
+     */
     total = itemList.totalElements;
     total *= 1;
 
-    // 검색
+    /*
+        검색
+     */
     // drop down
     const [select, setSelect] = React.useState(''); // 조건 타입 : title, writer
     const onChangeSelect = (e) => {
@@ -46,16 +50,50 @@ function ItemBoard() {
         // console.log(e.target.value);
         // console.log(select);
     }
-    // 검색키워드
+    /*
+        검색 키워드
+     */
     const [keyWord, setKeyWord] = React.useState(""); // 조건 검색 키워드
     const onChangeKeyWord = (e) => {
         setKeyWord(e.target.value);
     }
-    // 버튼
+    /*
+        버튼 클릭 이벤트.
+     */
     const onClickBtn = () => {
-        console.log("드롭다운 : " + select + " 인풋박스 : " + keyWord);
-    }
+        if(keyWord == "") {
+            window.alert("검색어가 입력되지 않았습니다.");
+            return;
+        } else if(keyWord == " ") {
+            window.alert("공백은 허용되지 않습니다.");
+            return;
+        }
 
+        const getSearch = async () => {
+            try {
+                const searchResult = await axios.get('/item/v1/findTitleOrWriter', {
+                    params: {
+                        keyType: select,
+                        keyWord: keyWord
+                    }
+                });
+                setItemList(searchResult.data);
+                console.log("검색 : " + itemList);
+            }catch (e) {
+                console.log(e);
+            };
+        }//get search
+        getSearch();
+    }//btn
+
+    /*
+        각 컴포넌트 별 이벤트 및 핸들링
+     */
+    const onKeyPress = (e) => {
+        if(e.key == 'Enter') {
+            onClickBtn();
+        }
+    } // enter press
 
     return (
         <div>
@@ -118,7 +156,7 @@ function ItemBoard() {
                         <option value='writer'>작성자</option>
                     </select>
 
-                    <input id="keyWord" type="text" placeholder="작성자 혹은 제목을 입력." onChange={onChangeKeyWord}/>
+                    <input id="keyWord" type="text" placeholder="작성자 혹은 제목을 입력." onChange={onChangeKeyWord} onKeyPress={onKeyPress}/>
                     <button onClick={onClickBtn}>검색</button>
                 </div>
 
