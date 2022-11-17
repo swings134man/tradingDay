@@ -150,7 +150,15 @@ public class ItemBoardService {
 
         // TODO : 게시물 삭제시 연관된 댓글 All Delete가 선행되어야 함. 댓글 삭제 -> 게시물 삭제.
 
-        repository.delete(findResult.get());
+        // 원본 이미지 파일 삭제
+        List<ImageFile> images = findResult.get().getImages();
+        int i = imageFileService.deleteImage(images);
+        if(i == 1) {
+            repository.delete(findResult.get());
+        }else {
+            return 0;
+        }
+
         return 1;
     }//delete
 

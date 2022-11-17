@@ -157,4 +157,19 @@ public class ImageFileService {
         return result;
     }
 
+    public int deleteImage(List<ImageFile> images) {
+        for(int i =0; i < images.size(); i++) {
+            String savePath = images.get(i).getSavePath();
+
+            File file = new File(savePath);
+            if(file.exists()) {
+                try {
+                    file.delete();
+                }catch (Exception e){}
+            }
+        }//for
+        int res = 1;
+        return res;
+    }
+
 }//class

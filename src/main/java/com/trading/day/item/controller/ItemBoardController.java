@@ -183,7 +183,7 @@ public class ItemBoardController {
         return itemBoardDTO;
     }//savePost
 
-    // 이미지 테스트 2
+    // 이미지 테스트 2 - 현재 사용가능 메서드
     @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
     @PostMapping(value = "savePost/images2")
     // parameter @RequestBody 확인 필요
