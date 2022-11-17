@@ -1,7 +1,7 @@
 import style from "./signUpStyle.css";
 import {useState} from "react";
 import Post from "./Post";
-import AddressModal from "./AddressModal";
+
 
 
 
@@ -30,7 +30,6 @@ function SignUp() {
                 <div id="login">
                     <div id="login_form">
                         <form onSubmit={onSubmit}>
-                            {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
                                 <label>
@@ -70,35 +69,28 @@ function SignUp() {
                             </label>
                             <br />
 
-                            <div >
-                                {/*주소 검색 버튼*/}
-                                {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
-                                {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
-                                {/*<AddressModal />*/}
-                            </div>
-
                             <label >
                                 <br />
-                                    <div>
-                                        <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>주소
-                                            &nbsp;
-                                            <button className="addrBtn"  onClick={handleComplete}>검색</button>
+                                    <div style={{textAlign: "left"}}>
+                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", marginRight: 275}}>주소
+                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
                                             {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
                                         </p>
-                                        {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
-                                        <input type="text" placeholder="주소를 검색해주세요 click me..!" className="size" onClick={handleComplete} onChange={handleInput} value={enroll_company.address}/>
-
                                     </div>
-
-                                <br />
-                                    <div style={{marginTop: -8, paddingBottom: -100}} >
-                                        <input type="text" placeholder="상세주소" className="size" style={{}}/>
-                                    </div>
-                                <br />
-                                <br />
                             </label>
 
+                            <div>
+                                {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                                <input type="text" placeholder="주소를 검색해주세요 click me..!" className="size" onClick={handleComplete} onChange={handleInput} value={enroll_company.address}/>
+                            </div>
+                            <br />
+                                <div style={{marginTop: -8, paddingBottom: -100}} >
+                                    <input type="text" placeholder="상세주소" className="size" style={{}}/>
+                                </div>
+                            <br />
+                            <br />
                         </form>
+
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>
                                 <input type="submit" value="가입!" className="btn" style={{backgroundColor: "#217Af0"}}/>
