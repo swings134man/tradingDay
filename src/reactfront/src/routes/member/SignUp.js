@@ -1,8 +1,7 @@
 import style from "./signUpStyle.css";
-import Postcode from '@actbase/react-daum-postcode';
 import {useState} from "react";
-import {Modal} from "react-bootstrap";
 import Post from "./Post";
+import AddressModal from "./AddressModal";
 
 
 
@@ -27,16 +26,17 @@ function SignUp() {
     return (
         <div>
             <div id="con">
+
                 <div id="login">
                     <div id="login_form">
                         <form onSubmit={onSubmit}>
+                            {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
-                            <label>
-                                <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
-                                <input type="text" placeholder="아이디" className="size"/>
-                                {/*<p></p>*/}
-                            </label>
+                                <label>
+                                    <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
+                                    <input type="text" placeholder="아이디" className="size"/>
+                                </label>
 
                             <br />
 
@@ -70,23 +70,24 @@ function SignUp() {
                             </label>
                             <br />
 
-                            {/*<div style={{position: "absolute"}}>*/}
-                            {/*    /!*주소 검색 버튼*!/*/}
-                            {/*    {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
-                            {/*    <button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
-                            {/*</div>*/}
+                            <div >
+                                {/*주소 검색 버튼*/}
+                                {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
+                                {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
+                                {/*<AddressModal />*/}
+                            </div>
 
                             <label >
                                 <br />
                                     <div>
                                         <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>주소
                                             &nbsp;
-                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
-                                            {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
+                                            <button className="addrBtn"  onClick={handleComplete}>검색</button>
                                             {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
                                         </p>
-                                        {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                                        {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
                                         <input type="text" placeholder="주소를 검색해주세요 click me..!" className="size" onClick={handleComplete} onChange={handleInput} value={enroll_company.address}/>
+
                                     </div>
 
                                 <br />
@@ -111,6 +112,7 @@ function SignUp() {
                     </div>
                 </div>
             </div>
+
         </div>
                 )}
         export default SignUp;
