@@ -1,4 +1,4 @@
-import style from "./signInStyle.css";
+import style from "../../css/signInStyle.css";
 import {Link} from "react-router-dom";
 
 function SignIn() {

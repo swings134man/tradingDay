@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
-import './post.css';
+import '../css/post.css';
 
 const Post = (props) => {
 

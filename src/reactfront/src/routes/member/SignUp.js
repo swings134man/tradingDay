@@ -1,15 +1,14 @@
-import style from "./signUpStyle.css";
+import style from "../../css/signUpStyle.css";
 import {useState} from "react";
-import Post from "./Post";
-
+// import Post from "../../components/Post";
+import Post from "components/Post";
 
 
 
 function SignUp() {
-
-    const [enroll_company, setEnroll_company] = useState({
-        address:'', });
+    const [enroll_company, setEnroll_company] = useState({address:'', });
     const [popup, setPopup] = useState(false);
+
     const handleInput = (e) => {
         setEnroll_company({
             ...enroll_company,
@@ -72,10 +71,7 @@ function SignUp() {
                             <label >
                                 <br />
                                     <div style={{textAlign: "left"}}>
-                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", marginRight: 275}}>주소
-                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
-                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
-                                        </p>
+                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", marginRight: 275}}>주소</p>
                                     </div>
                             </label>
 
@@ -85,7 +81,7 @@ function SignUp() {
                             </div>
                             <br />
                                 <div style={{marginTop: -8, paddingBottom: -100}} >
-                                    <input type="text" placeholder="상세주소" className="size" style={{}}/>
+                                    <input type="text" placeholder="상세주소" className="size"/>
                                 </div>
                             <br />
                             <br />
