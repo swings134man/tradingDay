@@ -173,7 +173,7 @@ public class ItemBoardController {
     @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
     @PostMapping(value = "savePost/images",consumes = {"multipart/form-data"})
     // parameter @RequestBody 확인 필요
-    public ItemBoardDTO savePostImage(ItemBoardDTO.ItemRequest inDTO,
+    public ItemBoardDTO savePostImage(@RequestBody ItemBoardDTO.ItemRequest inDTO,
                                       @RequestParam(value = "file", required = false) MultipartFile file,
                                       @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
         inDTO.setView(0L);
@@ -183,4 +183,19 @@ public class ItemBoardController {
         return itemBoardDTO;
     }//savePost
 
+    // 이미지 테스트 2
+    @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
+    @PostMapping(value = "savePost/images2")
+    // parameter @RequestBody 확인 필요
+    public ItemBoardDTO savePostImage2(@RequestPart(value = "dto") ItemBoardDTO.ItemRequest inDTO,
+                                      @RequestPart(value = "file", required = false) MultipartFile file,
+                                      @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+        inDTO.setView(0L);
+
+        System.out.println("이미지 2: " + files + " 갯수 : " + files.size());
+
+        ItemBoardDTO itemBoardDTO = service.savePostImage(inDTO,file ,files);
+
+        return itemBoardDTO;
+    }//savePost
 }//class

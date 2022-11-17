@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -236,24 +237,37 @@ public class ItemBoardService {
         // 게시판 save
         ItemBoard entityResult = repository.save(item);
 
-        // Image save ALl
-//            try{
-//                List<ImageFile> imageResult = imageFileService.saveImageList(file);
-//                for(int i=0; i<imageResult.size(); i++){
-//                    entityResult.addImages(imageResult.get(i));
+        // Image save ALl - 단건, 다건
+            try{
+                List<ImageFile> imageResult = imageFileService.saveImageList(files);
+                System.out.println("파라미터 사이즈 : " + files.size());
+                System.out.println("결과 사이즈 : " + imageResult.size());
+                for(int i=0; i<imageResult.size(); i++){
+                    entityResult.addImages(imageResult.get(i));
+                }
+            }catch (IOException e){};
+
+
+            // 단건 코드.
+//        ImageFile imageFile = new ImageFile();
+//        List<ImageFile> list = new ArrayList<>();
+//        try {
+////                imageFile = imageFileService.saveImage(file);
+//
+//            System.out.println("size : " + files.size());
+//                for (int i = 0; i < files.size(); i++){
+//                    imageFile = imageFileService.saveImage(files.get(i));
+//                    list.add(imageFile);
+//                    entityResult.addImages(list.get(i));
 //                }
-//            }catch (IOException e){};
-
-        ImageFile imageFile = new ImageFile();
-        try {
-                imageFile = imageFileService.saveImage(file);
-
-//                for(MultipartFile multi : files){
-//                    imageFile = imageFileService.saveImage(multi);
-//                }
-
-            entityResult.addImages(imageFile);
-        }catch (IOException e){}
+//
+////            List<ImageFile> imageFilesResult = imageFileService.saveImageList(files);
+////                for(MultipartFile multi : files){
+////                    imageFile = imageFileService.saveImage(multi);
+////                }
+//
+////            entityResult.addImages(imageFile);
+//        }catch (IOException e){}
 
 
         // Member List add

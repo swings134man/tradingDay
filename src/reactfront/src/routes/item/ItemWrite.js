@@ -13,6 +13,27 @@ function ItemWrite() {
     const contentRef = useRef(null);
     const navigate = useNavigate(); //navigate
 
+    const [images, setImages] = useState([]);
+    const imageList = [];
+    let now = null;
+    const onAddImages = (e) => {
+        // setImages(e.target.files[0]);
+        now = e.target.files;
+        console.log("길이는 : " + e.target.files.length);
+        for(let i=0; i <= e.target.files.length; i++){
+            imageList.push(now[i]);
+        }
+
+        // console.log("리스트 ㅡ응 : " + now.length);
+        // for (let i = 0; i < now.length; i +=1) {
+        //     // imageList.push(now[i]);
+        //     setImages(now[i]);
+        //     console.log("리스트 ㅡ응 : " + images[i]);
+        // }
+    }
+
+
+
     /*
         select Box
      */
@@ -27,8 +48,10 @@ function ItemWrite() {
     const onClick = () => {
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
-        console.log('제목 : ' + titleRef.current.value);
-        console.log('내용 : ' + contentRef.current.value);
+
+        // console.log('제목 : ' + titleRef.current.value);
+        // console.log('내용 : ' + contentRef.current.value);
+        // console.log('이미지 : ' + images);
 
         //분기 처리
         if(titleVal === '') {
@@ -44,21 +67,52 @@ function ItemWrite() {
 
         // axios 통신
         // TODO : writer 추후 세션값 || 로그인 ID 기반 작성
-        axios.post("/item/v1/savePost", {
+        // axios.post("/item/v1/savePost", {
+        //     title: titleVal,
+        //     content: contentVal,
+        //     writer: "iu",
+        //     type: select
+        // })
+        //     .then(function (response) {
+        //         // response
+        //         console.log('res : ' + response.status); // 200
+        //         window.alert("게시글이 작성되었습니다!");
+        //         navigate('/item/itemBoard');
+        //     }).catch(function (error) {
+        //         // 오류발생시 실행
+        //         console.log('error message : '+ error);
+        //         window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        // }); // axios
+
+        // image test
+        const frm = new FormData();
+        const data = {
             title: titleVal,
             content: contentVal,
             writer: "iu",
-            type: select
-        })
+            type: select};
+        frm.append("dto", new Blob([JSON.stringify(data)],  {type: "application/json"}));
+        // frm.append("files", imageList.values());
+        imageList.forEach((file) => {
+            // 파일 데이터 저장
+            frm.append('files', file);
+        });
+
+
+    //application/json  multipart/form-data
+        axios.post("/item/v1/savePost/images2", frm, {
+            headers: {
+                "Content-Type": `multipart/form-data`,
+            }})
             .then(function (response) {
                 // response
                 console.log('res : ' + response.status); // 200
                 window.alert("게시글이 작성되었습니다!");
                 navigate('/item/itemBoard');
             }).catch(function (error) {
-                // 오류발생시 실행
-                console.log('error message : '+ error);
-                window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
+            // 오류발생시 실행
+            console.log('error message : '+ error);
+            window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
         }); // axios
     }// onClick
 
@@ -94,6 +148,12 @@ function ItemWrite() {
                                         <option value='중고'>중고</option>
                                     </select>
                                 </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">이미지 업로드</th>
+                            <td colSpan="5">
+                                <input type="file" multiple="multiple" onChange={onAddImages} />
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">내용</th>
