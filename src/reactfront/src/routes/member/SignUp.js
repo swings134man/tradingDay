@@ -1,11 +1,28 @@
 import style from "./signUpStyle.css";
+import Postcode from '@actbase/react-daum-postcode';
+import {useState} from "react";
+import {Modal} from "react-bootstrap";
+import Post from "./Post";
+
+
 
 function SignUp() {
-    function onSubmit(e) {
 
+    const [enroll_company, setEnroll_company] = useState({
+        address:'', });
+    const [popup, setPopup] = useState(false);
+    const handleInput = (e) => {
+        setEnroll_company({
+            ...enroll_company,
+            [e.target.name]:e.target.value,
+        })
+    }
+    const handleComplete = (data) => {
+        setPopup(!popup);
+    }
+    function onSubmit(e) {
         e.preventDefault();
     }
-
 
     return (
         <div>
@@ -13,13 +30,12 @@ function SignUp() {
                 <div id="login">
                     <div id="login_form">
                         <form onSubmit={onSubmit}>
-
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
                                 <input type="text" placeholder="아이디" className="size"/>
-                                <p></p>
+                                {/*<p></p>*/}
                             </label>
 
                             <br />
@@ -53,23 +69,34 @@ function SignUp() {
                                 <input type="text" placeholder="이메일" className="size" style={{paddingTop: -20}}/>
                             </label>
                             <br />
+
+                            {/*<div style={{position: "absolute"}}>*/}
+                            {/*    /!*주소 검색 버튼*!/*/}
+                            {/*    {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
+                            {/*    <button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
+                            {/*</div>*/}
+
                             <label >
                                 <br />
-                                <div>
+                                    <div>
+                                        <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>주소
+                                            &nbsp;
+                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
+                                            {/*{popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}*/}
+                                            {/*<button className="addrBtn"  onClick={handleComplete}>검색</button>*/}
+                                        </p>
+                                        {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                                        <input type="text" placeholder="주소를 검색해주세요 click me..!" className="size" onClick={handleComplete} onChange={handleInput} value={enroll_company.address}/>
+                                    </div>
 
-                                    <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>주소
-                                        &nbsp;<button className="addrBtn" >검색</button>
-                                    </p>
-
-                                    <input type="text" placeholder="주소" className="size" style={{}}/>
-                                </div>
                                 <br />
-                                <div style={{marginTop: -8, paddingBottom: -100}} >
-                                    <input type="text" placeholder="상세주소" className="size" style={{}}/>
-                                </div>
+                                    <div style={{marginTop: -8, paddingBottom: -100}} >
+                                        <input type="text" placeholder="상세주소" className="size" style={{}}/>
+                                    </div>
                                 <br />
                                 <br />
                             </label>
+
                         </form>
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>
@@ -82,9 +109,8 @@ function SignUp() {
                             <span><a href="/member/signin">로그인 페이지로 이동</a></span>
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
                 )}
-                export default SignUp;
+        export default SignUp;
