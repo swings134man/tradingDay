@@ -15,6 +15,15 @@ function QnaWrite() {
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
 
+        const inputPattern = /^\s+|\s+$/g;
+        if(titleVal.replace(inputPattern, '' ) == "" ){
+            alert('제목엔 공백만 입력할수없어요.');
+            return;
+        } else if(contentVal.replace(inputPattern, '' ) == "") {
+            alert('내용엔 공백만 입력할수없어요.')
+            return;
+        }
+
         const uri = `http://localhost:8080/qna/v1/qna`;
         const encoded = encodeURI(uri);
         fetch(encoded, {
@@ -43,7 +52,7 @@ function QnaWrite() {
                     <h1>나는 qna등록 페이지</h1>
                 </div>
                 <form onSubmit={onSubmit}>
-                    <table className="table table-striped table-bordered table-hover">
+                    <table className="table table-striped table-bordered table-hover" >
 
                         <tbody>
                         <tr>

@@ -93,6 +93,7 @@ class MemberMgmtControllerTest {
                 .name("아이유")
                 .memberId("iu")
                 .email("iu@naver.com")
+                .address("나는주소")
                 .build();
         Long memberNo = service.save(inDto);
 

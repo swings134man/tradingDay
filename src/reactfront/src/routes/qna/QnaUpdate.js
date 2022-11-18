@@ -16,6 +16,15 @@ function QnaUpdate() {
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
 
+        const inputPattern = /^\s+|\s+$/g;
+        if(titleVal.replace(inputPattern, '' ) == "" ){
+            alert('제목엔 공백만 입력할수없어요.');
+            return;
+        } else if(contentVal.replace(inputPattern, '' ) == "") {
+            alert('내용엔 공백만 입력할수없어요.')
+            return;
+        }
+
         const uri = `http://localhost:8080/qna/v1/updateQna/`;
         const encoded = encodeURI(uri);
 

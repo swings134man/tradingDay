@@ -1,14 +1,13 @@
 import style from "../../css/signUpStyle.css";
 import {useState} from "react";
-// import Post from "../../components/Post";
 import Post from "components/Post";
 
 
 
 function SignUp() {
+//--------------------------------주소검색 api----------------------
     const [enroll_company, setEnroll_company] = useState({address:'', });
     const [popup, setPopup] = useState(false);
-
     const handleInput = (e) => {
         setEnroll_company({
             ...enroll_company,
@@ -18,6 +17,7 @@ function SignUp() {
     const handleComplete = (data) => {
         setPopup(!popup);
     }
+//--------------------------------주소검색 api----------------------
     function onSubmit(e) {
         e.preventDefault();
     }
