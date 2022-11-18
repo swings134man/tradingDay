@@ -17,10 +17,10 @@ function QnaUpdate() {
         const contentVal = contentRef.current.value;
 
         const inputPattern = /^\s+|\s+$/g;
-        if(titleVal.replace(inputPattern, '' ) == "" ){
+        if(titleVal.replace(inputPattern, '' ) === "" ){
             alert('제목엔 공백만 입력할수없어요.');
             return;
-        } else if(contentVal.replace(inputPattern, '' ) == "") {
+        } else if(contentVal.replace(inputPattern, '' ) === "") {
             alert('내용엔 공백만 입력할수없어요.')
             return;
         }

@@ -71,7 +71,7 @@ function ItemDetail() {
             delData();
         }//if
     }// delete
-
+    console.log("data", data.replys);
 
     return (
         // padding: 5px 1px 2px 3px
@@ -164,16 +164,17 @@ function ItemDetail() {
                             </tr>
                         </thead>
                         <tbody>
-                        {replyList.content && replyList.content.map(reply => (
+                        {/*{replyList.content && replyList.content.map(reply => (*/}
+                        {data.replys && data.replys.map(reply => (
                                 <tr key={v4()}>
                                     <td>
-                                        {reply.replys.writer}
+                                        {reply.writer}
                                     </td>
                                     <td>
-                                        {reply.replys.content}
+                                        {reply.content}
                                     </td>
                                     <td>
-                                        {reply.replys.createdDate}
+                                        {reply.createdDate}
                                     </td>
                                     <td>
                                         <label>수정버튼</label>
