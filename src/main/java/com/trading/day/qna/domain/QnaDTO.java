@@ -4,6 +4,7 @@ package com.trading.day.qna.domain;
 import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.item.domain.ItemBoardDTO;
+import com.trading.day.qna.answer.domain.Answer;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
@@ -36,6 +37,7 @@ public class QnaDTO {
     private String createdDate;
     private String modifiedDate;
 
+    private List<Answer> answers;
 
     public Page<QnaDTO> toPageDTO(Page<Qna> entity) {
         Page<QnaDTO> qnaListPage = entity.map(m ->

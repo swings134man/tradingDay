@@ -1,7 +1,9 @@
 package com.trading.day.qna.service;
 
+import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.repository.MemberJpaRepository;
+import com.trading.day.qna.answer.domain.Answer;
 import com.trading.day.qna.domain.Qna;
 import com.trading.day.qna.domain.QnaDTO;
 import com.trading.day.qna.repository.QnaRepository;
@@ -62,8 +64,21 @@ public class QnaService {
      */
     @Transactional(readOnly = true)
     public QnaDTO findByQnaId(Long qnaId) {
-        Qna searchResult = qnaRepository.findByQnaId(qnaId);
-        return modelMapper.map(searchResult, QnaDTO.class);
+//        Qna searchResult = qnaRepository.findByQnaId(qnaId);
+
+        Optional<Qna> result = Optional.ofNullable(qnaRepository.findById(qnaId).orElseThrow(
+                () -> new IllegalArgumentException("문의가 존재하지 않습니다. 확인 후 다시 시도하세요." + qnaId)));
+
+        //pk로 가져와서
+        Qna entity = result.get();
+        //fk로 묶인 pk로 조회하고
+        List<Answer> answers = entity.getAnswers();
+
+        QnaDTO outQnaDTO = modelMapper.map(entity, QnaDTO.class);
+        //디티오에 합쳐주고 리턴
+        outQnaDTO.setAnswers(answers);
+
+        return outQnaDTO;
     }
 
     /**

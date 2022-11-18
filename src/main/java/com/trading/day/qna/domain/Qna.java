@@ -4,11 +4,15 @@ package com.trading.day.qna.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.member.domain.Member;
+import com.trading.day.qna.answer.domain.Answer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * packageName :
  * fileName : Qna
@@ -48,6 +52,13 @@ public class Qna extends BaseTimeEntity {
     private String title;
     private String writer;
     private String content;
-    //private String createdDate;
-    //private String modifiedDate;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "qnaId", cascade = CascadeType.REMOVE)
+    private List<Answer> answers = new ArrayList<>();
+
+    public void addAnswer(Answer answer) {
+        answer.setQnaId(this);
+        answers.add(answer);
+    }
 }
