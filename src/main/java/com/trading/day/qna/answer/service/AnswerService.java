@@ -57,8 +57,6 @@ public class AnswerService {
                 () -> new IllegalArgumentException("해당 답변이 존재하지 않습니다." + inDTO.getId())
         ));
 
-        System.out.println("@@@@@@@@@" + findResult);
-
         Answer answerEntity = findResult.get();
 
         answerEntity.setContent(inDTO.getContent());

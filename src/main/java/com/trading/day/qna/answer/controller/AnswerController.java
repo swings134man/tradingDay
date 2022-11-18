@@ -35,7 +35,7 @@ public class AnswerController {
     @ApiOperation(value = "문의에 대한 답변 수정 api", notes = "문의에 대한 답변을 수정함")
     @PutMapping("/update")
     public AnswerDTO answerUpdate(@RequestBody AnswerDTO inDTO) {
-        return answerService.answerSave(inDTO);
+        return answerService.answerUpdate(inDTO);
     }
 
     @ApiOperation(value = "문의 답변 삭제 API", notes = "문의 답변을 pk로 삭제함")
