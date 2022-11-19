@@ -53,6 +53,8 @@ public class Qna extends BaseTimeEntity {
     private String writer;
     private String content;
 
+    private String pwd;
+
     @JsonIgnore
     @OneToMany(mappedBy = "qnaId", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();

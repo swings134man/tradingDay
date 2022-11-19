@@ -120,8 +120,6 @@ public class QnaController {
         return result;
     }
 
-
-
     /**
      * methodName : updateQna
      * author : TAEIL KIM
@@ -149,5 +147,15 @@ public class QnaController {
     public QnaDTO saveQna(@RequestBody QnaDTO inQnaDTO) {
         return qnaService.saveQna(inQnaDTO);
     }
+
+    @ApiOperation(value="문의글 비밀번호 확인 api", notes = "문의글 작성시 설정한 비밀번호 일치 여부 확인함")
+    @GetMapping("/confirmpwd")
+    public int pwdChk(QnaDTO inQnaDTO) {
+        System.out.println("inQnaDTO ---> @@@@ : " + inQnaDTO.getPwd() );
+        System.out.println("inQnaDTO ---> @@@@ : " + inQnaDTO.getQnaId());
+        return qnaService.pwdChk(inQnaDTO);
+    }
+
+
 
 }

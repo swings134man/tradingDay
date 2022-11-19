@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 /**
  * packageName :
  * fileName : QnaRepository
@@ -30,6 +32,7 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
     //List<Qna> findByWriter(String writer);
 
     Qna findByQnaId(Long QnaId);
+    Qna findByQnaIdAndPwd(Long qnaId, String pwd);
     // id로 작성자 검색
     Page<Qna> findByWriter(String Writer, Pageable pageable);
     Page<Qna> findAll(Pageable pageable);

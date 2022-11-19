@@ -24,7 +24,8 @@ function TableTest({data}) {
                                 {dataList.qnaId}
                             </td>
                             <td>
-                                <Link to={`/qnaDetail/${dataList.qnaId}`}> {dataList.title} </Link>
+                                {/*<Link to={`/qnaDetail/${dataList.qnaId}`}> {dataList.title} </Link>*/}
+                                <Link to={`/qnapwdchk/${dataList.qnaId}`}> {dataList.title} </Link>
                             </td>
                             {/*<td>*/}
                             {/*    {dataList.content}*/}

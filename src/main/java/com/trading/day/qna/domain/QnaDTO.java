@@ -37,6 +37,10 @@ public class QnaDTO {
     private String createdDate;
     private String modifiedDate;
 
+    private String pwd;
+
+
+
     private List<Answer> answers;
 
     public Page<QnaDTO> toPageDTO(Page<Qna> entity) {

@@ -50,8 +50,6 @@ public class AnswerService {
         return modelMapper.map(answerEntity, AnswerDTO.class);
     }
 
-
-
     public AnswerDTO answerUpdate(AnswerDTO inDTO) {
         Optional<Answer> findResult = Optional.ofNullable(answerRepository.findById(inDTO.getId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 답변이 존재하지 않습니다." + inDTO.getId())

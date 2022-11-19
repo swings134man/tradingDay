@@ -188,4 +188,27 @@ public class QnaService {
         QnaDTO outDTO = modelMapper.map(resultEntity, QnaDTO.class);
         return outDTO;
     }
+
+    /**
+     * methodName : pwdChk
+     * author : TAEIL KIM
+     * description : 문의글 비밀번호 체크
+     *
+     * @param inQnaDTO
+     * @return int 1 --> 1 비밀번호 일치
+     *         int 0 --> 0 비밀번호 불일치
+     */
+    @Transactional(readOnly = true)
+    public int pwdChk(QnaDTO inQnaDTO) {
+        System.out.println("inqnaDTO @@: " + inQnaDTO.getPwd());
+        System.out.println("inqnaDTO @@: " + inQnaDTO.getQnaId());
+
+        int outVal = 1;
+        Qna result = qnaRepository.findByQnaIdAndPwd(inQnaDTO.getQnaId(), inQnaDTO.getPwd());
+        if(ObjectUtils.isEmpty(result)) {
+            outVal = 0;
+        }
+        return outVal;
+    }
+
 } // service end
