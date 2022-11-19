@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -116,6 +116,20 @@ function ItemDetail() {
                 window.alert('댓글 삭제중 문제가 발생');
             })
         }
+    } //del
+
+    // 댓글 update
+    const tdRef = useRef(null);
+    const inputRef = useRef(null); //input 제어
+    const tareaRef = useRef(null);
+
+    const onClickUpdate = (e) => {
+        const tdId = "area" + e.target.getAttribute("data-name");
+        const tareaId = "tarea" + e.target.getAttribute("data-name");
+        console.log(tdId);
+        // console.log(tdRef.current.id);
+        // console.log(tareaRef.current.id);
+        // tareaRef.current.hidden(true);
     }
 
 
@@ -200,35 +214,38 @@ function ItemDetail() {
                 {/* 댓글 입력창. 1650*/}
                 <div style={{paddingLeft: 60, paddingBottom: 200, paddingRight: 60}}>
                     <table border='1' >
-                        <thead>
-                            <tr>
-                                <th scope="col">작성자</th>
-                                <th scope="col">내용</th>
-                                <th scope="col">작성날짜</th>
-                                <th scope="col">수정</th>
-                                <th scope="col">삭제</th>
-                            </tr>
-                        </thead>
+                        {/*<thead>*/}
+                        {/*    <tr>*/}
+                        {/*        <th scope="col">작성자</th>*/}
+                        {/*        <th scope="col">내용</th>*/}
+                        {/*        <th scope="col">작성날짜</th>*/}
+                        {/*        <th scope="col">수정</th>*/}
+                        {/*        <th scope="col">삭제</th>*/}
+                        {/*    </tr>*/}
+                        {/*</thead>*/}
                         <tbody>
-                        {/*{replyList.content && replyList.content.map(reply => (*/}
                         {data.replys && data.replys.map(reply => (
-                                <tr key={v4()}>
-                                    <td>
-                                        {reply.writer}
-                                    </td>
-                                    <td>
-                                        {reply.content}
-                                    </td>
-                                    <td>
-                                        {reply.createdDate}
-                                    </td>
-                                    <td>
-                                        <label>수정버튼</label>
-                                    </td>
-                                    <td>
-                                        <button data-name={reply.id} onClick={(e)=>{onClickReplyDelete(e)}}>삭제버튼</button>
-                                    </td>
-                                </tr>))}
+                            <tr key={v4()}>
+                                <td>
+                                    {reply.writer}
+                                </td>
+                                <td id={"area"+reply.id} ref={tdRef}>
+                                   <input disabled={true} value={reply.content} style={{backgroundColor:"white", border:"none"}}/>
+                                    <textarea  id={"tarea"+reply.id} ref={tareaRef} hidden={true}></textarea>
+                                {/*    hidden={true}*/}
+                                </td>
+                                <td>
+                                    {reply.createdDate}
+                                </td>
+                                <td>
+                                    <button data-name={reply.id} onClick={(e) => {onClickUpdate(e)}}>수정버튼</button>
+                                </td>
+                                <td>
+                                    <button data-name={reply.id} onClick={(e)=>{onClickReplyDelete(e)}}>삭제버튼</button>
+                                </td>
+                            </tr>
+                        ))}
+                        {/*{replyList.content && replyList.content.map(reply => (*/}
                         </tbody>
                     </table>
                 </div>
