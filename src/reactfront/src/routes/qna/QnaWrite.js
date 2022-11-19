@@ -6,6 +6,7 @@ function QnaWrite() {
 
     const titleRef = useRef(null);
     const contentRef = useRef(null);
+    const pwdRef = useRef(null);
     const navigate = useNavigate();
 
     function onSubmit(e) {
@@ -14,14 +15,26 @@ function QnaWrite() {
 
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
+        const pwdVal = pwdRef.current.value;
+
 
         const inputPattern = /^\s+|\s+$/g;
         if(titleVal.replace(inputPattern, '' ) === "" ){
+            titleRef.current.focus();
             alert('제목엔 공백만 입력할수없어요.');
-            return;
+                return;
         } else if(contentVal.replace(inputPattern, '' ) === "") {
-            alert('내용엔 공백만 입력할수없어요.')
-            return;
+            contentRef.current.focus();
+            alert('내용엔 공백만 입력할수없어요.');
+                return;
+        } else if(pwdVal.replace(inputPattern, '' ) === "") {
+            pwdRef.current.focus();
+            alert('비밀번호를 입력하세요');
+                return;
+        } else if (pwdVal.length < 4 || pwdVal.length > 12) {
+            pwdRef.current.focus();
+            alert('비밀번호는 4글자이상 12자 이하로 입력해주세요');
+                return;
         }
 
         const uri = `http://localhost:8080/qna/v1/qna`;
@@ -34,7 +47,8 @@ function QnaWrite() {
             body: JSON.stringify({
                 title: titleVal,
                 content: contentVal,
-                writer: "xodlf5363"
+                writer: "iu",
+                pwd: pwdVal
             }),
         }).then(res => {
             if(res.ok) {
@@ -62,13 +76,19 @@ function QnaWrite() {
                         <tr>
                             <th scope="row" >제목</th>
                             <td colSpan="3">
-                                <input type="text"ref={titleRef} placeholder="제목을 입력하세요"/>
+                                <input type="text" id={"title"} ref={titleRef} placeholder="제목을 입력하세요"/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">내용</th>
                             <td colSpan="4" className="view_text">
                                 <textarea ref={contentRef} style={{width: 500, height: 200}} placeholder="내용을 입력하세요"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">비밀번호</th>
+                            <td colSpan="4" className="view_text">
+                                <input type="password" ref={pwdRef} placeholder="비밀번호" />
                             </td>
                         </tr>
                         </tbody>
@@ -82,5 +102,4 @@ function QnaWrite() {
         </div>
     )
 }
-
 export default QnaWrite;

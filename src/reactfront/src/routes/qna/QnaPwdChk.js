@@ -11,21 +11,23 @@ function QnaPwdChk() {
     const chkPwd = async () => {
         const pwd = pwdRef.current.value;
         try {
-
             const inputPattern = /^\s+|\s+$/g;
             if(pwd.replace(inputPattern, '' ) === "" ) {
-                alert('비밀번호엔 공백만 입력할수없어요.');
-                return;
+               pwdRef.current.focus();
+                   alert('비밀번호엔 공백만 입력할수없어요.');
+                       return;
+            } else if (pwd.length < 4 || pwd.length > 12) {
+                pwdRef.current.focus();
+                    alert('비밀번호는 4글자이상 12자 이하로 입력해주세요');
+                        return;
             }
 
             const chk = await axios.get(`/qna/v1/confirmpwd`, {
                 params: { qnaId, pwd }
             });
-
             if(chk.data === 1) {
                 navigate(`/qnaDetail/${qnaId}`);
             } else if (chk.data === 0) {
-
                 alert("비밀번호가 일치하지 않습니다.");
             }
 
