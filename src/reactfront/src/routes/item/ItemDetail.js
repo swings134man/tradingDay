@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import axios from "axios";
 import {v4} from 'uuid';
 
@@ -17,10 +18,10 @@ function ItemDetail() {
         초기 Data
      */
     let replyList = [];
+    const [refresh, setRefresh] = React.useState(""); // 댓글 작성시 페이지 refresh하기 위한 state
     useEffect(() => {
         const getData = async () => {
             // 파라미터 -> 보낼이름 : data
-
             const item = await axios.get('/item/v1/detailPost', {
                 params:{
                     id: id
@@ -32,15 +33,12 @@ function ItemDetail() {
             //     replyList.push(item.data.replys[i]);
             //     console.log('리스트 : ' + replyList[i]);
             // }
-
             console.log(item);
-            console.log("댓글 : "+ item.data.replys[0].writer);
-            console.log("댓글 : "+ item.data.replys.length);
-
+            // console.log("댓글 : "+ item.data.replys[0].writer);
+            // console.log("댓글 : "+ item.data.replys.length);
         }
         getData();
-
-    }, []);//use Effect
+    }, [refresh]);//use Effect
 
 
     /*
@@ -62,7 +60,7 @@ function ItemDetail() {
                 }).then(function (response) {
                     if(response.status === 200) {
                         window.alert("게시물이 성공적으로 삭제되었습니다.");
-                        navigate('/item/itemBoard');
+                        // navigate('/item/itemBoard');
                     }
                 }).catch(function (error) {
                     window.alert("삭제 도중 오류가 발생했습니다. " + error);
@@ -71,7 +69,55 @@ function ItemDetail() {
             delData();
         }//if
     }// delete
-    console.log("data", data.replys);
+    // console.log("data", data.replys);
+
+    /*
+     댓글
+    */
+    const replyId = "iu";
+    const [replyInput, setReplyInput] = React.useState("");
+    const onchangeReply = (e) => {
+        setReplyInput(e.target.value);
+    }
+    // 댓글 post
+    const onClickReply = () => {
+            axios.post('/item/v1/reply/save', {
+                    boardId: id,
+                    writer: replyId,
+                    content: replyInput
+            }, {
+                headers: {
+                    "Content-Type": `application/json`,
+                }}).then(function (response){
+                console.log('댓글 작성 완료');
+                // navigate('/itemDetail/'+id);
+                setRefresh("reply Ok");
+            }).catch(function (error){
+                console.log('댓글 작성 에러' + error);
+                window.alert('댓글 작성중 문제가 발생하였습니다.');
+            });
+    }//on click
+
+    //댓글 delete
+    const onClickReplyDelete = (e) => {
+        // TODO : 로그인 상황에 따라 삭제 버튼을 disable, 혹은 해당 함수에서 제거.
+        const replyId = e.target.getAttribute('data-name');
+        const cfm = window.confirm('해당 댓글을 정말 삭제하시겠습니까?');
+        if(cfm === true){
+            axios.delete('/item/v1/reply/delete', {
+                params: {
+                    id:replyId
+                }
+            }).then(function (res) {
+                console.log('댓글 삭제 완료');
+                setRefresh("delete Ok");
+            }).catch(function (error) {
+                console.log('댓글 삭제중 문제가 발생 : '+error);
+                window.alert('댓글 삭제중 문제가 발생');
+            })
+        }
+    }
+
 
     return (
         // padding: 5px 1px 2px 3px
@@ -131,13 +177,13 @@ function ItemDetail() {
                         <tbody>
                             <tr>
                                 <td style={{width: 60}} align='center'>
-                                    <label>id</label>
+                                    <label defaultValue={replyId}>id</label>
                                 </td>
                                 <td colSpan="2">
-                                    <textarea rows="5" cols="80" placeholder="댓글을 입력하세요!"></textarea>
+                                    <textarea rows="5" cols="80" placeholder="댓글을 입력하세요!" onChange={onchangeReply}></textarea>
                                 </td>
                                 <td align='center'>
-                                    <button type="button" className="btn btn-warning"
+                                    <button type="button" className="btn btn-warning" onClick={onClickReply}
                                             style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
                                         댓글작성
                                     </button>
@@ -180,7 +226,7 @@ function ItemDetail() {
                                         <label>수정버튼</label>
                                     </td>
                                     <td>
-                                        <label>삭제버튼</label>
+                                        <button data-name={reply.id} onClick={(e)=>{onClickReplyDelete(e)}}>삭제버튼</button>
                                     </td>
                                 </tr>))}
                         </tbody>

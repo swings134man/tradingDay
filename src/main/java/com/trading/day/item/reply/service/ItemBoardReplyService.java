@@ -47,6 +47,10 @@ public class ItemBoardReplyService {
         // 댓글 정보 to Entity
         ItemBoardReply replyEntity = modelMapper.map(inDTO, ItemBoardReply.class); // 댓글 객체
 
+        // Test
+        System.out.println("indto : " + inDTO);
+
+
         // 게시물 정보
         Optional<ItemBoard> boardResult = boardRpository.findById(inDTO.getBoardId());
         ItemBoard boardEntity = boardResult.get();

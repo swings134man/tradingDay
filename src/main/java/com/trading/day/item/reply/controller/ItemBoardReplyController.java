@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 ************/
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/item/v1/reply")
 public class ItemBoardReplyController {
 
@@ -29,7 +30,8 @@ public class ItemBoardReplyController {
 
     @ApiOperation(value = "item 게시판 댓글 저장 API", notes = "게시판 댓글 저장")
     @PostMapping("/save")
-    public ItemBoardReplyDTO replySave(ItemBoardReplyDTO inDTO) {
+    public ItemBoardReplyDTO replySave(@RequestBody ItemBoardReplyDTO inDTO) {
+        System.out.println(" Control indto : " + inDTO);
         return service.replySave(inDTO);
     }
 

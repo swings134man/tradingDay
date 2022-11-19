@@ -32,8 +32,6 @@ function ItemWrite() {
         // }
     }
 
-
-
     /*
         select Box
      */
@@ -48,10 +46,6 @@ function ItemWrite() {
     const onClick = () => {
         const titleVal = titleRef.current.value;
         const contentVal = contentRef.current.value;
-
-        // console.log('제목 : ' + titleRef.current.value);
-        // console.log('내용 : ' + contentRef.current.value);
-        // console.log('이미지 : ' + images);
 
         //분기 처리
         if(titleVal === '') {
@@ -85,6 +79,7 @@ function ItemWrite() {
         // }); // axios
 
         // image test
+        // TODO : 현재 테스트 완료 url 바꿀것. images2 -> images (서버또한 바꿔야함.)
         const frm = new FormData();
         const data = {
             title: titleVal,
@@ -98,8 +93,7 @@ function ItemWrite() {
             frm.append('files', file);
         });
 
-
-    //application/json  multipart/form-data
+        //application/json , multipart/form-data
         axios.post("/item/v1/savePost/images2", frm, {
             headers: {
                 "Content-Type": `multipart/form-data`,
@@ -115,8 +109,6 @@ function ItemWrite() {
             window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
         }); // axios
     }// onClick
-
-
 
 
     /*
