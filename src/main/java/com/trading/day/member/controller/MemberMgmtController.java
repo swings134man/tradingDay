@@ -41,7 +41,7 @@ public class MemberMgmtController {
      *
      * @return list
      */
-    @ApiOperation(value ="고객 전체 조회", notes ="조건에 상관 없이 강비되어있는 모두를 조회함")
+    @ApiOperation(value ="고객 전체 조회", notes ="조건에 상관 없이 가입되어있는 모두를 조회함")
     @GetMapping("/memberlist")
     public List<Member> findAll() {
         return memberService.findAll();
@@ -87,16 +87,6 @@ public class MemberMgmtController {
         return memberService.updateMember(memberDTO);
     }
 
-
-
-
-
-
-
-
-
-
-
      //이름으로 회원정보 검색
     @GetMapping("/member/v1/findbyname")
     public MemberDTO findByName(@RequestParam String name) {
@@ -117,6 +107,20 @@ public class MemberMgmtController {
                 .build();
         MemberDTO result = memberService.findByMemberId(inDTO);
         return result;
+    }
+
+
+    /**
+     * methodName : chkdupliId
+     * author : TAEIL KIM
+     * description : 회원가입시 사용되는 아이디 중복확인 api
+     *
+     * @return int
+     */
+    @GetMapping("/chkdupliId")
+    @ApiOperation(value =  "회원가입시 사용되는 아이디 중복확인 api", notes = "아이디 중복을 체크함")
+    public int chkDupliId(@RequestParam String memberId) {
+        return memberService.chkDupliId(memberId);
     }
 
     // 회원 이름 update

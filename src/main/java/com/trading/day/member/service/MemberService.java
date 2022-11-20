@@ -15,7 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.time.LocalDateTime;
@@ -121,6 +123,24 @@ public class MemberService {
         MemberDTO outDTO = modelMapper.map(resultEntity, MemberDTO.class);
         return outDTO;
     }
+
+    /**
+     * methodName : chkdupliId
+     * author : TAEIL KIM
+     * description : 회원가입시 사용되는 아이디 중복확인 api
+     *
+     * @return int
+     */
+    public int chkDupliId(@RequestParam String memberId) {
+        int result = 1;
+
+        Member resultEntity = memberRepository.findByMemberId(memberId);
+        if(ObjectUtils.isEmpty(resultEntity)) {
+            result = 0;
+        }
+        return result;
+    }
+
 
     public MemberDTO updateMember(MemberDTO memberDTO) {
         //pk로 업데이트
