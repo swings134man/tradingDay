@@ -58,7 +58,6 @@ function SignUp() {
                     setDisabled(true);
                     console.log(disabled);
                 }
-
         } else {
             alert("중복확인 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.")
         }
@@ -170,9 +169,7 @@ function SignUp() {
                                     <div style={{display: "flex", padding: 5}}>
                                         <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingRight: 5}}>user id</p>
                                         <button className="btn"
-                                                style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}
-                                                >
-                                            중복
+                                                style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}>중복
                                         </button>
                                     </div>
                                     <input type="text"
@@ -191,7 +188,7 @@ function SignUp() {
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
                                 <input type="text" placeholder="이름" className="size" style={{marginBottom: 15}} ref={nameRef}/>
                             </label>
-
+                            <br />
 
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>Password </p>

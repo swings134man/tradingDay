@@ -27,7 +27,6 @@ function QnaUpdate() {
 
         const uri = `http://localhost:8080/qna/v1/updateQna/`;
         const encoded = encodeURI(uri);
-
         fetch(encoded, {
             method: "POST",
             headers: {

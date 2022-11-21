@@ -34,7 +34,7 @@ public class Answer extends BaseTimeEntity {
 
     private String content;
     private String writer;
-    private String customerMemo;
+//    private String customerMemo;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

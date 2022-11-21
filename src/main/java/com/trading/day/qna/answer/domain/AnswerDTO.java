@@ -27,7 +27,6 @@ public class AnswerDTO {
     private Long id;               /* 답변 Id */
     private String content;        /* 답변내용 */
     private String writer = "tradingManager";  /* 작성자 : 고정으로 사용할것.*/
-    private String customerMemo;   /* 문의에 대한 특이사항 메모 */
     private Long qnaId;             /* 문의번호 */
 
     private String createdDate; // 생성 시간

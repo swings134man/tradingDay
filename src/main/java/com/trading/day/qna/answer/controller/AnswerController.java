@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 @RequestMapping("/answer/v1")
 public class AnswerController {
 
@@ -28,7 +29,7 @@ public class AnswerController {
 
     @ApiOperation(value = "문의에 대한 답변 저장 api", notes = "문의에 대한 답변을 저장함")
     @PostMapping("/save")
-    public AnswerDTO answerSave( AnswerDTO inDTO) {
+    public AnswerDTO answerSave(@RequestBody AnswerDTO inDTO) {
         return answerService.answerSave(inDTO);
     }
 

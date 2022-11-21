@@ -58,7 +58,7 @@ public class AnswerService {
         Answer answerEntity = findResult.get();
 
         answerEntity.setContent(inDTO.getContent());
-        answerEntity.setCustomerMemo(inDTO.getCustomerMemo());
+//        answerEntity.setCustomerMemo(inDTO.getCustomerMemo());
 
         return modelMapper.map(answerEntity, AnswerDTO.class);
     }
