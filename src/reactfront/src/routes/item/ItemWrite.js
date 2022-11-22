@@ -60,26 +60,8 @@ function ItemWrite() {
         }
 
         // axios 통신
-        // TODO : writer 추후 세션값 || 로그인 ID 기반 작성
-        // axios.post("/item/v1/savePost", {
-        //     title: titleVal,
-        //     content: contentVal,
-        //     writer: "iu",
-        //     type: select
-        // })
-        //     .then(function (response) {
-        //         // response
-        //         console.log('res : ' + response.status); // 200
-        //         window.alert("게시글이 작성되었습니다!");
-        //         navigate('/item/itemBoard');
-        //     }).catch(function (error) {
-        //         // 오류발생시 실행
-        //         console.log('error message : '+ error);
-        //         window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
-        // }); // axios
-
-        // image test
         // TODO : 현재 테스트 완료 url 바꿀것. images2 -> images (서버또한 바꿔야함.)
+        // TODO : writer 추후 세션값 || 로그인 ID 기반 작성
         const frm = new FormData();
         const data = {
             title: titleVal,
@@ -94,7 +76,7 @@ function ItemWrite() {
         });
 
         //application/json , multipart/form-data
-        axios.post("/item/v1/savePost/images2", frm, {
+        axios.post("/item/v1/savePost/images", frm, {
             headers: {
                 "Content-Type": `multipart/form-data`,
             }})

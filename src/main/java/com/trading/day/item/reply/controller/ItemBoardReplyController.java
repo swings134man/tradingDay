@@ -37,7 +37,7 @@ public class ItemBoardReplyController {
 
     @ApiOperation(value = "item 게시판 댓글 수정 API", notes = "게시판 댓글 수정")
     @PutMapping("update")
-    public ItemBoardReplyDTO replyUpdate(ItemBoardReplyDTO inDTO) {
+    public ItemBoardReplyDTO replyUpdate(@RequestBody ItemBoardReplyDTO inDTO) {
         return service.replyUpdate(inDTO);
     }
 

@@ -9,7 +9,6 @@ import {v4} from 'uuid';
 function ItemDetail() {
 
     const [data, setData] = React.useState([]);
-    const [dataReply, setDataReply] = React.useState([]);
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -28,14 +27,6 @@ function ItemDetail() {
                 }
             });
             setData(item.data);
-
-            // for (let i = 0; i < item.data.replys.length; i++) {
-            //     replyList.push(item.data.replys[i]);
-            //     console.log('리스트 : ' + replyList[i]);
-            // }
-            console.log(item);
-            // console.log("댓글 : "+ item.data.replys[0].writer);
-            // console.log("댓글 : "+ item.data.replys.length);
         }
         getData();
     }, [refresh]);//use Effect
@@ -69,13 +60,14 @@ function ItemDetail() {
             delData();
         }//if
     }// delete
-    // console.log("data", data.replys);
 
     /*
      댓글
     */
-    const replyId = "iu";
-    const [replyInput, setReplyInput] = React.useState("");
+    const writerId = "iu"; // 작성자 ID --> TODO : Login session ID
+    let replyId = 0; // 댓글 ID
+    const [replyInput, setReplyInput] = React.useState(""); // reply 작성시 state
+
     const onchangeReply = (e) => {
         setReplyInput(e.target.value);
     }
@@ -83,7 +75,7 @@ function ItemDetail() {
     const onClickReply = () => {
             axios.post('/item/v1/reply/save', {
                     boardId: id,
-                    writer: replyId,
+                    writer: writerId,
                     content: replyInput
             }, {
                 headers: {
@@ -101,7 +93,7 @@ function ItemDetail() {
     //댓글 delete
     const onClickReplyDelete = (e) => {
         // TODO : 로그인 상황에 따라 삭제 버튼을 disable, 혹은 해당 함수에서 제거.
-        const replyId = e.target.getAttribute('data-name');
+        let replyId = e.target.getAttribute('data-id');
         const cfm = window.confirm('해당 댓글을 정말 삭제하시겠습니까?');
         if(cfm === true){
             axios.delete('/item/v1/reply/delete', {
@@ -119,17 +111,42 @@ function ItemDetail() {
     } //del
 
     // 댓글 update
-    const tdRef = useRef(null);
-    const inputRef = useRef(null); //input 제어
-    const tareaRef = useRef(null);
+    const [selectIndex, setSelectIndex] = useState(0);
+    const [modiTextArea, setModiTextArea] = useState(false);
+    const modiAnswerRef = useRef(null); // 수정 texe area
+    let writeDate = ""; // 댓글 list date format
 
-    const onClickUpdate = (e) => {
-        const tdId = "area" + e.target.getAttribute("data-name");
-        const tareaId = "tarea" + e.target.getAttribute("data-name");
-        console.log(tdId);
-        // console.log(tdRef.current.id);
-        // console.log(tareaRef.current.id);
-        // tareaRef.current.hidden(true);
+    function modiInputShow (e) {
+        replyId = e.target.getAttribute("data-id");
+        setSelectIndex(replyId);
+
+        if (!modiTextArea ) {
+            setModiTextArea(true);
+        } else {
+            setModiTextArea(false);
+        }
+
+    }
+
+    const answerClickUpdate = (e) => {
+        const modiAnswerVal = modiAnswerRef.current.value; // textarea
+        replyId = e.target.getAttribute("data-id"); // 댓글의 아이디
+
+        axios.put(`/item/v1/reply/update`, {
+            id: replyId,
+            writer: writerId,
+            content: modiAnswerVal,
+            boardId: id
+        })
+            .then(function (res){
+                window.alert("댓글 수정 완료.");
+                setModiTextArea(false);
+                setRefresh("update Ok");
+            })
+            .catch(function (err) {
+                window.alert("댓글을 수정하던 도중 문제가 발생했습니다.");
+            });
+
     }
 
 
@@ -183,75 +200,95 @@ function ItemDetail() {
                         게시글 삭제
                     </button>
                 </div>
-                <div style={{paddingLeft: 60, paddingRight: 60, paddingBottom: 100}}>
-                    <hr align="center" style={{width: "100%"}}/>
-                    <h2 className="navbar-brand" style={{fontSize: 32}}>Comment</h2>
-
-                    <table border='1' align='center'>
+                {/* 댓글 */}
+                <div align="center" style={{ padding : 75}}>
+                    <hr />
+                    {/*입력 form*/}
+                    <table border={1}>
                         <tbody>
-                            <tr>
-                                <td style={{width: 60}} align='center'>
-                                    <label defaultValue={replyId}>id</label>
-                                </td>
-                                <td colSpan="2">
-                                    <textarea rows="5" cols="80" placeholder="댓글을 입력하세요!" onChange={onchangeReply}></textarea>
-                                </td>
-                                <td align='center'>
-                                    <button type="button" className="btn btn-warning" onClick={onClickReply}
-                                            style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
-                                        댓글작성
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="right">
-
-                                </td>
-                            </tr>
+                        <tr height="50">
+                            <td width="10%" className="col1" align="center">댓글 달기</td>
+                            <td width="90%" className="col2">
+                                <div style={{float:"left"}}>
+                                    <textarea  style={{width: 800, height: 100}} onChange={onchangeReply}></textarea>
+                                </div>
+                                {/*style="padding:;">  상우좌하*/}
+                                <div style={{float:"left", paddingTop: 34, paddingRight: 12, paddingLeft:34, paddingBottom: 12}}>
+                                    <button className="btn btn-warning"
+                                            style={{backgroundColor: "#217Af0", width: 100, color: "white"}}
+                                            onClick={onClickReply}> 답변 입력 </button>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
-                </div>
-                {/* 댓글 입력창. 1650*/}
-                <div style={{paddingLeft: 60, paddingBottom: 200, paddingRight: 60}}>
-                    <table border='1' >
-                        {/*<thead>*/}
-                        {/*    <tr>*/}
-                        {/*        <th scope="col">작성자</th>*/}
-                        {/*        <th scope="col">내용</th>*/}
-                        {/*        <th scope="col">작성날짜</th>*/}
-                        {/*        <th scope="col">수정</th>*/}
-                        {/*        <th scope="col">삭제</th>*/}
-                        {/*    </tr>*/}
-                        {/*</thead>*/}
-                        <tbody>
-                        {data.replys && data.replys.map(reply => (
+                    {/*댓글 list*/}
+                    <table border={1} className="table table-striped table-bordered ">
+                        <tbody >
+                        {data.replys && data.replys.map(answer =>  (
                             <tr key={v4()}>
                                 <td>
-                                    {reply.writer}
-                                </td>
-                                <td id={"area"+reply.id} ref={tdRef}>
-                                   <input disabled={true} value={reply.content} style={{backgroundColor:"white", border:"none"}}/>
-                                    <textarea  id={"tarea"+reply.id} ref={tareaRef} hidden={true}></textarea>
-                                {/*    hidden={true}*/}
-                                </td>
-                                <td>
-                                    {reply.createdDate}
-                                </td>
-                                <td>
-                                    <button data-name={reply.id} onClick={(e) => {onClickUpdate(e)}}>수정버튼</button>
-                                </td>
-                                <td>
-                                    <button data-name={reply.id} onClick={(e)=>{onClickReplyDelete(e)}}>삭제버튼</button>
+                                    <div border={1}>
+                                        <div  style={{ backgroundColor: "#EBEBEB"}}>
+                                            <div style={{padding:10, fontWeight:"bold"}}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {answer.content}
+                                        <div>
+
+                                        </div>
+                                        {/*<div align="right">*/}
+                                        {/*    <button className="btn btn-warning"*/}
+                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
+                                        {/*            data-id={answer.id}*/}
+                                        {/*            onClick={(e) => {answerClickDelete(e)}}>삭제</button>*/}
+
+                                        {/*    <button className="btn btn-warning"*/}
+                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
+                                        {/*            data-id={answer.id}*/}
+                                        {/*            // onClick={(e) => {answerClickUpdate(e)}}>>수정</button>*/}
+                                        {/*            onClick={modiInputShow}>수정</button>*/}
+                                        {/*</div>*/}
+
+                                        {modiTextArea && selectIndex == answer.id? (
+                                            <div style={{float:"left"}}>
+                                                <textarea style={{width: 800, height: 100}} placeholder="수정내용을 입력하세요" ref={modiAnswerRef}/>
+
+                                                <div align="right">
+                                                    <button className="btn btn-warning"
+                                                            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                            data-id={answer.id}
+                                                            onClick={answerClickUpdate}
+                                                    > 수정 </button>
+                                                    <button className="btn btn-warning"
+                                                            style={{backgroundColor: "#217Af0", width: 70, height: 25, color: "white", fontSize:10}}
+                                                            onClick={modiInputShow} > 수정취소 </button>
+                                                </div>
+                                            </div>
+                                        ) :  (
+                                            <div align="right">
+                                                <button className="btn btn-warning"
+                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                        data-id={answer.id}
+                                                        onClick={(e) => {onClickReplyDelete(e)}}>삭제</button>
+
+                                                <button className="btn btn-warning"
+                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                        data-id={answer.id}
+                                                        onClick={modiInputShow}>수정</button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         ))}
-                        {/*{replyList.content && replyList.content.map(reply => (*/}
                         </tbody>
                     </table>
+                    {/*상단*/}
                 </div>
+            {/*  center  */}
             </div>
-
-
         {/*  전체area  */}
         </div>
     ) //return

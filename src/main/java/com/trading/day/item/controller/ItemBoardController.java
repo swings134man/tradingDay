@@ -167,35 +167,32 @@ public class ItemBoardController {
      * @version : 1.0.0
      * @param   :
      * @return  :
-     * @Description :
+     * @Description :RequestPart 로 2가지 요청 타입 받음. -> 이미지, JSON(DTO)
      */
-
-    @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
-    @PostMapping(value = "savePost/images",consumes = {"multipart/form-data"})
-    // parameter @RequestBody 확인 필요
-    public ItemBoardDTO savePostImage(@RequestBody ItemBoardDTO.ItemRequest inDTO,
-                                      @RequestParam(value = "file", required = false) MultipartFile file,
-                                      @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
-        inDTO.setView(0L);
-
-        ItemBoardDTO itemBoardDTO = service.savePostImage(inDTO,file ,files);
-
-        return itemBoardDTO;
-    }//savePost
-
     // 이미지 테스트 2 - 현재 사용가능 메서드
     @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
-    @PostMapping(value = "savePost/images2")
-    // parameter @RequestBody 확인 필요
+    @PostMapping(value = "savePost/images")
     public ItemBoardDTO savePostImage2(@RequestPart(value = "dto") ItemBoardDTO.ItemRequest inDTO,
                                       @RequestPart(value = "file", required = false) MultipartFile file,
                                       @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
         inDTO.setView(0L);
 
-        System.out.println("이미지 2: " + files + " 갯수 : " + files.size());
-
         ItemBoardDTO itemBoardDTO = service.savePostImage(inDTO,file ,files);
 
         return itemBoardDTO;
     }//savePost
+
+    // 이전 메서드
+    //    @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
+//    @PostMapping(value = "savePost/images",consumes = {"multipart/form-data"})
+//    // parameter @RequestBody 확인 필요
+//    public ItemBoardDTO savePostImage(@RequestBody ItemBoardDTO.ItemRequest inDTO,
+//                                      @RequestParam(value = "file", required = false) MultipartFile file,
+//                                      @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
+//        inDTO.setView(0L);
+//
+//        ItemBoardDTO itemBoardDTO = service.savePostImage(inDTO,file ,files);
+//
+//        return itemBoardDTO;
+//    }//savePost
 }//class
