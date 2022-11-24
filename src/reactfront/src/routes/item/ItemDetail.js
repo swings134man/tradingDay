@@ -8,7 +8,8 @@ import {v4} from 'uuid';
 
 function ItemDetail() {
 
-    const [data, setData] = React.useState([]);
+    const [data, setData] = React.useState([]); // DTO Data
+    const [images, setImages] = React.useState([]); // Image Data(Binary)
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -27,8 +28,21 @@ function ItemDetail() {
                 }
             });
             setData(item.data);
+            console.log(item.data);
         }
         getData();
+
+        // 이미지 to Server
+        // const dataImageList = item.data.images; // Image List
+        // console.log('이미지 리스트 : '+dataImageList);
+        //
+        // const getImage = async () => {
+        //     const fromServerImage = await axios.get('/image/v1/showImageList');
+        //
+        //     // setImages(fromServerImage.data)
+        // }//getImage
+        // getImage();
+        // console.log(images.data);
     }, [refresh]);//use Effect
 
 
@@ -188,6 +202,10 @@ function ItemDetail() {
                         </tr>
                         </tbody>
                     </table>
+                {/*          아래부터 이미지              */}
+                {/*<img  style={{height:'30%',width:'30%'}}*/}
+                {/*        src={'/Users/seokjunKang/intellij-gradle/day-file/30c746db-55f4-4f12-a993-72df17b8b78d.png'}/>*/}
+
                 </div>
 
                 <div align="right">

@@ -155,8 +155,31 @@ public class ImageFileService {
                 () -> new IllegalArgumentException("해당 이미지가 존재 하지 않습니다." + boardId)));
 
         return result;
+    }// findById
+
+
+    public List<ImageFile> showImageList(List<Long> inList) {
+
+        List<Long> imageIdList = new ArrayList<>();
+        for(int i =0; i<inList.size(); i++) {
+            imageIdList.add(inList.get(i));
+        }//for
+
+        List<ImageFile> resultList = repository.findAllById(imageIdList);
+        return resultList;
     }
 
+
+    /**
+     * @info    : 이미지 삭제
+     * @name    : deleteImage
+     * @date    : 2022/11/24 4:23 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description : 게시판 삭제 OR 이미지 삭제시 로컬의 이미지 삭제 메서드 (ItemBoard 글 삭제 메서드에 포함.)
+     */
     public int deleteImage(List<ImageFile> images) {
         for(int i =0; i < images.size(); i++) {
             String savePath = images.get(i).getSavePath();

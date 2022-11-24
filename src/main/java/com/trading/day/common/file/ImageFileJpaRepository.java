@@ -13,4 +13,7 @@ public interface ImageFileJpaRepository extends JpaRepository<ImageFile,Long> {
 
     @Query(value = "select i from ImageFile i where i.boardId = :boardId")
     Optional<ImageFile> findByBoardIdList(@Param("boardId") Long boardId);
+
+    @Override
+    List<ImageFile> findAllById(Iterable<Long> longs);
 }

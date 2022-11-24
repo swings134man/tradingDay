@@ -2,11 +2,17 @@ package com.trading.day.common.file;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -25,9 +31,6 @@ public class ImageFileController {
     private final ImageFileService service;
 
     // TODO : Image File 단독으로 사용 필요시 Service Method 조건에 맞춰 작성 할것.
-
-    // save
-
     /**
      * @info    : 이미지 단건 출력.
      * @name    : showImageByBoardId
@@ -46,6 +49,31 @@ public class ImageFileController {
 
         Optional<ImageFile> imageFile = service.showImageByBoardId(boardId);
         return new UrlResource("file:" + imageFile.get().getSavePath());
+    }
+
+    /**
+     * @info    : image 다건 출력
+     * @name    : showImage
+     * @date    : 2022/11/24 4:10 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+    @GetMapping("showImageList")
+    @ResponseBody
+    public void showImageList(@RequestParam List<Long> list) throws IOException{
+        List<ImageFile> resultList = service.showImageList(list);
+
+//        List<UrlResource> resourceList = new ArrayList<>();
+//        for (int i = 0; i < resourceList.size(); i++) {
+//            resourceList.add(new UrlResource(resultList.get(i).getSavePath()));
+//        }
+//        System.out.println(resourceList.get(0));
+
+
+        return ;
     }
 
 }
