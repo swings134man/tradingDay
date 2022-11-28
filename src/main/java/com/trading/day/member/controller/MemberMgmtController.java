@@ -74,6 +74,22 @@ public class MemberMgmtController {
     }
 
     /**
+     * methodName : memberLogin
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param MemberDTO
+     * @return String
+     */
+    @ApiOperation(value = "회원 로그인 api", notes = "회원 로그인 처리함")
+    @PostMapping("/memberlogin")
+    public String memberLogin (@RequestBody MemberDTO memberDTO) {
+        return "df";
+    }
+
+
+
+    /**
      * methodName : updateMember
      * author : TAEIL KIM
      * description :
