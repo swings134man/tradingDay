@@ -69,7 +69,7 @@ function QnaDetail() {
             }).catch(function (error) {
             // 오류발생시 실행
             console.log('error message : '+ error);
-             window.alert("답글달기 실패");
+            window.alert("답글달기 실패");
         }); // axios
     }
 
@@ -115,8 +115,6 @@ function QnaDetail() {
         reSearch();
     }; //remove function end
 
-
-
     function modiInputShow (e) {
 
         answerId = e.target.getAttribute("data-id");
@@ -135,11 +133,6 @@ function QnaDetail() {
         const modiAnswerVal = modiAnswerRef.current.value;
         console.log(modiAnswerVal)
         answerId = e.target.getAttribute("data-id");
-        // const inputPattern = /^\s+|\s+$/g;
-        // if(modiAnswerVal.replace(inputPattern, '' ) === "" ) {
-        //     alert('내용엔 공백만 입력할수없습니다');
-        //     return;
-        // }
 
         console.log(answerId);
         axios.put(`http://localhost:8080/answer/v1/update`, {
@@ -159,31 +152,7 @@ function QnaDetail() {
             alert("수정에 실패했어요")
            console.log('실패 ')
         });
-
-
-
-        // const uri = `http://localhost:8080/answer/v1/update`;
-        // const encoded = encodeURI(uri);
-        // await fetch(encoded, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         qnaId: qnaId,
-        //         id: answerId,
-        //         content: modiAnswerVal,
-        //         writer: "tradingManager"
-        //     }),
-        // }).then(res => {
-        //     if(res.ok) {
-        //         reSearch();
-        //     } else {
-        //         alert("답변 수정에 실패했습니다. 잠시 후 다시 시도해주세요");
-        //     }
-        // })
     }
-
     return (
         <div>
             <div align="center" style={{ padding : 40}}>
@@ -237,102 +206,82 @@ function QnaDetail() {
                     <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} onClick={onRemove}>게시글 삭제</button>
                 </div>
 
-
-            <hr/>
-
-            <div align="center" style={{ padding : 75}}>
-                    <table border={1} className="table table-striped table-bordered ">
-                        <tbody >
-                        {qna.answers && qna.answers.map(answer =>  (
-                            <tr key={v4()}>
-                                <td>
-                                    <div border={1}>
-                                        <div  style={{ backgroundColor: "#EBEBEB"}}>
-                                            <div style={{padding:10, fontWeight:"bold"}}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        {answer.content}
-                                        <div>
-
-                                        </div>
-                                        {/*<div align="right">*/}
-                                        {/*    <button className="btn btn-warning"*/}
-                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                        {/*            data-id={answer.id}*/}
-                                        {/*            onClick={(e) => {answerClickDelete(e)}}>삭제</button>*/}
-
-                                        {/*    <button className="btn btn-warning"*/}
-                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                        {/*            data-id={answer.id}*/}
-                                        {/*            // onClick={(e) => {answerClickUpdate(e)}}>>수정</button>*/}
-                                        {/*            onClick={modiInputShow}>수정</button>*/}
-                                        {/*</div>*/}
-
-                                        {modiTextArea && selectIndex == answer.id? (
+                <div align="center" style={{ padding : 75}}>
+                    <hr />
+                    {/*입력 form*/}
+                    <table border={1} style={{margin : 20}}>
+                                    <tbody>
+                                    <tr height="50">
+                                        <td width="10%" className="col1" align="center">댓글 달기</td>
+                                        <td width="90%" className="col2">
                                             <div style={{float:"left"}}>
-                                                <textarea style={{width: 800, height: 100}} placeholder="수정내용을 입력하세요" ref={modiAnswerRef}/>
+                                                <textarea  style={{width: 800, height: 100}} ref={answerRef}></textarea>
+                                            </div>
+                                            <div style={{float:"left", paddingTop: 34, paddingRight: 12, paddingLeft:34, paddingBottom: 12}}>
+                                                <button className="btn btn-warning"
+                                                        style={{backgroundColor: "#217Af0", width: 100, color: "white"}}
+                                                        onClick={answerSave}> 답변 입력 </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
-                                                <div align="right">
-                                                    <button className="btn btn-warning"
-                                                            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
-                                                            data-id={answer.id}
-                                                            onClick={answerClickUpdate}
-                                                            > 수정 </button>
-                                                    <button className="btn btn-warning"
-                                                            style={{backgroundColor: "#217Af0", width: 70, height: 25, color: "white", fontSize:10}}
-                                                            onClick={modiInputShow} > 수정취소 </button>
+                                <table border={1} className="table table-striped table-bordered ">
+                                    <tbody >
+                                    {qna.answers && qna.answers.map(answer =>  (
+                                        <tr key={v4()}>
+                                            <td>
+                                                <div border={1}>
+                                                    <div  style={{ backgroundColor: "#EBEBEB"}}>
+                                                        <div style={{padding:10, fontWeight:"bold"}}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ) :  (
-                                            <div align="right">
-                                                <button className="btn btn-warning"
-                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
-                                                        data-id={answer.id}
-                                                        onClick={(e) => {answerClickDelete(e)}}>삭제</button>
+                                                <div>
+                                                    {answer.content}
+                                                    <div>
 
-                                                <button className="btn btn-warning"
-                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
-                                                        data-id={answer.id}
-                                                        onClick={modiInputShow}>수정</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                {/*상단*/}
+                                                    </div>
 
+                                                    {modiTextArea && selectIndex == answer.id? (
+                                                        <div style={{float:"left"}}>
+                                                            <textarea style={{width: 800, height: 100}} placeholder="수정내용을 입력하세요" ref={modiAnswerRef} />
 
-                <hr />
-                {/*입력 form*/}
-                    <table border={1}>
-                    <tbody>
-                        <tr height="50">
-                            <td width="10%" className="col1" align="center">댓글 달기</td>
-                            <td width="90%" className="col2">
-                                <div style={{float:"left"}}>
-                                    <textarea  style={{width: 800, height: 100}} ref={answerRef}></textarea>
-                                </div>
-                                {/*style="padding:;">  상우좌하*/}
-                                <div style={{float:"left", paddingTop: 34, paddingRight: 12, paddingLeft:34, paddingBottom: 12}}>
-                                    <button className="btn btn-warning"
-                                            style={{backgroundColor: "#217Af0", width: 100, color: "white"}}
-                                            onClick={answerSave}> 답변 입력 </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                                            <div align="right">
+                                                                <button className="btn btn-warning"
+                                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                                        data-id={answer.id}
+                                                                        onClick={answerClickUpdate}
+                                                                        > 수정 </button>
+                                                                <button className="btn btn-warning"
+                                                                        style={{backgroundColor: "#217Af0", width: 70, height: 25, color: "white", fontSize:10}}
+                                                                        onClick={modiInputShow} > 수정취소 </button>
+                                                            </div>
+                                                        </div>
+                                                    ) :  (
+                                                        <div align="right">
+                                                            <button className="btn btn-warning"
+                                                                    style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                                    data-id={answer.id}
+                                                                    onClick={(e) => {answerClickDelete(e)}}>삭제</button>
 
-            {/* 최상단 div   */}
-            </div>
-        </div>
-        </div>
+                                                            <button className="btn btn-warning"
+                                                                    style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                                    data-id={answer.id}
+                                                                    onClick={modiInputShow}>수정</button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
-    )
-}
+        )
+    }
 
 export default QnaDetail;
