@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -172,7 +173,7 @@ public class ItemBoardService {
     * @param   : ItemBoardDTO
     * @return  : ItemBoardDTO
     */
-    public ItemBoardDTO updatePost(ItemBoardDTO.ItemRequest inDTO) {
+    public ItemBoardDTO updatePost(@RequestBody ItemBoardDTO.ItemRequest inDTO) {
         // TODO : 회원관리 domain 개발 완료시 -> 조회 파라미터 수정필요
         Optional<ItemBoard> entity = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시물이 존재 하지 않습니다." + inDTO.getId())

@@ -136,7 +136,9 @@ public class ItemBoardController {
     */
     @ApiOperation(value = "게시물 정보 수정 API", notes = "게시물 수정시 저장.")
     @PutMapping("updatePost")
-    public ItemBoardDTO updatePost(ItemBoardDTO.ItemRequest inDTO) {
+    public ItemBoardDTO updatePost(@RequestBody ItemBoardDTO.ItemRequest inDTO) {
+        System.out.println(inDTO.getId());
+        System.out.println(inDTO);
         ItemBoardDTO result = service.updatePost(inDTO);
         return result;
     }//updatePost
