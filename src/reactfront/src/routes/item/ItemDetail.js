@@ -43,7 +43,22 @@ function ItemDetail() {
         // }//getImage
         // getImage();
         // console.log(images.data);
-    }, [refresh]);//use Effect
+    }, []);//use Effect
+
+    // Refresh
+    const reSearch = async () => {
+        const getRes = async () => {
+            // 파라미터 -> 보낼이름 : data
+            const item = await axios.get('/item/v1/detailPost', {
+                params:{
+                    id: id
+                }
+            });
+            setData(item.data);
+            console.log(item.data);
+        }
+        getRes();
+    }//research
 
 
     /*
@@ -97,7 +112,7 @@ function ItemDetail() {
                 }}).then(function (response){
                 console.log('댓글 작성 완료');
                 // navigate('/itemDetail/'+id);
-                setRefresh("reply Ok");
+                reSearch();
             }).catch(function (error){
                 console.log('댓글 작성 에러' + error);
                 window.alert('댓글 작성중 문제가 발생하였습니다.');
@@ -116,7 +131,7 @@ function ItemDetail() {
                 }
             }).then(function (res) {
                 console.log('댓글 삭제 완료');
-                setRefresh("delete Ok");
+                reSearch();
             }).catch(function (error) {
                 console.log('댓글 삭제중 문제가 발생 : '+error);
                 window.alert('댓글 삭제중 문제가 발생');
@@ -155,7 +170,7 @@ function ItemDetail() {
             .then(function (res){
                 window.alert("댓글 수정 완료.");
                 setModiTextArea(false);
-                setRefresh("update Ok");
+                reSearch();
             })
             .catch(function (err) {
                 window.alert("댓글을 수정하던 도중 문제가 발생했습니다.");
@@ -176,11 +191,13 @@ function ItemDetail() {
                             <th scope="row">글 번호</th>
                             <td>{data.id}</td>
                             <th scope="row">조회수</th>
-                            <td>{data.view}</td>
+                            <td colSpan='3'>{data.view}</td>
                         </tr>
                         <tr>
                             <th scope="row">작성자</th>
                             <td >{data.writer}</td>
+                            <th scope='row'>모집 상태</th>
+                            <td >{data.type}</td>
                             <th scope="row">작성일</th>
                             <td>{data.createdDate}</td>
                         </tr>
@@ -192,7 +209,7 @@ function ItemDetail() {
                         </tr>
                         <tr>
                             <td colSpan="6" align="center">
-                                <button onClick={onClickGame} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 150, color: "white"}}>한방게임 버튼~</button>
+                                <button onClick={onClickGame} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 150, color: "white"}}>지원하기 버튼~</button>
                             </td>
                         </tr>
                         <tr>
@@ -210,7 +227,7 @@ function ItemDetail() {
 
                 <div align="right">
                     <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} >
-                        <Link to={`/qnaUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`} style={{color: "white"}}>
+                        <Link to={`/itemBoardUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`} style={{color: "white"}}>
                             게시글 수정
                         </Link>
                     </button>

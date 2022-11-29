@@ -57,10 +57,14 @@ function ItemWrite() {
         }else if(contentVal === '') {
             window.alert('내용을 입력하지 않았습니다.');
             return;
+        }else if(select === '모집완료') {
+            const confirm = window.confirm('현재 모집 상태가 모집완료입니다. 계속 진행하시겠습니까?');
+            if(confirm === false) {
+                return;
+            }
         }
 
         // axios 통신
-        // TODO : 현재 테스트 완료 url 바꿀것. images2 -> images (서버또한 바꿔야함.)
         // TODO : writer 추후 세션값 || 로그인 ID 기반 작성
         const frm = new FormData();
         const data = {
@@ -114,12 +118,12 @@ function ItemWrite() {
                                 <td colSpan="3" width="25%">
                                     <input ref={titleRef} type="text" placeholder="제목을 입력하세요"/>
                                 </td>
-                            <th scope="row" width="6%">제품 상태</th>
+                            <th scope="row" width="6%">모집 상태</th>
                                 <td>
                                     <select value={select} onChange={onChangeSelect}>
                                         <option value='none'>== 선택 ==</option>
-                                        <option value='신품'>신품</option>
-                                        <option value='중고'>중고</option>
+                                        <option value='모집중'>모집중</option>
+                                        <option value='모집완료'>모집완료</option>
                                     </select>
                                 </td>
                         </tr>

@@ -13,6 +13,7 @@ import SignIn from "./routes/member/SignIn";
 import SignUp from "./routes/member/SignUp";
 import ItemWrite from "./routes/item/ItemWrite";
 import QnaPwdChk from "./routes/qna/QnaPwdChk";
+import ItemBoardUpdate from "./routes/item/ItemBoardUpdate";
 
 function RouterPages () {
     return (
@@ -37,6 +38,7 @@ s
             <Route path="/item/itemBoard" element={<ItemBoard/>}/>
             <Route path="/itemDetail/:id" element={<ItemDetail />} />
             <Route path="/itemWrite" element={<ItemWrite />} />
+            <Route path="/itemBoardUpdate/:id/:title/:writer/:content/:createdDate" element={<ItemBoardUpdate />} />
         </Routes>
 
         {/*<Routes>*/}

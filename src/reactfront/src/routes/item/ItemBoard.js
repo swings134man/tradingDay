@@ -102,7 +102,7 @@ function ItemBoard() {
         <div>
             <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>
                 <div>
-                    <h1>거래 게시판</h1>
+                    <h1>모집 게시판</h1>
                 </div>
 
                 {/*테이블*/}
@@ -113,7 +113,7 @@ function ItemBoard() {
                             <th scope="col">게시글 번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">아이디</th>
-                            <th scope="col">제품 상태</th>
+                            <th scope="col">모집 상태</th>
                             <th scope="col">작성 날짜</th>
                             <th scope="col">조회수</th>
                         </tr>
