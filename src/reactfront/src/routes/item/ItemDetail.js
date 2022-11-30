@@ -93,7 +93,7 @@ function ItemDetail() {
     /*
      댓글
     */
-    const writerId = "iu"; // 작성자 ID --> TODO : Login session ID
+    const writerId = "iu1234"; // 작성자 ID --> TODO : Login session ID
     let replyId = 0; // 댓글 ID
     const [replyInput, setReplyInput] = React.useState(""); // reply 작성시 state
 
