@@ -70,7 +70,7 @@ function ItemWrite() {
         const data = {
             title: titleVal,
             content: contentVal,
-            writer: "iu",
+            writer: "iu1234",
             type: select};
         frm.append("dto", new Blob([JSON.stringify(data)],  {type: "application/json"}));
         // frm.append("files", imageList.values());
@@ -111,7 +111,7 @@ function ItemWrite() {
                         <tr>
                             {/*TODO : td 작성자 부분 삭제 혹은 로그인 기반 데이터 입력*/}
                             <th scope="row" >작성자</th>
-                            <td colSpan="6">iu</td>
+                            <td colSpan="6">iu1234</td>
                         </tr>
                         <tr>
                             <th scope="row" >제목</th>

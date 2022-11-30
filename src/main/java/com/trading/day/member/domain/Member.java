@@ -1,6 +1,8 @@
 package com.trading.day.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.trading.day.item.apply.domain.Apply;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.qna.domain.Qna;
 import lombok.Getter;
@@ -50,6 +52,16 @@ public class Member {
     @JsonIgnore // --> Json으로 변환 과정중에 무한으로 참조가 순환문제를 해결 --> 무한 순환을 끊어줌
     @OneToMany(mappedBy = "member")
     private List<Qna> qnas = new ArrayList<>();
+
+    // Apply (지원서)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Apply> applys = new ArrayList<>();
+
+    public void addApplys(Apply apply) {
+        apply.setMember(this);
+        applys.add(apply);
+    }
 
 
     public void addQnas (Qna qna) {

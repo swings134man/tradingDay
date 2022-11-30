@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trading.day.common.file.ImageFile;
 import com.trading.day.config.BaseTimeEntity;
+import com.trading.day.item.apply.domain.Apply;
 import com.trading.day.item.reply.domain.ItemBoardReply;
 import com.trading.day.member.domain.Member;
 import lombok.Getter;
@@ -67,6 +68,16 @@ public class ItemBoard extends BaseTimeEntity {
     public void addImages(ImageFile file) {
         file.setBoardId(this);
         images.add(file);
+    }
+
+    // Apply(지원서)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "itemBoard", cascade = CascadeType.REMOVE)
+    private List<Apply> applys = new ArrayList<>();
+
+    public void addApplys(Apply apply) {
+        apply.setItemBoard(this);
+        applys.add(apply);
     }
 
     // 조회수 증가
