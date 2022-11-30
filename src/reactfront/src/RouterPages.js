@@ -14,6 +14,7 @@ import SignUp from "./routes/member/SignUp";
 import ItemWrite from "./routes/item/ItemWrite";
 import QnaPwdChk from "./routes/qna/QnaPwdChk";
 import ItemBoardUpdate from "./routes/item/ItemBoardUpdate";
+import ApplyWrite from "./routes/item/ApplyWrite";
 
 function RouterPages () {
     return (
@@ -39,6 +40,9 @@ s
             <Route path="/itemDetail/:id" element={<ItemDetail />} />
             <Route path="/itemWrite" element={<ItemWrite />} />
             <Route path="/itemBoardUpdate/:id/:title/:writer/:content/:createdDate" element={<ItemBoardUpdate />} />
+
+            {/*  Apply 지원  */}
+            <Route path="/applyWrite/:id/:writer" element={<ApplyWrite />} />
         </Routes>
 
         {/*<Routes>*/}

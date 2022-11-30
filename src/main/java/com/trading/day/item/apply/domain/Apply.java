@@ -19,7 +19,7 @@ public class Apply extends BaseTimeEntity {
     @Column(name = "apply_id")
     private Long applyId;               /* 지원서ID */
     private String title;               /* 지원서 제목 */
-    private String type;                /* 지원분야 */ // --> 지원분야가 딱히 없거나 애매하다면 ? : anonymous 사용.
+    private String type;                /* 지원분야 */ // --> 지원분야가 딱히 없거나 애매하다면 ? : none 사용.
     private String level;               /* 스킬 레벨 */ // --> beginner ,junior, senior, master
 
     // TODO : 게시글 작성자가 자신에게 온것을 리스트로 확인 할것인지? : 아니면 다른방법 사용할것인지 논의 필요.
@@ -40,5 +40,7 @@ public class Apply extends BaseTimeEntity {
     @JoinColumn(name = "member_no")
     @JsonBackReference
     private Member member; // 게시글 작성자 ID
+
+
 
 }

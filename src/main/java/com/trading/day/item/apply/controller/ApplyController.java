@@ -3,12 +3,10 @@ package com.trading.day.item.apply.controller;
 
 import com.trading.day.item.apply.domain.ApplyDTO;
 import com.trading.day.item.apply.service.ApplyService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /************
  * @info : 프로젝트 지원서 컨트롤러
@@ -37,10 +35,11 @@ public class ApplyController {
      * @return  :
      * @Description :
      */
+    @ApiOperation(value = "지원서 저장 API", notes = "지원서 작성시 저장.")
     @PostMapping("save")
-    public ApplyDTO saveApply(ApplyDTO inDTO) {
-        ApplyDTO applyDTO = service.savePost(inDTO);
-        return applyDTO;
+    public int saveApply(@RequestBody ApplyDTO.ApplyRequest inDTO) {
+        int result = service.savePost(inDTO);
+        return result;
     }
 
    /**

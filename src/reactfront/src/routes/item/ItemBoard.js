@@ -130,9 +130,18 @@ function ItemBoard() {
                                 <td>
                                     {data.writer}
                                 </td>
-                                <td>
-                                    {data.type}
-                                </td>
+
+                                {/* 모집 상태 IF 조건문 */}
+                                {
+                                    data.type === '모집중'
+                                    ?
+                                    <td style={{color:"green"}}>
+                                        {data.type}
+                                    </td>
+                                        :<td style={{color:"red"}}>
+                                            {data.type}
+                                        </td>
+                                }
                                 <td>
                                     {data.createdDate}
                                 </td>
@@ -144,7 +153,7 @@ function ItemBoard() {
                     </table>
                 </div>
 
-                <div align="right">
+                <div align="right" style={{paddingBottom:50}}>
                     <button className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
                         <Link to={"/itemWrite"} style={{color: "white"}}>
                             글작성

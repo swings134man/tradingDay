@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import React from "react";
 
 function ItemBoardUpdate() {
     const {id, title, writer, content, createdDate} = useParams(); //param
@@ -10,7 +11,11 @@ function ItemBoardUpdate() {
     const navigate = useNavigate();
     let date = "";
 
-    console.log(id);
+    // 셀렉박스
+    const[select, setSelect] = React.useState('');
+    const onChangeSelect = (e) => {
+        setSelect(e.target.value);
+    }
 
     const onClickUpdate = () => {
         const titleVal = titleRef.current.value;
@@ -24,15 +29,18 @@ function ItemBoardUpdate() {
         } else if(contentVal.replace(inputPattern, '' ) === "") {
             alert('내용엔 공백만 입력할수없어요.')
             return;
+        } else if(select === '' || select === 'none') {
+            window.alert('모집상태가 선택되지 않았습니다!');
+            return;
         }
 
         axios.put('/item/v1/updatePost', {
                 id: idVal,
                 title: titleVal,
-                contentVal: contentVal,
-                type: '모집중'
+                content: contentVal,
+                type: select
         }).then(function (res) {
-            console.log('게시글 수정 완료');
+            window.alert('게시글 수정 완료');
             navigate('/item/itemBoard');
         }).catch(function (err){
             console.log(err);
@@ -51,26 +59,34 @@ function ItemBoardUpdate() {
                     <h1>모집 글 수정</h1>
                 </div>
                     <table className="table table-striped table-bordered table-hover">
-
                         <tbody>
                         <tr>
                             <th scope="row">글 번호</th>
-                            <td>{id}</td>
+                            <td colSpan="4">{id}</td>
 
                         </tr>
                         <tr>
                             <th scope="row">작성일</th>
-                            <td>{date = createdDate.substring(0, 10)}</td>
+                            <td colSpan="4">{date = createdDate.substring(0, 10)}</td>
                         </tr>
                         <tr>
                             <th scope="row">작성자</th>
-                            <td colSpan="2" >{writer}</td>
+                            <td colSpan="4" >{writer}</td>
 
                         </tr>
                         <tr>
                             <th scope="row">제목</th>
-                            <td colSpan="3">
+                            <td colSpan="0" style={{width:500}}>
                                 <input type="text" id="title" name="title" defaultValue={title} ref={titleRef} style={{width: 500}} />
+                            </td>
+
+                            <th scope="row">모집상태</th>
+                            <td>
+                                <select value={select} onChange={onChangeSelect}>
+                                    <option value='none'>== 선택 ==</option>
+                                    <option value='모집중'>모집중</option>
+                                    <option value='모집완료'>모집완료</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
