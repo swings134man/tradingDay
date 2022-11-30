@@ -89,15 +89,15 @@ class MemberMgmtControllerTest {
         roleRepository.save(role3);
 
         // Member
-        MemberDTO inDto = MemberDTO.builder()
-                .name("아이유")
-                .memberId("iu")
-                .email("iu@naver.com")
-                .address("나는주소")
-                .build();
-        Long memberNo = service.save(inDto);
+//        MemberDTO inDto = MemberDTO.builder()
+//                .name("아이유")
+//                .memberId("iu")
+//                .email("iu@naver.com")
+//                .address("나는주소")
+//                .build();
+//        Long memberNo = service.save(inDto);
 
-        Assertions.assertThat(1L).isEqualTo(memberNo);
+        //Assertions.assertThat(1L).isEqualTo(memberNo);
     }
 
 

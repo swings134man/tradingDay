@@ -47,7 +47,7 @@ function QnaWrite() {
             body: JSON.stringify({
                 title: titleVal,
                 content: contentVal,
-                writer: "iu",
+                writer: "xodlf5363",
                 pwd: pwdVal
             }),
         }).then(res => {
