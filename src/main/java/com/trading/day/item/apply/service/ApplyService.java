@@ -10,6 +10,10 @@ import com.trading.day.member.repository.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -84,7 +88,34 @@ public class ApplyService {
 
         ApplyDTO outDTO = modelMapper.map(result, ApplyDTO.class);
         return outDTO;
-    }
+    }//findByApplyId
+
+
+    /**
+     * @info    : 지원서 페이징 조회 - String 회원 아이디
+     * @name    : findByWriter
+     * @date    : 2022/12/01 10:37 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description : String Writer 로 검색후 Paging 처리
+     * 프로세스 : String 회원아이디 조회 -> Apply 에서 회원의 Long Id로 where 조회 후 DTO converting, return.
+     */
+    public Page<ApplyDTO> findByWriter(String memberId, Pageable pageable) {
+        Member memberEntity = memberRepository.findByMemberId(memberId);
+        if(memberEntity == null) {
+            throw new IllegalArgumentException("해당 회원이 존재하지 않습니다." + memberId);
+        }
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        pageable = PageRequest.of(page, 10, Sort.by("applyId").descending());
+
+        Page<Apply> result = repository.findByMember_MemberNo(memberEntity.getMemberNo(), pageable);
+        return new ApplyDTO().toPageDTO(result);
+    } // findbyWriter
+
+
 
     // 추가할 메서드 : 거절 클릭시 거절이메일 발송 + 해당 지원서는 history 테이블로 전송.
 

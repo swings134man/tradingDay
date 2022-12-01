@@ -2,6 +2,7 @@ package com.trading.day.item.apply.domain;
 
 
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 /************
  * @info : 프로젝트 지원서 DTO
@@ -32,6 +33,26 @@ public class ApplyDTO {
 
     // Member
     private Long member;             /* 회원 ID */
+
+
+        // Paging
+        public Page<ApplyDTO> toPageDTO(Page<Apply> entity) {
+            Page<ApplyDTO> applyListPage = entity.map(m ->
+                    ApplyDTO.builder()
+                            .applyId(m.getApplyId())
+                            .title(m.getTitle())
+                            .content(m.getContent())
+                            .type(m.getType())
+                            .level(m.getLevel())
+                            .writer(m.getWriter())
+                            .writerEmail(m.getWriterEmail())
+                            .itemBoard(m.getItemBoard().getId())
+                            .member(m.getMember().getMemberNo())
+                            .build()
+                    );
+            return applyListPage;
+        } //page
+
 
 
     @Data
