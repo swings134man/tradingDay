@@ -60,7 +60,7 @@ public class ApplyController {
     public ApplyDTO findByApplyId(Long applyId) {
         ApplyDTO outDTO = service.findByApplyId(applyId);
         return outDTO;
-    }
+    }// findByApplyId
 
     /**
      * @info    : 지원서 페이징 조회 - String 회원 아이디
@@ -80,5 +80,49 @@ public class ApplyController {
         Page<ApplyDTO> result = service.findByWriter(memberId, pageable);
         return result;
     }// find By Writer
+
+
+    /**
+     * @info    : 지원서 거절. - 거절 이메일 발송.
+     * @name    : applyReply
+     * @date    : 2022/12/04 12:10 AM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description : 화면에서 거절 클릭시 발생 이벤트.
+     * 나에게 들어온 문의 답변 -> 지원자 이메일, 제목, 내용, 답변자 아이디.
+     * 지원자 이메일주소, 게시판 ID
+     */
+    @ApiOperation(value = "지원서 거절 답변", notes = "지원에 대한 거절(불합) 통지")
+    @PostMapping("applyReplyReject")
+    public String applyReplyReject(@RequestParam String writerEmail,
+                           @RequestParam String memberId,
+                           @RequestParam Long boardId     ) {
+        String resultMsg = service.applyReplyReject(writerEmail, memberId, boardId);
+        return resultMsg;
+    }
+
+    /**
+     * @info    : 지원서 수락 - 화면에서의 form 존재.
+     * @name    : applyReplyPermit
+     * @date    : 2022/12/04 12:53 AM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description : 화면에서 지원수락에 대한 이벤트.
+     * 글작성자의 form : 제목, 내용 작성 받아야함. -> 화면에서의 답변자의 email 주소, ID 받아옴.
+     * 제목, 내용, 지원자 이메일주소
+     */
+    @ApiOperation(value = "지원서 수락 답변", notes = "지원에 대한 수락(합격) 통지")
+    @PostMapping("applyReplyPermit")
+    public String applyReplyPermit(@RequestParam String writerEmail,
+                             @RequestParam String title,
+                             @RequestParam String content,
+                             @RequestParam String memberId) {
+        String resultMsg = service.applyReplyPermit(writerEmail, title, content, memberId);
+        return resultMsg;
+    }
 
 }//class

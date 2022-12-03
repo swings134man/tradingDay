@@ -1,5 +1,7 @@
 package com.trading.day.item.apply.service;
 
+import com.trading.day.common.email.EmailDTO;
+import com.trading.day.common.email.EmailService;
 import com.trading.day.item.apply.domain.Apply;
 import com.trading.day.item.apply.domain.ApplyDTO;
 import com.trading.day.item.apply.repository.ApplyJpaRepository;
@@ -34,6 +36,7 @@ public class ApplyService {
     private final ApplyJpaRepository repository; //repo
     private final MemberJpaRepository memberRepository; //member
     private final ItemBoardJpaRepository boardReposiory; // Board
+    private final EmailService emailService;            // email
     private final ModelMapper modelMapper;
 
     /**
@@ -116,7 +119,68 @@ public class ApplyService {
     } // findbyWriter
 
 
+    /**
+     * @info    : 지원서 거절. - 거절 이메일 발송.
+     * @name    : applyReplyReject
+     * @date    : 2022/12/04 1:17 AM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+    public String applyReplyReject(String writerEmail, String memberId, Long boardId) {
+        String msg = "메일 발송 실패";
+        EmailDTO emailDTO = EmailDTO.builder()
+                .targetMail(writerEmail)
+                .boardId(boardId)
+                .build();
 
-    // 추가할 메서드 : 거절 클릭시 거절이메일 발송 + 해당 지원서는 history 테이블로 전송.
+        try {
+            boolean result = emailService.sendMailReject(emailDTO);
+            if (result == true){
+                msg = "메일 발송 성공.";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //TODO : batch 테이블 or history 테이블로 쌓아야함.
+        return msg;
+    }
+
+    /**
+     * @info    : 지원서 수락 - 화면에서의 form 존재.
+     * @name    : applyReplyPermit
+     * @date    : 2022/12/04 1:17 AM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   :
+     * @return  :
+     * @Description :
+     */
+    public String applyReplyPermit(String writerEmail, String title, String content, String memberId) {
+        String msg = "메일 발송 실패.";
+        EmailDTO emailDTO = EmailDTO.builder()
+                .title(title)
+                .content(content)
+                .targetMail(writerEmail)
+                .build();
+
+        try {
+            boolean result = emailService.sendMailMime(emailDTO);
+            if (result == true){
+                msg = "메일 발송 성공.";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //TODO : batch 테이블 or history 테이블로 쌓아야함.
+        return msg;
+    }
+
+    // 추가할 메서드 : 해당 지원서는 history 테이블로 전송.
+
 
 }//class

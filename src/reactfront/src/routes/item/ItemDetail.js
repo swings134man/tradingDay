@@ -227,13 +227,13 @@ function ItemDetail() {
                                     <button className="btn btn-warning"
                                             style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
                                             onClick={clickApply}>
-                                        지원하기 버튼~
+                                        지원하기
                                     </button>
                                         :<button className="btn btn-warning"
-                                                 style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
+                                                 style={{backgroundColor: "#217Af0", width: 300, color: "white"}}
                                                  onClick={clickApply}
                                                  disabled={true}>
-                                            지원하기 버튼~
+                                            해당 모집공고는 마감되었습니다.
                                         </button>
                                 }
                             </td>
