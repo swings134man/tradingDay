@@ -55,6 +55,7 @@ public class Member {
 
     // Apply (지원서)
     @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Apply> applys = new ArrayList<>();
 

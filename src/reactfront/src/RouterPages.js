@@ -15,6 +15,8 @@ import ItemWrite from "./routes/item/ItemWrite";
 import QnaPwdChk from "./routes/qna/QnaPwdChk";
 import ItemBoardUpdate from "./routes/item/ItemBoardUpdate";
 import ApplyWrite from "./routes/item/ApplyWrite";
+import ApplyBoardList from "./routes/apply/ApplyBoardList";
+import ApplyDetail from "./routes/apply/ApplyDetail";
 
 function RouterPages () {
     return (
@@ -43,6 +45,8 @@ s
 
             {/*  Apply 지원  */}
             <Route path="/applyWrite/:id/:writer" element={<ApplyWrite />} />
+            <Route path="/applyBoardList/:memberId" element={<ApplyBoardList/>} />
+            <Route path="/applyDetail/:applyId" element={<ApplyDetail/>}/>
         </Routes>
 
         {/*<Routes>*/}

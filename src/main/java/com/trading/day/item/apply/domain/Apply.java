@@ -1,6 +1,7 @@
 package com.trading.day.item.apply.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.item.domain.ItemBoard;
 import com.trading.day.member.domain.Member;
@@ -32,12 +33,14 @@ public class Apply extends BaseTimeEntity {
     // Board
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
+    @JsonIgnore
     @JsonBackReference
     private ItemBoard itemBoard; // 지원한 게시물 ID
 
     // Member
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
+    @JsonIgnore
     @JsonBackReference
     private Member member; // 게시글 작성자 ID
 

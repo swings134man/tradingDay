@@ -47,7 +47,7 @@ public class ApplyController {
     }
 
    /**
-    * @info    : 지원서 단건 조회
+    * @info    : 지원서 상세 페이지
     * @name    : findByApplyId
     * @date    : 2022/11/30 4:48 PM
     * @author  : SeokJun Kang(swings134@gmail.com)
@@ -56,8 +56,8 @@ public class ApplyController {
     * @return  :
     * @Description :
     */
-   @GetMapping("findByApplyId")
-    public ApplyDTO findByApplyId(Long applyId) {
+   @GetMapping("applyDetail")
+    public ApplyDTO findByApplyId(@RequestParam Long applyId) {
         ApplyDTO outDTO = service.findByApplyId(applyId);
         return outDTO;
     }// findByApplyId

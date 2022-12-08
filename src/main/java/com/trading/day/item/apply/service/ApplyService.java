@@ -12,6 +12,8 @@ import com.trading.day.member.repository.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +39,14 @@ public class ApplyService {
     private final MemberJpaRepository memberRepository; //member
     private final ItemBoardJpaRepository boardReposiory; // Board
     private final EmailService emailService;            // email
-    private final ModelMapper modelMapper;
+
+    private final ModelMapper modelMapper;      //model mapper
+
+//    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    // log파일 저장. - 지원서 작성시에만 로깅.
+//    public void makeLog (Long memberNo, String type, String level) {
+//        logger.info("memberNo: " +memberNo+ "applyType: " +type+ "applyLevel: " +level);
+//    }
 
     /**
      * @info    : 지원서 작성 - 저장
@@ -70,12 +79,15 @@ public class ApplyService {
 
         success = 1;
 
+        // 로깅
+//        makeLog(memberInfo.getMemberNo(), inDTO.getType(), inDTO.getLevel());
+
         return success;
 //        return modelMapper.map(applyEntity, ApplyDTO.class);
     }//save
 
     /**
-     * @info    : 지원서 단건 조회 - 지원서 ID
+     * @info    : 지원서 디테일페이지 조회 - 지원서 ID
      * @name    : findByApplyId
      * @date    : 2022/12/01 1:07 AM
      * @author  : SeokJun Kang(swings134@gmail.com)
@@ -89,7 +101,8 @@ public class ApplyService {
                 () -> new IllegalArgumentException("해당 지원서가 존재하지 않습니다." + applyId));
         Apply result = applyEntity.get();
 
-        ApplyDTO outDTO = modelMapper.map(result, ApplyDTO.class);
+//        ApplyDTO outDTO = modelMapper.map(result, ApplyDTO.class);
+        ApplyDTO outDTO = new ApplyDTO().toDetail(result);
         return outDTO;
     }//findByApplyId
 

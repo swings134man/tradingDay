@@ -1,0 +1,5 @@
+17:39:43.522 INFO  com.trading.day.DayApplication - Starting DayApplication using Java 11.0.16 on KangSJ-MacBookPro.local with PID 93511 (/Users/seokjunkang/intellij-gradle/day/out/production/classes started by seokjunkang in /Users/seokjunkang/intellij-gradle/day)
+17:39:43.524 INFO  com.trading.day.DayApplication - No active profile set, falling back to 1 default profile: "default"
+17:40:11.032 INFO  com.trading.day.DayApplication - Starting DayApplication using Java 11.0.16 on KangSJ-MacBookPro.local with PID 93523 (/Users/seokjunkang/intellij-gradle/day/out/production/classes started by seokjunkang in /Users/seokjunkang/intellij-gradle/day)
+17:40:11.033 INFO  com.trading.day.DayApplication - No active profile set, falling back to 1 default profile: "default"
+17:40:15.224 INFO  com.trading.day.DayApplication - Started DayApplication in 4.565 seconds (JVM running for 5.172)

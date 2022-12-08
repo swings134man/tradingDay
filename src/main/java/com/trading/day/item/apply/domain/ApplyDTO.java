@@ -27,6 +27,8 @@ public class ApplyDTO {
     private String level;            /* 스킬 레벨 */
     private String writer;           /* 지원자 Member_ID */
     private String writerEmail;      /* 지원자 Email */
+    private String createdDate; // 생성 시간
+    private String modifiedDate;// 수정 시간
 
     // Board
     private Long itemBoard;          /* 게시물 ID */
@@ -48,11 +50,28 @@ public class ApplyDTO {
                             .writerEmail(m.getWriterEmail())
                             .itemBoard(m.getItemBoard().getId())
                             .member(m.getMember().getMemberNo())
+                            .createdDate(m.getCreatedDate())
+                            .modifiedDate(m.getModifiedDate())
                             .build()
                     );
             return applyListPage;
         } //page
 
+    // detail page return
+    public ApplyDTO toDetail (Apply entity) {
+            ApplyDTO detailData = ApplyDTO.builder()
+                    .applyId(entity.getApplyId())
+                    .title(entity.getTitle())
+                    .content(entity.getContent())
+                    .type(entity.getType())
+                    .level(entity.getLevel())
+                    .writer(entity.getWriter())
+                    .writerEmail(entity.getWriterEmail())
+                    .createdDate(entity.getCreatedDate())
+                    .modifiedDate(entity.getModifiedDate())
+                    .build();
+            return detailData;
+    }
 
 
     @Data
