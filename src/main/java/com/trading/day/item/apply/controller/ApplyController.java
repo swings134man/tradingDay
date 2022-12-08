@@ -96,11 +96,14 @@ public class ApplyController {
      */
     @ApiOperation(value = "지원서 거절 답변", notes = "지원에 대한 거절(불합) 통지")
     @PostMapping("applyReplyReject")
-    public String applyReplyReject(@RequestParam String writerEmail,
-                           @RequestParam String memberId,
-                           @RequestParam Long boardId     ) {
-        String resultMsg = service.applyReplyReject(writerEmail, memberId, boardId);
+    public String applyReplyReject(@RequestBody ApplyDTO.ApplyRequest inDTO) {
+        String resultMsg = service.applyReplyReject(inDTO);
         return resultMsg;
+    }
+
+    @PostMapping("test1")
+    public void test1(@RequestParam String writerEmail) {
+        System.out.println(writerEmail);
     }
 
     /**

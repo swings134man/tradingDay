@@ -30,6 +30,8 @@ public class Apply extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String content;             /* 지원내용 */
 
+    private String applyStatus;         /* 지원서 답변 상태 */ // none, accept, denied
+
     // Board
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")

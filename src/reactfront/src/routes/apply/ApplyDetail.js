@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 
@@ -8,6 +8,9 @@ function ApplyDetail() {
     const [data, setData] = React.useState([]); //data
 
     const {applyId} = useParams();
+    const {itemBoard} = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
             const getData = async () => {
@@ -23,6 +26,32 @@ function ApplyDetail() {
     },[]);
 
 
+
+    // 거절 버튼 click
+    const onClickReject = () => {
+        const email = data.writerEmail;
+        const id = data.writer;
+
+        const con = window.confirm("해당 지원을 거절하시겠습니까?");
+        if(con === false) {
+            return;
+        }
+
+        axios.post('/apply/v1/applyReplyReject', {
+            itemBoard: itemBoard,
+            writerEmail: email,
+            memberId: id,
+            applyId: applyId
+        }).then(function (res) {
+            if(res.status === 200) {
+                window.alert("해당 지원자에게 거절 이메일을 발송 했습니다!");
+            }
+        }).catch(function (err){
+            window.alert("거절 처리 도중 오류가 발생했습니다. "+ err);
+        })
+
+
+    }
 
 
 
@@ -42,7 +71,7 @@ function ApplyDetail() {
                             <td colSpan='4'>{data.createdDate}</td>
                         </tr>
                         <tr>
-                            <th scope="row">지원자</th>
+                            <th scope="row">지원자 아이디</th>
                             <td >{data.writer}</td>
                             <th scope='row'>지원자 분야</th>
                             <td scope="row">{data.type}</td>
@@ -75,7 +104,7 @@ function ApplyDetail() {
                             수락하기
                         </Link>
                     </button>
-                    <button  className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
+                    <button  onClick={onClickReject} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
                         거절하기
                     </button>
                 </div>

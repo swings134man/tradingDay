@@ -142,14 +142,22 @@ public class ApplyService {
      * @return  :
      * @Description :
      */
-    public String applyReplyReject(String writerEmail, String memberId, Long boardId) {
+    public String applyReplyReject(ApplyDTO.ApplyRequest inDTO) {
         String msg = "메일 발송 실패";
         EmailDTO emailDTO = EmailDTO.builder()
-                .targetMail(writerEmail)
-                .boardId(boardId)
+                .targetMail(inDTO.getWriterEmail())
+                .boardId(inDTO.getItemBoard())
                 .build();
 
+        if(emailDTO.getTargetMail().equals("null")) {
+            throw new IllegalArgumentException("이메일이 입력되지 않았습니다.");
+        }
+
         try {
+            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
+            Apply apply = findId.get();
+            apply.setApplyStatus("denied"); // 상태 : 거절
+
             boolean result = emailService.sendMailReject(emailDTO);
             if (result == true){
                 msg = "메일 발송 성공.";

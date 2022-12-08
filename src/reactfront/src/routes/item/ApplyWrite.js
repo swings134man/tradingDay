@@ -44,7 +44,8 @@ function ApplyWrite() {
             writerEmail: applyWriterEmail,
             content: contentVal,
             itemBoard: boardId,
-            memberId: memberId
+            memberId: memberId,
+            applyStatus: 'none'
         }).then(function (res){
             window.alert("지원서 제출이 완료되었습니다.");
             navigate('/itemDetail/' + id);

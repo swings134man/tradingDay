@@ -46,7 +46,7 @@ s
             {/*  Apply 지원  */}
             <Route path="/applyWrite/:id/:writer" element={<ApplyWrite />} />
             <Route path="/applyBoardList/:memberId" element={<ApplyBoardList/>} />
-            <Route path="/applyDetail/:applyId" element={<ApplyDetail/>}/>
+            <Route path="/applyDetail/:applyId/:itemBoard" element={<ApplyDetail/>}/>
         </Routes>
 
         {/*<Routes>*/}

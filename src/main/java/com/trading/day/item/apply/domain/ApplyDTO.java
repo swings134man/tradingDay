@@ -27,8 +27,9 @@ public class ApplyDTO {
     private String level;            /* 스킬 레벨 */
     private String writer;           /* 지원자 Member_ID */
     private String writerEmail;      /* 지원자 Email */
-    private String createdDate; // 생성 시간
-    private String modifiedDate;// 수정 시간
+    private String createdDate;         // 생성 시간
+    private String modifiedDate;        // 수정 시간
+    private String applyStatus;         // 지원서 답변 상태
 
     // Board
     private Long itemBoard;          /* 게시물 ID */
@@ -52,6 +53,7 @@ public class ApplyDTO {
                             .member(m.getMember().getMemberNo())
                             .createdDate(m.getCreatedDate())
                             .modifiedDate(m.getModifiedDate())
+                            .applyStatus(m.getApplyStatus())
                             .build()
                     );
             return applyListPage;
@@ -69,6 +71,8 @@ public class ApplyDTO {
                     .writerEmail(entity.getWriterEmail())
                     .createdDate(entity.getCreatedDate())
                     .modifiedDate(entity.getModifiedDate())
+                    .applyStatus(entity.getApplyStatus())
+                    .itemBoard(entity.getItemBoard().getId())
                     .build();
             return detailData;
     }
@@ -86,6 +90,7 @@ public class ApplyDTO {
         private String level;            /* 스킬 레벨 */
         private String writer;           /* 지원자 Member_ID */
         private String writerEmail;      /* 지원자 Email */
+        private String applyStatus;     //지원서 답변 상태
 
         private Long itemBoard;          /* 게시물 ID */
         private Long member;             /* 회원 ID */

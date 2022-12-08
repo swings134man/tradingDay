@@ -72,7 +72,7 @@ function ApplyBoardList() {
                                     {data.applyId}
                                 </td>
                                 <td>
-                                    <Link to={`/applyDetail/${data.applyId}`}> {data.title} </Link>
+                                    <Link to={`/applyDetail/${data.applyId}/${data.itemBoard}`}> {data.title} </Link>
                                 </td>
                                 <td>
                                     {data.writer}
