@@ -17,6 +17,7 @@ import ItemBoardUpdate from "./routes/item/ItemBoardUpdate";
 import ApplyWrite from "./routes/item/ApplyWrite";
 import ApplyBoardList from "./routes/apply/ApplyBoardList";
 import ApplyDetail from "./routes/apply/ApplyDetail";
+import ApplyAccept from "./routes/apply/ApplyAccept";
 
 function RouterPages () {
     return (
@@ -47,6 +48,7 @@ s
             <Route path="/applyWrite/:id/:writer" element={<ApplyWrite />} />
             <Route path="/applyBoardList/:memberId" element={<ApplyBoardList/>} />
             <Route path="/applyDetail/:applyId/:itemBoard" element={<ApplyDetail/>}/>
+            <Route path="/applyAccept/:applyId/:title/:writer/:writerEmail/:itemBoard" element={<ApplyAccept/>}/>
         </Routes>
 
         {/*<Routes>*/}

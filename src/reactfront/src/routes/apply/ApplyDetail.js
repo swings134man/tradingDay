@@ -100,7 +100,7 @@ function ApplyDetail() {
 
                 <div align="right">
                     <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} >
-                        <Link to={`/applyAccept/${data.applyId}/${data.title}/${data.writer}/${data.writerEmail}`} style={{color: "white"}}>
+                        <Link to={`/applyAccept/${data.applyId}/${data.title}/${data.writer}/${data.writerEmail}/${data.itemBoard}`} style={{color: "white"}}>
                             수락하기
                         </Link>
                     </button>

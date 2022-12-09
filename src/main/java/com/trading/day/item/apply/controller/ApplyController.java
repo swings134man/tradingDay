@@ -119,12 +119,10 @@ public class ApplyController {
      * 제목, 내용, 지원자 이메일주소
      */
     @ApiOperation(value = "지원서 수락 답변", notes = "지원에 대한 수락(합격) 통지")
-    @PostMapping("applyReplyPermit")
-    public String applyReplyPermit(@RequestParam String writerEmail,
-                             @RequestParam String title,
-                             @RequestParam String content,
-                             @RequestParam String memberId) {
-        String resultMsg = service.applyReplyPermit(writerEmail, title, content, memberId);
+    @PostMapping("applyReplyAccept")
+    public String applyReplyPermit(@RequestBody ApplyDTO.ApplyRequest inDTO) {
+        System.out.println("test : " + inDTO);
+        String resultMsg = service.applyReplyPermit(inDTO);
         return resultMsg;
     }
 

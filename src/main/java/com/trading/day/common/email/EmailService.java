@@ -72,10 +72,11 @@ public class EmailService {
 
         MimeMessage message = javaMailSender.createMimeMessage();
 
-        String info = "<h3 style='color:blue;'>트레이딩 데이 지원하신 프로젝트에 대한 답변입니다.<h3/><br/>" + "<p>"+ inDTO.getContent() +"</p>";
+        String info = "<h3 style='color:blue;'>트레이딩 데이 지원하신 프로젝트 게시물:" + inDTO.getBoardIdNo() +
+                      " 에 대한 답변입니다.<h3/><br/>" + "<p>"+ inDTO.getContent() +"</p>";
 
         try {
-            message.setSubject("[트레이딩 데이] " + inDTO.getTitle()); // 제목
+            message.setSubject("[트레이딩 데이 지원서 답변] " + inDTO.getTitle()); // 제목
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(inDTO.getTargetMail(), "", "UTF-8")); // TO
             message.setText(info, "UTF-8", "html");
 //            message.setContent(info, "text/html; charset=euc-kr"); // 위의 방법이 안될떄 사용.

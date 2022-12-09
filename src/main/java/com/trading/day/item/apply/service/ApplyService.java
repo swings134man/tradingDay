@@ -180,12 +180,13 @@ public class ApplyService {
      * @return  :
      * @Description :
      */
-    public String applyReplyPermit(String writerEmail, String title, String content, String memberId) {
+    public String applyReplyPermit(ApplyDTO.ApplyRequest inDTO) {
         String msg = "메일 발송 실패.";
         EmailDTO emailDTO = EmailDTO.builder()
-                .title(title)
-                .content(content)
-                .targetMail(writerEmail)
+                .title(inDTO.getTitle())
+                .content(inDTO.getContent())
+                .targetMail(inDTO.getWriterEmail())
+                .boardIdNo(inDTO.getBoardId())
                 .build();
 
         try {
@@ -193,6 +194,10 @@ public class ApplyService {
             if (result == true){
                 msg = "메일 발송 성공.";
             }
+
+            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
+            Apply apply = findId.get();
+            apply.setApplyStatus("accept"); // 상태 : 수락
         }catch (Exception e){
             e.printStackTrace();
         }

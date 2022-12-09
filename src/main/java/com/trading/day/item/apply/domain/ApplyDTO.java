@@ -33,7 +33,6 @@ public class ApplyDTO {
 
     // Board
     private Long itemBoard;          /* 게시물 ID */
-
     // Member
     private Long member;             /* 회원 ID */
 
@@ -73,6 +72,7 @@ public class ApplyDTO {
                     .modifiedDate(entity.getModifiedDate())
                     .applyStatus(entity.getApplyStatus())
                     .itemBoard(entity.getItemBoard().getId())
+                    .member(entity.getMember().getMemberNo())
                     .build();
             return detailData;
     }
@@ -95,6 +95,7 @@ public class ApplyDTO {
         private Long itemBoard;          /* 게시물 ID */
         private Long member;             /* 회원 ID */
         private String memberId;         /* 회원 ID */ // -> Long Type 변경후 다시 set 필요. -> 화면에서 받을때만 사용함.
+        private String boardId;
     }
 
 }
