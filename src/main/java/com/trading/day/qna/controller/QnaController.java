@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLOutput;
@@ -32,7 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/qna/v1")
 public class QnaController {
 
@@ -109,6 +110,7 @@ public class QnaController {
      * @param pageable
      * @return page
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ApiOperation(value = "문의글 전체 조회 페이징 api", notes = "문의글 전체 페이징 처리 조회함")
     @GetMapping(value = "/qnabylist")
     public Page<QnaDTO> findAllPaging (
@@ -142,6 +144,7 @@ public class QnaController {
      * @param inQnaDTO
      * @return qna dto
      */
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
     @PutMapping("/qna")
     public QnaDTO saveQna(@RequestBody QnaDTO inQnaDTO) {

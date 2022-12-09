@@ -37,7 +37,7 @@ function QnaWrite() {
                 return;
         }
 
-        const uri = `http://localhost:8080/qna/v1/qna`;
+        const uri = `http://localhost:3000/qna/v1/qna`;
         const encoded = encodeURI(uri);
         fetch(encoded, {
             method: "PUT",

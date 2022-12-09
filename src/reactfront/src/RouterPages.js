@@ -25,6 +25,7 @@ s
             <Route path="/" element={<Home />} />
             {/*member 관련 route*/}
             <Route path="/member/signin" element={<SignIn />}/>
+            <Route path="/login" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>
 
             {/*qna관련 route*/}

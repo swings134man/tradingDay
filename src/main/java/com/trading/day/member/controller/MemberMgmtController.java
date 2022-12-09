@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,12 +32,43 @@ import java.util.List;
 * @author : SeokJun Kang(swings134@gmail.com)
 * @version : 1.0.0
 ************/
+
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/member/v1")
 public class MemberMgmtController {
 
     private final MemberService memberService;
+
+//    @GetMapping("/signin")
+//    public void oauthLogin(HttpServletResponse response) throws IOException {
+//        String redirect_uri="/member/signin";
+//        response.sendRedirect(redirect_uri);
+//    }
+
+//    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+//    public void handleGet(HttpServletResponse response) {
+//        response.setHeader("Location", "localhost:3000/member/signin");
+//        response.setStatus(302);
+//    }
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public ResponseEntity handleGet(HttpServletResponse response) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "localhost:3000/member/signin");
+        return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+
+//    @GetMapping("/signin")
+//    public String oauthLogin(HttpServletResponse response) throws IOException {
+//        //String redirect_uri="http://localhost:3000/member/signin";
+//
+//        System.out.println("@@@");
+//        return "redirect:http://localhost:3000/member/signin";
+//
+//    }
+
 
     /**
      * methodName : findAll
