@@ -10,7 +10,7 @@ function TableTest({data}) {
     //
     // setUserRole(manageQuarter(localStorage.getItem("memberId")));
     useEffect(() => {
-        setUserRole(manageQuarter(localStorage.getItem("memberId")));
+        setUserRole(manageQuarter(localStorage.getItem("userRole")));
     }, []);
 
 

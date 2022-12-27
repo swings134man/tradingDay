@@ -39,7 +39,7 @@ function QnaDetail() {
         }
         getData();
         // 답글, 답글 수정 삭제 버튼 분기를 위한 처리
-        setUserRole(manageQuarter(localStorage.getItem("memberId")));
+        setUserRole(manageQuarter(localStorage.getItem("userRole")));
     },[]);
 
     // 재조회용 함수
