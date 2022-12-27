@@ -233,6 +233,7 @@ public class ItemBoardService {
      * @Description : TODO : image FIle 다건 save error issue
      */
 
+    @Transactional
     public ItemBoardDTO savePostImage(ItemBoardDTO.ItemRequest inDTO, MultipartFile file, List<MultipartFile> files) {
         // TODO :  Member 조회 파라미터 값에 따라 수정 -> 세션 값에서 조회 (pk, member_id) 둘중 하나.
         Member resultMember = memberRepository.findByMemberId(inDTO.getWriter()); //ID로 조회해서 PK 가져옴.
@@ -246,7 +247,9 @@ public class ItemBoardService {
         // 게시판 save
         ItemBoard entityResult = repository.save(item);
 
+
         // Image save ALl - 단건, 다건
+        if(!(file == null && files == null)) {
             try{
                 List<ImageFile> imageResult = imageFileService.saveImageList(files);
                 System.out.println("파라미터 사이즈 : " + files.size());
@@ -255,7 +258,7 @@ public class ItemBoardService {
                     entityResult.addImages(imageResult.get(i));
                 }
             }catch (IOException e){};
-
+        }
 
             // 단건 코드.
 //        ImageFile imageFile = new ImageFile();

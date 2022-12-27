@@ -64,10 +64,6 @@ function ItemDetail() {
     /*
         각 버튼 이벤트.
      */
-    const onClickGame = () => {
-        window.alert('해당 기능은 현재 준비중입니다! 조만간 봐용!');
-    }
-
     // 삭제 버튼
     const onClickDelete = () => {
         const confirm = window.confirm("해당 게시물을 삭제하시겠습니까?");
@@ -95,22 +91,22 @@ function ItemDetail() {
     */
     const writerId = "iu1234"; // 작성자 ID --> TODO : Login session ID
     let replyId = 0; // 댓글 ID
-    const [replyInput, setReplyInput] = React.useState(""); // reply 작성시 state
+    const answerRef = useRef(null);
 
-    const onchangeReply = (e) => {
-        setReplyInput(e.target.value);
-    }
     // 댓글 post
     const onClickReply = () => {
+        const replyInputVal = answerRef.current.value; // 댓글 입력값.
+
             axios.post('/item/v1/reply/save', {
                     boardId: id,
                     writer: writerId,
-                    content: replyInput
+                    content: replyInputVal
             }, {
                 headers: {
                     "Content-Type": `application/json`,
                 }}).then(function (response){
                 console.log('댓글 작성 완료');
+                answerRef.current.value = "";
                 // navigate('/itemDetail/'+id);
                 reSearch();
             }).catch(function (error){
@@ -154,7 +150,6 @@ function ItemDetail() {
         } else {
             setModiTextArea(false);
         }
-
     }
 
     const answerClickUpdate = (e) => {
@@ -175,7 +170,15 @@ function ItemDetail() {
             .catch(function (err) {
                 window.alert("댓글을 수정하던 도중 문제가 발생했습니다.");
             });
+    }
 
+    // 지원하기 버튼
+    const clickApply = () => {
+        if(data.type === '모집완료') {
+            window.alert('해당 게시글은 모집이 완료되었습니다.');
+            return;
+        }
+        navigate('/applyWrite/' + data.id + '/' + data.writer);
     }
 
 
@@ -197,7 +200,16 @@ function ItemDetail() {
                             <th scope="row">작성자</th>
                             <td >{data.writer}</td>
                             <th scope='row'>모집 상태</th>
-                            <td >{data.type}</td>
+                            {
+                                data.type === '모집중'
+                                    ?
+                                    <td style={{color:"green"}}>
+                                        {data.type}
+                                    </td>
+                                    :<td style={{color:"red"}}>
+                                        {data.type}
+                                    </td>
+                            }
                             <th scope="row">작성일</th>
                             <td>{data.createdDate}</td>
                         </tr>
@@ -209,7 +221,21 @@ function ItemDetail() {
                         </tr>
                         <tr>
                             <td colSpan="6" align="center">
-                                <button onClick={onClickGame} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 150, color: "white"}}>지원하기 버튼~</button>
+                                {
+                                    data.type === '모집중'
+                                    ?
+                                    <button className="btn btn-warning"
+                                            style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
+                                            onClick={clickApply}>
+                                        지원하기
+                                    </button>
+                                        :<button className="btn btn-warning"
+                                                 style={{backgroundColor: "#217Af0", width: 300, color: "white"}}
+                                                 onClick={clickApply}
+                                                 disabled={true}>
+                                            해당 모집공고는 마감되었습니다.
+                                        </button>
+                                }
                             </td>
                         </tr>
                         <tr>
@@ -245,7 +271,7 @@ function ItemDetail() {
                             <td width="10%" className="col1" align="center">댓글 달기</td>
                             <td width="90%" className="col2">
                                 <div style={{float:"left"}}>
-                                    <textarea  style={{width: 800, height: 100}} onChange={onchangeReply}></textarea>
+                                    <textarea  style={{width: 800, height: 100}} ref={answerRef}></textarea>
                                 </div>
                                 {/*style="padding:;">  상우좌하*/}
                                 <div style={{float:"left", paddingTop: 34, paddingRight: 12, paddingLeft:34, paddingBottom: 12}}>

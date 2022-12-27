@@ -72,6 +72,7 @@ public class ItemBoard extends BaseTimeEntity {
 
     // Apply(지원서)
     @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "itemBoard", cascade = CascadeType.REMOVE)
     private List<Apply> applys = new ArrayList<>();
 

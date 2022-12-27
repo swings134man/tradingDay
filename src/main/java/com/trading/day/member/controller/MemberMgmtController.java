@@ -1,5 +1,9 @@
 package com.trading.day.member.controller;
 
+import com.trading.day.config.jwtConfig.JWTLoginFilter;
+import com.trading.day.config.jwtConfig.JWTUtil;
+import com.trading.day.jwtToken.domain.ResponseTokenDTO;
+import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
@@ -13,6 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
+=======
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+>>>>>>> master
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +53,7 @@ public class MemberMgmtController {
 
     private final MemberService memberService;
 
+<<<<<<< HEAD
 //    @GetMapping("/signin")
 //    public void oauthLogin(HttpServletResponse response) throws IOException {
 //        String redirect_uri="/member/signin";
@@ -70,6 +83,15 @@ public class MemberMgmtController {
 //    }
 
 
+=======
+    // -----------------> test Only
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/greeting")
+    public String hello() {
+        return "hello";
+    }
+
+>>>>>>> master
     /**
      * methodName : findAll
      * author : TAEIL KIM
@@ -85,11 +107,31 @@ public class MemberMgmtController {
 
     // 회원 가입
     @PostMapping("/save")
+    @PreAuthorize("isAnonymous()")
     @ApiOperation(value =  "회원 가입 api", notes = "회원 가입 처리함")
     public Long save(@RequestBody MemberDTO memberDTO) {
         Long result = memberService.save(memberDTO);
         return result;
     }
+
+
+
+
+    /**
+     * methodName : saveManage
+     * author : TAEIL KIM
+     * description : 매니저 계정은 어드민계정만 가능하다.
+     *
+     * @return Long
+     */
+    @PostMapping("/savemanage")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @ApiOperation(value = "admin권한을 가진 계정으로 매니저권한을 가진 계정을 생성 api", notes = "admin권한을 가진 계정으로 매니저권한을 가진 계정을 생성함")
+    public Long manageSave(@RequestBody MemberDTO memberDTO) {
+        Long result = memberService.manageSave(memberDTO);
+        return result;
+    }
+
 
     @DeleteMapping("/deletemember")
     @ApiOperation(value =  "회원 탈퇴 api", notes = "회원 탈퇴 처리함")
@@ -108,22 +150,6 @@ public class MemberMgmtController {
         MemberDTO result = memberService.findById(inDto);
         return result;
     }
-
-    /**
-     * methodName : memberLogin
-     * author : TAEIL KIM
-     * description :
-     *
-     * @param MemberDTO
-     * @return String
-     */
-    @ApiOperation(value = "회원 로그인 api", notes = "회원 로그인 처리함")
-    @PostMapping("/memberlogin")
-    public String memberLogin (@RequestBody MemberDTO memberDTO) {
-        return "df";
-    }
-
-
 
     /**
      * methodName : updateMember
@@ -153,6 +179,7 @@ public class MemberMgmtController {
 
     // 회원 아이디로 회원 객체 검색
     @GetMapping("/findbymemberid")
+    @PreAuthorize("isAnonymous()")
     public MemberDTO findByMemberId(@RequestParam String memberId) {
         MemberDTO inDTO = MemberDTO.builder()
                 .memberId(memberId)
@@ -169,6 +196,7 @@ public class MemberMgmtController {
      *
      * @return int
      */
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/chkdupliId")
     @ApiOperation(value =  "회원가입시 사용되는 아이디 중복확인 api", notes = "아이디 중복을 체크함")
     public int chkDupliId(@RequestParam String memberId) {

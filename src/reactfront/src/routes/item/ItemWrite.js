@@ -52,7 +52,7 @@ function ItemWrite() {
             window.alert('제목을 입력하지 않으셨습니다.');
             return;
         }else if(select === '' || select === 'none') {
-            window.alert('제품 상태가 선택되지 않았습니다.');
+            window.alert('모집 상태가 선택되지 않았습니다.');
             return;
         }else if(contentVal === '') {
             window.alert('내용을 입력하지 않았습니다.');
@@ -104,7 +104,7 @@ function ItemWrite() {
         <div>
             <div align="center" style={{padding : 100}}>
                 <div >
-                    <h1>상품 등록</h1>
+                    <h1>모집공고 등록</h1>
                 </div>
                     <table className="table table-striped table-bordered table-hover">
                         <tbody>
@@ -143,7 +143,7 @@ function ItemWrite() {
                     </table>
                     <div align="right">
                         <button onClick={onClick} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100}} >
-                            상품등록
+                            게시글 등록
                         </button>
                     </div>
             </div>

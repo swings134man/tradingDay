@@ -24,6 +24,7 @@ function SignUp() {
     const chkSubmit = async (e) => {
         e.preventDefault();
 
+        console.log('test');
         // id 중복체크 온클릭 이벤트
         const idChkVal = idRef.current.value;
 

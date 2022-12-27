@@ -41,13 +41,15 @@ function QnaWrite() {
         const encoded = encodeURI(uri);
         fetch(encoded, {
             method: "PUT",
+            credentials : 'include',
             headers: {
                 "Content-type": "application/json",
-            },
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            } ,
             body: JSON.stringify({
                 title: titleVal,
                 content: contentVal,
-                writer: "xodlf5363",
+                writer: localStorage.getItem('memberId'),
                 pwd: pwdVal
             }),
         }).then(res => {

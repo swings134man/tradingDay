@@ -4,13 +4,19 @@ import reportWebVitals from './reportWebVitals';
 import Home from "./routes/Home";
 import {BrowserRouter} from "react-router-dom";
 import RouterPages from "./RouterPages";
+import {CookiesProvider} from "react-cookie";
+//import axios from "axios";
+
+//axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <RouterPages>
-            <Home/>
-        </RouterPages>
+        <CookiesProvider>
+            <RouterPages>
+                <Home/>
+            </RouterPages>
+        </CookiesProvider>
     </React.StrictMode>
 );
 

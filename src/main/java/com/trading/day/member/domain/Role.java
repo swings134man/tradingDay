@@ -23,8 +23,8 @@ public class Role {
     private int roleNumber;
     private String roleName; // admin, manager ,user
 
-    @OneToMany(mappedBy = "roleId")
-    @JsonIgnore
-    private List<UserRole> roles = new ArrayList<>();
+//    @OneToMany(mappedBy = "roleId")
+//    @JsonIgnore
+//    private List<UserRole> roles = new ArrayList<>();
 
 }
