@@ -70,7 +70,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/member/v1/**", "/logout").permitAll()
-                .antMatchers("/qna/v1/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/qna/v1/**", "/answer/v1/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .cors()

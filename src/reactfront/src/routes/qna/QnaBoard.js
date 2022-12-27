@@ -5,27 +5,23 @@ import {Link, useNavigate} from "react-router-dom";
 
 
 import Pagination from "react-js-pagination";
-import {authTokenCheck} from "../../components/cookie";
+import {authTokenCheck} from "../../components/AuthTokenCheck";
 
 function QnaBoard() {
     const navi = useNavigate();
     const [qnaList, setQnaList] = useState([]);
     const [totalElements, setTotalElements] = useState(0);
-
     const [page, setPage] = useState(1);
     const [isCheckingBox, setIsCheckingBox] = useState(false)
 
-    // const [authToken, setAuthToken] = useState(localStorage.getItem("auth_token"));
-    // const authToken = localStorage.getItem("auth_token");
-    const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
+
     useEffect(() => {
+        const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
         if(chkVal == null) {
             navi("/member/signIn");
         }
     }, []);
 
-    // TODO : 로그인 구현 되면 세션 아이디로 파라메터 대체.
-    const id = "user2";
     const checkingCheckedBox = (e) => {
         if (e.target.checked) {
             setIsCheckingBox(true);
@@ -38,23 +34,10 @@ function QnaBoard() {
         setPage(page);
     };
 
-
-
-    // if(localStorage.getItem("auth_token") == null) {
-    //     setMoveLogin("");
-    // } else {
-    //     setAuthToken(localStorage.getItem("auth_token"));
-    // }
-    // useEffect(() => {
-    //     if(authToken == null) {
-    //         navi("/member/signin");
-    //     }
-    // }, [authToken, moveLogin]);
-
     useEffect(() => {
         if(isCheckingBox) {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${id}`, {
+                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${localStorage.getItem("memberId")}`, {
                     headers: {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
@@ -72,7 +55,6 @@ function QnaBoard() {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
                 });
-                console.log(id);
                 const data = await res.json();
                 console.log("나는 전체 조회 data", data)
                 setQnaList(data);
@@ -81,16 +63,6 @@ function QnaBoard() {
             getData();
         }
     }, [isCheckingBox, page])
-
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
-    //         const data = await res.json();
-    //         setQnaList(data);
-    //         setTotalElements(data.totalElements);
-    //     }
-    //     getData();
-    // }, [page])
 
     return (
 
@@ -109,7 +81,6 @@ function QnaBoard() {
                     </button>
                 </div>
                 <div align="center" >
-                {/*<Label><input type="checkbox" />체크박스 선택시 내가 작성한 글만 볼 수 있습니다.</Label>*/}
                     <input type="checkbox" style={{margin: 3, zoom: 1.5}} onClick={checkingCheckedBox}  />
                     <label style={{margin: 3 }}>체크박스 선택시 내가 작성한 글만 볼 수 있습니다.</label>
                 </div>

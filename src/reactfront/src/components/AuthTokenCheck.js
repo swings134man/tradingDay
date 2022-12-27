@@ -15,8 +15,8 @@ export const authTokenCheck = (localStorageToken: string) => {
     if(localStorageToken == null) {
         val = null;
     } else {
-        val = "토큰분기 값";
-}
+        val = "로그인된 유저";
+    }
     return val;
 }
 

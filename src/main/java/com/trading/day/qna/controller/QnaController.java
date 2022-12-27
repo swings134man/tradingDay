@@ -47,6 +47,7 @@ public class QnaController {
      * @return list
      */
     @ApiOperation(value = "문의글 리스트 전체 조회 api", notes = "조건에 상관없이 모든 문의를 조회함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/qnaList")
     public List<Qna> findAll() {
         return qnaService.findAll();
@@ -61,6 +62,7 @@ public class QnaController {
      * @return QnaDTO
      */
     @ApiOperation(value = "문의글 번호로 문의글 조회 api", notes = "문의글 번호로 특정 문의글 상세정보를 조회")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/findByQnaId")
     public QnaDTO findByQnaId(Long qnaId) {
         return qnaService.findByQnaId(qnaId);
@@ -76,6 +78,7 @@ public class QnaController {
      * @return int
      */
     @ApiOperation(value = "게시물 단건 다건 삭제 api", notes = "프론트에서 넘어오는 체크박스의 갯수에 따라 단건 다건 삭제함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/deleteQna")
     public int deleteQna(QnaDTO qnaInDTO) {
         System.out.println("qnaInDTO controller : "  + qnaInDTO.getQnaId());
@@ -92,6 +95,7 @@ public class QnaController {
      * @return page
      */
     @ApiOperation(value = "writer로 해당 고객이 남긴 문의글 조회 페이징 api", notes = "해당 고객이 남긴 문의글 페이징 처리 조회함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/qnaByWriter")
     public Page<QnaDTO> findByWriter (
             @RequestParam String writer,
@@ -131,6 +135,7 @@ public class QnaController {
      * @return qna dto
      */
     @ApiOperation(value = "qna문의 수정 api", notes = "해당 고객이 남긴 문의글을 수정함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/updateQna")
     public QnaDTO updateQna(@RequestBody QnaDTO qnaInDTO) {
         return qnaService.updateQna(qnaInDTO);
@@ -152,10 +157,9 @@ public class QnaController {
     }
 
     @ApiOperation(value="문의글 비밀번호 확인 api", notes = "문의글 작성시 설정한 비밀번호 일치 여부 확인함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/confirmpwd")
     public int pwdChk(QnaDTO inQnaDTO) {
-        System.out.println("inQnaDTO ---> @@@@ : " + inQnaDTO.getPwd() );
-        System.out.println("inQnaDTO ---> @@@@ : " + inQnaDTO.getQnaId());
         return qnaService.pwdChk(inQnaDTO);
     }
 

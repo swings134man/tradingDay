@@ -23,6 +23,7 @@ function QnaPwdChk() {
             }
 
             const chk = await axios.get(`/qna/v1/confirmpwd`, {
+                headers: { AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token") },
                 params: { qnaId, pwd }
             });
             if(chk.data === 1) {
