@@ -110,7 +110,6 @@ public class QnaController {
      * @param pageable
      * @return page
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ApiOperation(value = "문의글 전체 조회 페이징 api", notes = "문의글 전체 페이징 처리 조회함")
     @GetMapping(value = "/qnabylist")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -145,7 +144,6 @@ public class QnaController {
      * @param inQnaDTO
      * @return qna dto
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ApiOperation(value ="문의글 저장 api", notes = "문의글 작성시 저장함")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/qna")
