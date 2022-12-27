@@ -17,14 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
-=======
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
->>>>>>> master
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +52,7 @@ public class MemberMgmtController {
 
     private final MemberService memberService;
 
-<<<<<<< HEAD
+
 //    @GetMapping("/signin")
 //    public void oauthLogin(HttpServletResponse response) throws IOException {
 //        String redirect_uri="/member/signin";
@@ -83,7 +82,7 @@ public class MemberMgmtController {
 //    }
 
 
-=======
+
     // -----------------> test Only
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/greeting")
@@ -91,7 +90,7 @@ public class MemberMgmtController {
         return "hello";
     }
 
->>>>>>> master
+
     /**
      * methodName : findAll
      * author : TAEIL KIM
