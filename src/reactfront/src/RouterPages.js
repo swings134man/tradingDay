@@ -30,6 +30,7 @@ s
             {/*member 관련 route*/}
             <Route path="/member/signin" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>
+            <Route path="/logout" element={<Home />} />
 
             {/*qna관련 route*/}
             <Route path="qna/qnaBoard" element={<QnaBoard />} />

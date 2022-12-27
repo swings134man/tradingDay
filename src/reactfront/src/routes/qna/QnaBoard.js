@@ -1,20 +1,31 @@
 import React, {useState, useEffect, useRef} from 'react';
 import TableTest from "../../components/TableTest";
 import 'bootstrap/dist/css/bootstrap.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
 
 import Pagination from "react-js-pagination";
+import {authTokenCheck} from "../../components/cookie";
 
 function QnaBoard() {
+    const navi = useNavigate();
     const [qnaList, setQnaList] = useState([]);
     const [totalElements, setTotalElements] = useState(0);
 
     const [page, setPage] = useState(1);
     const [isCheckingBox, setIsCheckingBox] = useState(false)
 
-    // TODO : 로그인 구현 되면 세션 아이디로 파라메터 대체.
-    const id = "xodlf5363";
+    // const [authToken, setAuthToken] = useState(localStorage.getItem("auth_token"));
+    // const authToken = localStorage.getItem("auth_token");
+    const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
+    useEffect(() => {
+        if(chkVal == null) {
+            navi("/member/signIn");
+        }
+    }, []);
 
+    // TODO : 로그인 구현 되면 세션 아이디로 파라메터 대체.
+    const id = "user2";
     const checkingCheckedBox = (e) => {
         if (e.target.checked) {
             setIsCheckingBox(true);
@@ -27,10 +38,27 @@ function QnaBoard() {
         setPage(page);
     };
 
+
+
+    // if(localStorage.getItem("auth_token") == null) {
+    //     setMoveLogin("");
+    // } else {
+    //     setAuthToken(localStorage.getItem("auth_token"));
+    // }
+    // useEffect(() => {
+    //     if(authToken == null) {
+    //         navi("/member/signin");
+    //     }
+    // }, [authToken, moveLogin]);
+
     useEffect(() => {
         if(isCheckingBox) {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${id}`);
+                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${id}`, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                    }
+                });
                 const data = await res.json();
                 console.log("나는 부분 조회 data", data)
                 setQnaList(data);
@@ -39,7 +67,12 @@ function QnaBoard() {
             getData();
         } else {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
+                const res = await fetch(`/qna/v1/qnabylist?page=${page}`, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                    }
+                });
+                console.log(id);
                 const data = await res.json();
                 console.log("나는 전체 조회 data", data)
                 setQnaList(data);

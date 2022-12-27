@@ -1,5 +1,9 @@
 package com.trading.day.member.service;
 
+import com.trading.day.config.jwtConfig.JWTLoginFilter;
+import com.trading.day.jwtToken.domain.ResponseTokenDTO;
+import com.trading.day.jwtToken.domain.TokenDTO;
+import com.trading.day.jwtToken.repository.TokenManageJpaRepository;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.domain.Role;
@@ -7,94 +11,91 @@ import com.trading.day.member.domain.UserRole;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
 import com.trading.day.member.repository.UserRoleJpaRepository;
-import com.trading.day.qna.domain.Qna;
-import com.trading.day.qna.domain.QnaDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.userdetails.User;
 
-
+import javax.mail.Header;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class MemberService {
+public class MemberService implements UserDetailsService{
 
     private final MemberJpaRepository memberRepository; // MEMBER
     private final UserRoleJpaRepository urRepository; // User_Role
     private final RoleJpaRepository roleRepository; // Role
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
 
+    private final TokenManageJpaRepository tokenManageJpaRepository;
+
     public Long save(MemberDTO inDto) {
 
         //Entity 변환 작업
         Member member = modelMapper.map(inDto, Member.class);
-        member.setCreateDate(LocalDateTime.now());
-        member.setModifiedDate(LocalDateTime.now());
+//        member.setCreateDate(LocalDateTime.now());
+//        member.setModifiedDate(LocalDateTime.now());
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String pwd = bCryptPasswordEncoder.encode(member.getPwd());
+        member.setPwd(pwd);
 
-        //TEST ONLY role  권한 info Set
-//        Role role = new Role();
-//        role.setRoleNumber(1);
-//        role.setRoleName("USER");
-//
-//        Role role2 = new Role();
-//        role2.setRoleNumber(2);
-//        role2.setRoleName("MANAGER");
-//
-//        Role role3 = new Role();
-//        role3.setRoleNumber(3);
-//        role3.setRoleName("ADMIN");
-//
-//        roleRepository.save(role);
-//        roleRepository.save(role2);
-//        roleRepository.save(role3);
-
-        // 실제 사용 코드 Role - > USER
-        // TODO : 권한부여 방법 생각중. 권한부여는 제일 상위 ADMIN 계정이 가입을 시킴 --> 매니저 권한부여
-        // TODO : 가입시키는게 ADMIN이 아니라면 USER권한으로 할까 생각중 ~
-        Optional<Role> role = roleFind(1L); //1L 값 = USER
-        log.debug("@@@나는 권한 : " + role.get().getRoleId());
-
-        // 실제 사용 코드 user Role Table
-        UserRole userRole = new UserRole();
-        userRole.setMember(member); // 저장할 MEMBER Entity 객체 -- PARAM : MEMBER ENTITY - TYPE ENTITY
-        log.debug("@@@나는 맴버 아이디 : " + member.getMemberId());
-//        userRole.setRoleId(role);   // Role 권한 정보 TEST
-        userRole.setRoleId(role.get()); // 실사용 코드
-        userRole.setCreatedDate(LocalDateTime.now());
-        userRole.setModifiedDate(LocalDateTime.now());
-
-        log.debug("@@@나는 RoleId : " + userRole.getRoleId());
-        log.debug("@@@나는 Id: " + userRole.getId());
-        UserRole saveUserRole = urRepository.save(userRole); // UserRole 저장.
-
-        //실제 사용코드  멤버 save - UserRole에 대한 Target 테이블은 나중에 insert
-        Member save = memberRepository.save(member); //
-        save.addUserRoles(saveUserRole); // Member Entity에 UserRoles에 대한 정보 add
-
-        // Entity 결과 to DTO
+        Member save = memberRepository.save(member);
+        addAuthority(save.getMemberNo(), "ROLE_USER");
         MemberDTO out = modelMapper.map(save, MemberDTO.class);
-
         return out.getMemberNo();
     }
 
+    public void addAuthority(Long userId, String authority) {
+        memberRepository.findById(userId).ifPresent(user -> {
+            UserRole newRole = new UserRole(user.getMemberNo(), authority);
+            newRole.setCreatedDate(LocalDateTime.now());
+            newRole.setModifiedDate(LocalDateTime.now());
+            urRepository.save(newRole);
+        });
+    }
+
+    public Long manageSave(MemberDTO memberDTO) { // -> admin 가입시키면 --> 매니저
+        Member member = modelMapper.map(memberDTO, Member.class);
+//        member.setCreateDate(LocalDateTime.now());
+//        member.setModifiedDate(LocalDateTime.now());
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String pwd = bCryptPasswordEncoder.encode(member.getPwd());
+        member.setPwd(pwd);
+        Member save = memberRepository.save(member);
+
+        addAuthority(save.getMemberNo(), "ROLE_MANAGER");
+        MemberDTO result = modelMapper.map(save, MemberDTO.class);
+        return result.getMemberNo();
+
+    }
+
+    public Member save2(Member member) {
+        return memberRepository.save(member);
+    }
 
     @Transactional(readOnly = true)
     public List<Member> findAll() {
         return memberRepository.findAll(Sort.by(Sort.Direction.DESC, "memberNo"));
     }
-
 
     public int deleteMember(MemberDTO inDto) {
         Optional<Member> findResult = memberRepository.findById(inDto.getMemberNo());
@@ -131,6 +132,7 @@ public class MemberService {
      *
      * @return int
      */
+
     public int chkDupliId(@RequestParam String memberId) {
         int result = 1;
 
@@ -155,12 +157,6 @@ public class MemberService {
 
         return modelMapper.map(updateEntity, MemberDTO.class);
     }
-
-
-
-
-
-
 
     // findByName -- > member name 으로 검색
     public MemberDTO findByName(MemberDTO inDto) {
@@ -201,6 +197,28 @@ public class MemberService {
     public Optional<Role> roleFind(Long id) {
         Optional<Role> result = roleRepository.findById(id);
         return result;
+    }
+    //-------------------------------------UserDetails-------------------------------------
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(final String memberId) { // --> 맴버에서 가지고 오는건데
+        //TODO findOneWithAuthoritiesByMemberId --> 수정예정
+        return memberRepository.findOneWithAuthoritiesByMemberId(memberId)
+                .map(user -> createUser(memberId, user))
+                .orElseThrow(() -> new UsernameNotFoundException(memberId + " -> 데이터베이스에서 찾을 수 없습니다."));
+    }
+    private User createUser(String username, Member user) {
+        if (!user.isActivated()) {
+            throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
+        }
+                                                    // member.get
+        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
+                .collect(Collectors.toList());
+
+        return new org.springframework.security.core.userdetails.User(user.getMemberId(),
+                user.getPwd(),
+                grantedAuthorities);
     }
 
 }//class
