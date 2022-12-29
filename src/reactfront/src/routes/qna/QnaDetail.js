@@ -25,7 +25,7 @@ function QnaDetail() {
     useEffect(() => {
         //pk로 조회 후 단건 세팅
         const getData = async () => {
-            const uri = `/qna/v1/findByQnaId?qnaId=${qnaId}`;
+            const uri = `/qna/v1/findbyqnaid?qnaId=${qnaId}`;
             const encoded = encodeURI(uri);
             const json = await (
                 await fetch(encoded, {
@@ -34,6 +34,10 @@ function QnaDetail() {
                     }
                 })
             ).json();
+            if(getData.status === 403) {
+                // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                navigate("/member/signin");
+            }
             setDate(json.createdDate.substring(0, 10));
             setQna(json);
         }
@@ -44,7 +48,7 @@ function QnaDetail() {
 
     // 재조회용 함수
     const reSearch = async () => {
-            const uri = `/qna/v1/findByQnaId?qnaId=${qnaId}`;
+            const uri = `/qna/v1/findbyqnaid?qnaId=${qnaId}`;
             const encoded = encodeURI(uri);
             const json = await (
                 await fetch(encoded, {
@@ -53,7 +57,10 @@ function QnaDetail() {
                     }
                 })
             ).json();
-            console.log(json);
+            if(reSearch.status === 403) {
+                // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                navigate("/member/signin");
+            }
             setDate(json.createdDate.substring(0, 10));
             setQna(json);
         }
@@ -71,8 +78,9 @@ function QnaDetail() {
                 AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
             }
         }).then(function (response) {
-                console.log('res : ' + response.status);
-                console.log('답변저장성공함~');
+                if(response.status === 403) {
+                    navigate("/member/signin");
+                }
                 //재조회
                 reSearch();
                 //textarea 빈값 설정
@@ -89,7 +97,7 @@ function QnaDetail() {
     const onRemove = async () => {
         const confirm = window.confirm("해당 문의를 삭제하시겠습니까?");
         if(confirm === true) {
-                const uri = `/qna/v1/deleteQna?qnaId=${qnaId}`;
+                const uri = `/qna/v1/deleteqna?qnaId=${qnaId}`;
                 const encoded = encodeURI(uri);
                 const json = await (
                     await fetch(encoded, {
@@ -100,7 +108,9 @@ function QnaDetail() {
                         }})
                 ).json();
                 if(json === 1 ) {
-                    navigate('/qna/qnaBoard');
+                    navigate('/qna/qnaboard');
+                } else if(json.status === 403) {
+                    navigate("/member/signin");
                 }
         }
     }; //remove function end
@@ -121,6 +131,9 @@ function QnaDetail() {
                          AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }})
             ).json();
+            if(json.status === 403) {
+                navigate("/member/signin");
+            }
         }
         reSearch();
     }; //remove function end
@@ -157,6 +170,9 @@ function QnaDetail() {
             }
         })
         .then(function (res){
+            if(res.status === 403) {
+                navigate("/member/signin");
+            }
             console.log('업데이트 성공')
             setModiTextArea(false);
             reSearch();
@@ -197,7 +213,7 @@ function QnaDetail() {
 
                 <div align="right">
                         <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
-                            <Link to={`/qnaUpdate/${qna.qnaId}/${qna.title}/${qna.writer}/${qna.content}/${qna.createdDate}`}
+                            <Link to={`/qnaupdate/${qna.qnaId}/${qna.title}/${qna.writer}/${qna.content}/${qna.createdDate}`}
                             style={{color: "white"}}> 게시글 수정 </Link>
                         </button>
                     <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} onClick={onRemove}>게시글 삭제</button>
@@ -232,9 +248,8 @@ function QnaDetail() {
                             </tbody>
                         </table>
                      : null}
-
-                    {userRole === "admin" ?
-                        <table border={1} className="table table-striped table-bordered ">
+                    {userRole !== "admin" ?
+                        <table border={1} className="table table-bordered ">
                             <tbody>
                             {qna.answers && qna.answers.map(answer => (
                                 <tr key={v4()}>
@@ -247,7 +262,32 @@ function QnaDetail() {
                                                 }}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div style={{padding: 10}}>
+                                            {answer.content}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table> : null}
+
+
+
+                    {userRole === "admin" ?
+                        <table border={1} className="table table-bordered ">
+                            <tbody>
+                            {qna.answers && qna.answers.map(answer => (
+                                <tr key={v4()}>
+                                    <td>
+                                        <div border={1}>
+                                            <div style={{backgroundColor: "#EBEBEB"}}>
+                                                <div style={{
+                                                    padding: 10,
+                                                    fontWeight: "bold"
+                                                }}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
+                                            </div>
+                                        </div>
+                                        <div style={{padding: 10}}>
                                             {answer.content}
                                             <div></div>
                                             {modiTextArea && selectIndex == answer.id ? (
@@ -315,12 +355,10 @@ function QnaDetail() {
                                 </tr>
                             ))}
                             </tbody>
-                        </table>
-                     : null }
+                        </table> : null }
                             </div>
                         </div>
                     </div>
-
         )
     }
 

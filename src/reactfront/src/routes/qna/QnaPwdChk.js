@@ -26,12 +26,14 @@ function QnaPwdChk() {
                 headers: { AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token") },
                 params: { qnaId, pwd }
             });
+            if(chk.status === 403) {
+                navigate(`/member/signin`)
+            }
             if(chk.data === 1) {
-                navigate(`/qnaDetail/${qnaId}`);
+                navigate(`/qnadetail/${qnaId}`);
             } else if (chk.data === 0) {
                 alert("비밀번호가 일치하지 않습니다.");
             }
-
         } catch (err) {
             console.log("비밀번호 확인중에 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
         };

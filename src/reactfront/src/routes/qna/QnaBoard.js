@@ -18,7 +18,7 @@ function QnaBoard() {
     useEffect(() => {
         const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
         if(chkVal == null) {
-            navi("/member/signIn");
+            navi("/member/signin");
         }
     }, []);
 
@@ -42,6 +42,10 @@ function QnaBoard() {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
                 });
+                if(res.status === 403) {
+                    // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                    navi("/member/signin");
+                }
                 const data = await res.json();
                 console.log("나는 부분 조회 data", data)
                 setQnaList(data);
@@ -54,7 +58,11 @@ function QnaBoard() {
                     headers: {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
-                });
+                })
+                if(res.status === 403) {
+                    // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                    navi("/member/signin");
+                }
                 const data = await res.json();
                 console.log("나는 전체 조회 data", data)
                 setQnaList(data);

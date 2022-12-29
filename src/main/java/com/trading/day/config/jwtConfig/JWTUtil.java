@@ -5,11 +5,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC256;
 
@@ -24,10 +26,11 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC256;
  * -------------------------------------------------------
  * 2022/12/14        taeil                   최초생성
  */
+@Slf4j
 public class JWTUtil {
 
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256("TradingDay");
-
+    // secretKey는 랜덤한 값으로 알수없게 지정
+    private static final Algorithm ALGORITHM = Algorithm.HMAC256(String.valueOf(UUID.randomUUID()));
     //인증토큰의 유효시간은 30분
     private static final long AUTH_TIME = 30 * 60;
     //testOnly == 인증토큰의 시간을 2초로

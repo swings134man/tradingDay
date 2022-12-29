@@ -18,6 +18,7 @@ function NavigationBar() {
     const StorageDelete = () => {
         localStorage.removeItem("auth_token");
         localStorage.removeItem("memberId");
+        localStorage.removeItem("userRole");
     }
 
     return (
@@ -31,7 +32,7 @@ function NavigationBar() {
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item"><a className="nav-link" href="/item/itemBoard">Trade!</a></li>
                         <li className="nav-item"><a className="nav-link" href="#!">Community</a></li>
-                        <li className="nav-item"><a className="nav-link" href="/qna/qnaBoard">Support </a></li>
+                        <li className="nav-item"><a className="nav-link" href="/qnaboard">Support </a></li>
 
                         { localStorage.getItem("memberId") == null ?
                             <li className="nav-item"><a className="nav-link" href="/member/signup">Sign Up</a></li>

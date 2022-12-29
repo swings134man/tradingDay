@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -10,6 +11,8 @@
 //     return cookies.get(name);
 // }
 
+import axios from "axios";
+
 export const authTokenCheck = (localStorageToken: string) => {
     let val;
     if(localStorageToken == null) {
@@ -20,15 +23,4 @@ export const authTokenCheck = (localStorageToken: string) => {
     return val;
 }
 
-// export const getCookie = (name: string) => {
-//     return cookies.get(name);
-// }
-
-// export const setCookie = (name: string, value: string, option?: any) => {
-//     return cookies.set(name, value, {...option});
-// }
-//
-// export const getCookie = (name:string) => {
-//     return cookies.get(name);
-// }
 

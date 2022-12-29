@@ -34,10 +34,10 @@ s
             <Route path="/logout" element={<Home />} />
 
             {/*qna관련 route*/}
-            <Route path="qna/qnaBoard" element={<QnaBoard />} />
-            <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
-            <Route path="qnaUpdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
-            <Route path="/qnaWrite" element={<QnaWrite />} />
+            <Route path="/qnaboard" element={<QnaBoard />} />
+            <Route path="/qnadetail/:qnaId" element={<QnaDetail />} />
+            <Route path="qnaupdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
+            <Route path="/qnawrite" element={<QnaWrite />} />
             <Route path="/qnapwdchk/:qnaId" element={<QnaPwdChk />} />
 
             {/* item route */}

@@ -70,7 +70,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 최초 로그인 전에는 refresh토큰을 가지고 있지 않기 때문에, refresh토큰을 가지고 요청 들어오지 않음.
         String refresh_tokenVal = "";
         Cookie[] cookies = request.getCookies();
-
         Map<String, String> targetCookie = new HashMap<>();
 
         for (Cookie cookie : cookies) {
@@ -85,7 +84,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     member.getMemberId(), member.getPwd(), null
             );
-
             // 매니저에게 토큰 검증해달라고 요청 , 다오 어센티케이터 프로바이더를 통해서 유저디테일즈 서비스에서 검증해줌
             return getAuthenticationManager().authenticate(token);
         } else {
@@ -99,10 +97,18 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                         details, details.getAuthorities()
                 );
             } else {
-                throw new TokenExpiredException("refresh token expired");
+                // 리프레시 토큰이 유효하지 않다면 리프레시 토큰을 다시 만들어서 리턴해줌 --> 재로그인 시 필요 로직
+                UserDetails details = memberService.loadUserByUsername(verify.getMemberId());
+                return new UsernamePasswordAuthenticationToken(
+                        details, details.getAuthorities()
+                );
             }
         }
     }
+
+
+
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
