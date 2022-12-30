@@ -18,6 +18,8 @@ import ApplyWrite from "./routes/item/ApplyWrite";
 import ApplyBoardList from "./routes/apply/ApplyBoardList";
 import ApplyDetail from "./routes/apply/ApplyDetail";
 import ApplyAccept from "./routes/apply/ApplyAccept";
+import Mypage from "./routes/member/MyPage";
+import MyPage from "./routes/member/MyPage";
 
 function RouterPages () {
     return (
@@ -32,6 +34,7 @@ s
             <Route path="/login" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>
             <Route path="/logout" element={<Home />} />
+            <Route path="/member/mypage" element={<MyPage/>} />
 
             {/*qna관련 route*/}
             <Route path="/qnaboard" element={<QnaBoard />} />
