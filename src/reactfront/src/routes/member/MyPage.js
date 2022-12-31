@@ -1,9 +1,18 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PersonInfoModi from "./PersonInfoModi";
+import PersonPwdChk from "./PersonPwdChk";
 
-function MyPage() {
+function MyPage({pwdChk}) {
     // false인 경우 마이 페이지 렌더링, true인 경우 지원서 페이지 렌더링 온클릭에 넣어서 분기
     const [quarter, setQuarter] = useState();
+    const [memberPwdChk, setMemberPwdChk] = useState(false);
+
+    useEffect(() => {
+        console.log(pwdChk)
+        setMemberPwdChk(pwdChk);
+    }, [])
+
+
     const pageRender = (page) => {
         let pageId = page.target.getAttribute("data-id")
         if(pageId === "mypage") {
@@ -16,7 +25,7 @@ function MyPage() {
     return (
         <div className="d-flex" id="wrapper" style={{padding: 100}}>
 
-            <div className="border-end bg-white" id="sidebar-wrapper">
+            <div className="border-end bg-white" id="sidebar-wrapper" style={{marginLeft: 150}}>
                 <div className="sidebar-heading border-bottom bg-light" align="center">마이페이지</div>
                 <div className="list-group list-group-flush">
                     <a className="list-group-item list-group-item-action list-group-item-light p-3"
@@ -34,8 +43,11 @@ function MyPage() {
             <div id="page-content-wrapper">
                 <div className="container-fluid">
                     {quarter === false ?
-                        <PersonInfoModi /> : null
+                        <PersonPwdChk /> : null
                     }
+                    { memberPwdChk === true ?
+                        <PersonInfoModi /> : null }
+
                 </div>
             </div>
         </div>

@@ -1,7 +1,15 @@
 function PersonInfoModi() {
     return(
         <div>
-            <h1>나는 개인정보 수정페이지</h1>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h1>나는 개인정보 수정페이지</h1>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     )
 }

@@ -1,12 +1,8 @@
-import {Link} from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useEffect, useState} from "react";
-// import {Cookies} from "react-cookie";
+
+
 
 function NavigationBar() {
-    const navigate = useNavigate();
-
     const logout = () => {
         axios.post('/logout')
             .then(function res(response){

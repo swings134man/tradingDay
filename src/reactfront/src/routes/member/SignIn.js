@@ -52,7 +52,7 @@ function SignIn() {
         <div>
 
             <div id="con">
-                <div id="login">r
+                <div id="login">
                     <div id="login_form">
                         <form onSubmit={loginOnClick}>
                             <h3 className="login" style={{letterSpacing: -1}}>Happy Trade ~</h3>

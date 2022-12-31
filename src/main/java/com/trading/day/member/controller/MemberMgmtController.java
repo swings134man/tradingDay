@@ -1,39 +1,18 @@
 package com.trading.day.member.controller;
 
-import com.trading.day.config.jwtConfig.JWTLoginFilter;
-import com.trading.day.config.jwtConfig.JWTUtil;
-import com.trading.day.jwtToken.domain.ResponseTokenDTO;
-import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
-import com.trading.day.qna.domain.Qna;
-import com.trading.day.qna.domain.QnaDTO;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /************
@@ -53,17 +32,6 @@ public class MemberMgmtController {
     private final MemberService memberService;
 
 
-//    @GetMapping("/signin")
-//    public void oauthLogin(HttpServletResponse response) throws IOException {
-//        String redirect_uri="/member/signin";
-//        response.sendRedirect(redirect_uri);
-//    }
-
-//    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-//    public void handleGet(HttpServletResponse response) {
-//        response.setHeader("Location", "localhost:3000/member/signin");
-//        response.setStatus(302);
-//    }
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     public ResponseEntity handleGet(HttpServletResponse response) {
         HttpHeaders headers = new HttpHeaders();
@@ -71,24 +39,21 @@ public class MemberMgmtController {
         return new ResponseEntity(headers, HttpStatus.FOUND);
     }
 
-
-//    @GetMapping("/signin")
-//    public String oauthLogin(HttpServletResponse response) throws IOException {
-//        //String redirect_uri="http://localhost:3000/member/signin";
-//
-//        System.out.println("@@@");
-//        return "redirect:http://localhost:3000/member/signin";
-//
-//    }
-
-
-
     // -----------------> test Only
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/greeting")
     public String hello() {
         return "hello";
     }
+
+    @PostMapping("/pwdchk")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @ApiOperation(value ="고객 정보 수정시 비밀번호 확인 API", notes ="고객 정보 수정시 비밀번호 확인함")
+    public boolean memberModiPwdChk(@RequestBody MemberDTO memberDTO) {
+        return memberService.memberModiPwdChk(memberDTO);
+    }
+
+
 
 
     /**

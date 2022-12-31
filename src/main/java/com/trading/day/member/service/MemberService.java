@@ -24,12 +24,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.userdetails.User;
 
 import javax.mail.Header;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,6 @@ public class MemberService implements UserDetailsService{
     private final UserRoleJpaRepository urRepository; // User_Role
     private final RoleJpaRepository roleRepository; // Role
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
-
     private final TokenManageJpaRepository tokenManageJpaRepository;
 
     public Long save(MemberDTO inDto) {
@@ -87,6 +88,17 @@ public class MemberService implements UserDetailsService{
         return result.getMemberNo();
 
     }
+
+    public boolean memberModiPwdChk(MemberDTO memberDTO) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        Member searchRslt = memberRepository.findByMemberId(memberDTO.getMemberId());
+        String dbPwd = searchRslt.getPwd();
+        String dtoPwd = memberDTO.getPwd();
+
+        return bCryptPasswordEncoder.matches(dtoPwd, dbPwd);
+    }
+
 
     public Member save2(Member member) {
         return memberRepository.save(member);

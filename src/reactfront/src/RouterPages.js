@@ -20,13 +20,14 @@ import ApplyDetail from "./routes/apply/ApplyDetail";
 import ApplyAccept from "./routes/apply/ApplyAccept";
 import Mypage from "./routes/member/MyPage";
 import MyPage from "./routes/member/MyPage";
+import PersonInfoModi from "./routes/member/PersonInfoModi";
 
 function RouterPages () {
     return (
         <div>
         <Router>
         <NavigationBar />
-s
+
         <Routes>
             <Route path="/" element={<Home />} />
             {/*member 관련 route*/}
@@ -35,6 +36,7 @@ s
             <Route path="/member/signup" element={<SignUp />}/>
             <Route path="/logout" element={<Home />} />
             <Route path="/member/mypage" element={<MyPage/>} />
+            <Route path="/member/personalinfomodi" element={<PersonInfoModi/>} />
 
             {/*qna관련 route*/}
             <Route path="/qnaboard" element={<QnaBoard />} />
