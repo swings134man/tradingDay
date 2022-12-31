@@ -36,7 +36,6 @@ function SignIn() {
             console.log(res);
             //"ROLE_USER"
             localStorage.setItem("userRole", res.data.authorities[0].authority)
-            console.log(localStorage.getItem("userRole"));
             // auth_token은 로컬스토리지
             localStorage.setItem('auth_token', res.headers.auth_token);
             localStorage.setItem('memberId', res.data.username);

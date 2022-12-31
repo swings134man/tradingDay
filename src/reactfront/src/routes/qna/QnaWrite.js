@@ -45,7 +45,7 @@ function QnaWrite() {
             headers: {
                 "Content-type": "application/json",
                 AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
-            } ,
+            },
             body: JSON.stringify({
                 title: titleVal,
                 content: contentVal,

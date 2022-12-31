@@ -1,23 +1,34 @@
 import {useEffect, useState} from "react";
 import PersonInfoModi from "./PersonInfoModi";
 import PersonPwdChk from "./PersonPwdChk";
+import {render} from "react-dom";
 
-function MyPage({pwdChk}) {
+
+
+function MyPage(props) {
+
     // false인 경우 마이 페이지 렌더링, true인 경우 지원서 페이지 렌더링 온클릭에 넣어서 분기
     const [quarter, setQuarter] = useState();
-    const [memberPwdChk, setMemberPwdChk] = useState(false);
+    //const [memberPwdChk, setMemberPwdChk] = useState(false);
+    console.log('props', props.pwdChk)
+
+    const memberPwdChk = () => {
+        if(props.pwdChk) {
+            setQuarter(false);
+        }
+    }
+
 
     useEffect(() => {
-        console.log(pwdChk)
-        setMemberPwdChk(pwdChk);
-    }, [])
+
+    }, [props.pwdChk])
 
 
     const pageRender = (page) => {
         let pageId = page.target.getAttribute("data-id")
         if(pageId === "mypage") {
             setQuarter(false)
-        } else {
+        } else if( pageId === "apply") {
             setQuarter(true)
         }
     }
@@ -45,8 +56,9 @@ function MyPage({pwdChk}) {
                     {quarter === false ?
                         <PersonPwdChk /> : null
                     }
-                    { memberPwdChk === true ?
-                        <PersonInfoModi /> : null }
+
+                    {/*{ props.pwdChk === true ?*/}
+                    {/*    <PersonInfoModi /> : null }*/}
 
                 </div>
             </div>
