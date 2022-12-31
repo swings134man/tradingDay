@@ -1,16 +1,51 @@
 import style from "../../css/signInStyle.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useRef} from "react";
+import axios from "axios";
+import { userNavigate } from "react-router-dom";
 
 function SignIn() {
+
+
     const idRef = useRef(null);
     const pwdRef = useRef(null);
+    const navigate = useNavigate();
 
     const loginOnClick = (e) =>  {
         e.preventDefault();
-    }
 
+        const idVal = idRef.current.value;
+        const pwdVal = pwdRef.current.value;
 
+        if (idVal == "") {
+            alert("아이디를 입력하세요");
+            idRef.current.focus();
+                return;
+        } else if (pwdVal == "") {
+            alert("비밀번호를 입력하세요");
+            pwdRef.current.focus();
+                return;
+        }
+
+        axios.post('/member/v1/login', {
+            memberId : idVal,
+            pwd : pwdVal
+        },
+            {withCredentials:true}
+        ).then(function (res) {
+            console.log(res);
+            //"ROLE_USER"
+            localStorage.setItem("userRole", res.data.authorities[0].authority)
+            console.log(localStorage.getItem("userRole"));
+            // auth_token은 로컬스토리지
+            localStorage.setItem('auth_token', res.headers.auth_token);
+            localStorage.setItem('memberId', res.data.username);
+            navigate('/')
+
+        }).catch(function (err){
+            alert('아이디와 비밀번호를 확인하세요');
+        })
+    } // login onClick
 
 
     return(
@@ -34,7 +69,8 @@ function SignIn() {
                             <br />
                                 <label>
                                     <p style={{textAlign: "left", fontSize: 12, color: "#666"}}>Password </p>
-                                    <input type="text" placeholder="비밀번호를 입력" className="size" ref={pwdRef}/>
+                                    <input
+                                        type="password" placeholder="비밀번호를 입력" className="size" ref={pwdRef}/>
                                 </label>
                             <hr/>
                                 <p>

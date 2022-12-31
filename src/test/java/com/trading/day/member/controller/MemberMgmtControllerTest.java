@@ -88,16 +88,16 @@ class MemberMgmtControllerTest {
         roleRepository.save(role2);
         roleRepository.save(role3);
 
-        // Member
-//        MemberDTO inDto = MemberDTO.builder()
-//                .name("아이유")
-//                .memberId("iu")
-//                .email("iu@naver.com")
-//                .address("나는주소")
+        // admin 계정 생성
+//        MemberDTO memberDTO = MemberDTO.builder()
+//                .name("관리자")
+//                .memberId("admin")
+//                .email("admin@trading.com")
+//                .address("서울시 어딘가")
 //                .build();
-//        Long memberNo = service.save(inDto);
-
-        //Assertions.assertThat(1L).isEqualTo(memberNo);
+//        Long memberNo = service.save(memberDTO);
+//
+//        Assertions.assertThat(1L).isEqualTo(memberNo);
     }
 
 

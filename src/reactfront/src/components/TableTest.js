@@ -1,10 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {v4} from 'uuid';
 import {Link} from "react-router-dom";
+import {manageQuarter} from "./RoleQuarterUtil";
 
 
 function TableTest({data}) {
     let date = "";
+    const [userRole, setUserRole] = useState("");
+    //
+    // setUserRole(manageQuarter(localStorage.getItem("memberId")));
+    useEffect(() => {
+        setUserRole(manageQuarter(localStorage.getItem("userRole")));
+    }, []);
+
 
     return (
         <div>
@@ -23,13 +31,12 @@ function TableTest({data}) {
                             <td>
                                 {dataList.qnaId}
                             </td>
-                            <td>
-                                {/*<Link to={`/qnaDetail/${dataList.qnaId}`}> {dataList.title} </Link>*/}
-                                <Link to={`/qnapwdchk/${dataList.qnaId}`}> {dataList.title} </Link>
-                            </td>
-                            {/*<td>*/}
-                            {/*    {dataList.content}*/}
-                            {/*</td>*/}
+                                <td>
+                                    {userRole !== "admin" ?
+                                    <Link to={`/qnapwdchk/${dataList.qnaId}`}> {dataList.title} </Link>
+                                     : <Link to={`/qnadetail/${dataList.qnaId}`}> {dataList.title} </Link>
+                                    }
+                                </td>
                             <td>
                                 {dataList.writer}
                             </td>

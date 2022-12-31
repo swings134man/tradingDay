@@ -18,6 +18,8 @@ import ApplyWrite from "./routes/item/ApplyWrite";
 import ApplyBoardList from "./routes/apply/ApplyBoardList";
 import ApplyDetail from "./routes/apply/ApplyDetail";
 import ApplyAccept from "./routes/apply/ApplyAccept";
+import Mypage from "./routes/member/MyPage";
+import MyPage from "./routes/member/MyPage";
 
 function RouterPages () {
     return (
@@ -29,13 +31,16 @@ s
             <Route path="/" element={<Home />} />
             {/*member 관련 route*/}
             <Route path="/member/signin" element={<SignIn />}/>
+            <Route path="/login" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>
+            <Route path="/logout" element={<Home />} />
+            <Route path="/member/mypage" element={<MyPage/>} />
 
             {/*qna관련 route*/}
-            <Route path="qna/qnaBoard" element={<QnaBoard />} />
-            <Route path="/qnaDetail/:qnaId" element={<QnaDetail />} />
-            <Route path="qnaUpdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
-            <Route path="/qnaWrite" element={<QnaWrite />} />
+            <Route path="/qnaboard" element={<QnaBoard />} />
+            <Route path="/qnadetail/:qnaId" element={<QnaDetail />} />
+            <Route path="qnaupdate/:qnaId/:title/:writer/:content/:createdDate" element={<QnaUpdate />} />
+            <Route path="/qnawrite" element={<QnaWrite />} />
             <Route path="/qnapwdchk/:qnaId" element={<QnaPwdChk />} />
 
             {/* item route */}

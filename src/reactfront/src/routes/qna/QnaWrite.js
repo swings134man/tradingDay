@@ -37,22 +37,27 @@ function QnaWrite() {
                 return;
         }
 
-        const uri = `http://localhost:8080/qna/v1/qna`;
+        const uri = `http://localhost:3000/qna/v1/qna`;
         const encoded = encodeURI(uri);
         fetch(encoded, {
-            method: "PUT",
+            method: "POST",
+            credentials : 'include',
             headers: {
                 "Content-type": "application/json",
-            },
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            } ,
             body: JSON.stringify({
                 title: titleVal,
                 content: contentVal,
-                writer: "xodlf5363",
+                writer: localStorage.getItem('memberId'),
                 pwd: pwdVal
             }),
         }).then(res => {
+            if(res.status === 403) {
+                navigate('/member/signin');
+            }
             if(res.ok) {
-                navigate('/qna/qnaBoard');
+                navigate('/qnaboard');
             } else {
                 alert("문의 작성에 실패했습니다. 잠시 후 다시 시도해주세요");
             }
@@ -63,7 +68,7 @@ function QnaWrite() {
         <div>
             <div align="center" style={{padding : 100}}>
                 <div >
-                    <h1>나는 qna등록 페이지</h1>
+                    <h1>문의글 작성</h1>
                 </div>
                 <form onSubmit={onSubmit}>
                     <table className="table table-striped table-bordered table-hover" >
@@ -71,7 +76,7 @@ function QnaWrite() {
                         <tbody>
                         <tr>
                             <th scope="row">작성자</th>
-                            <td >xodlf5363</td>
+                            <td >{localStorage.getItem("memberId")}</td>
                         </tr>
                         <tr>
                             <th scope="row" >제목</th>

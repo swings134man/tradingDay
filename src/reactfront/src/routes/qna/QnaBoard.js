@@ -1,19 +1,26 @@
 import React, {useState, useEffect, useRef} from 'react';
 import TableTest from "../../components/TableTest";
 import 'bootstrap/dist/css/bootstrap.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
 
 import Pagination from "react-js-pagination";
+import {authTokenCheck} from "../../components/AuthTokenCheck";
 
 function QnaBoard() {
+    const navi = useNavigate();
     const [qnaList, setQnaList] = useState([]);
     const [totalElements, setTotalElements] = useState(0);
-
     const [page, setPage] = useState(1);
     const [isCheckingBox, setIsCheckingBox] = useState(false)
 
-    // TODO : 로그인 구현 되면 세션 아이디로 파라메터 대체.
-    const id = "xodlf5363";
+
+    useEffect(() => {
+        const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
+        if(chkVal == null) {
+            navi("/member/signin");
+        }
+    }, []);
 
     const checkingCheckedBox = (e) => {
         if (e.target.checked) {
@@ -30,7 +37,15 @@ function QnaBoard() {
     useEffect(() => {
         if(isCheckingBox) {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${id}`);
+                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${localStorage.getItem("memberId")}`, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                    }
+                });
+                if(res.status === 403) {
+                    // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                    navi("/member/signin");
+                }
                 const data = await res.json();
                 console.log("나는 부분 조회 data", data)
                 setQnaList(data);
@@ -39,7 +54,15 @@ function QnaBoard() {
             getData();
         } else {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
+                const res = await fetch(`/qna/v1/qnabylist?page=${page}`, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                    }
+                })
+                if(res.status === 403) {
+                    // 403 에러발생 --> 어스토큰 , 리프레시 토큰 둘다 만료거나 유효하지 않기 때문에 다시 로그인.
+                    navi("/member/signin");
+                }
                 const data = await res.json();
                 console.log("나는 전체 조회 data", data)
                 setQnaList(data);
@@ -48,16 +71,6 @@ function QnaBoard() {
             getData();
         }
     }, [isCheckingBox, page])
-
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const res = await fetch(`/qna/v1/qnabylist?page=${page}`);
-    //         const data = await res.json();
-    //         setQnaList(data);
-    //         setTotalElements(data.totalElements);
-    //     }
-    //     getData();
-    // }, [page])
 
     return (
 
@@ -76,7 +89,6 @@ function QnaBoard() {
                     </button>
                 </div>
                 <div align="center" >
-                {/*<Label><input type="checkbox" />체크박스 선택시 내가 작성한 글만 볼 수 있습니다.</Label>*/}
                     <input type="checkbox" style={{margin: 3, zoom: 1.5}} onClick={checkingCheckedBox}  />
                     <label style={{margin: 3 }}>체크박스 선택시 내가 작성한 글만 볼 수 있습니다.</label>
                 </div>

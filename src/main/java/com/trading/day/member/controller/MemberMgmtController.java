@@ -1,5 +1,9 @@
 package com.trading.day.member.controller;
 
+import com.trading.day.config.jwtConfig.JWTLoginFilter;
+import com.trading.day.config.jwtConfig.JWTUtil;
+import com.trading.day.jwtToken.domain.ResponseTokenDTO;
+import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
@@ -10,6 +14,16 @@ import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +31,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,12 +43,53 @@ import java.util.List;
 * @author : SeokJun Kang(swings134@gmail.com)
 * @version : 1.0.0
 ************/
+
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/member/v1")
 public class MemberMgmtController {
 
     private final MemberService memberService;
+
+
+//    @GetMapping("/signin")
+//    public void oauthLogin(HttpServletResponse response) throws IOException {
+//        String redirect_uri="/member/signin";
+//        response.sendRedirect(redirect_uri);
+//    }
+
+//    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+//    public void handleGet(HttpServletResponse response) {
+//        response.setHeader("Location", "localhost:3000/member/signin");
+//        response.setStatus(302);
+//    }
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public ResponseEntity handleGet(HttpServletResponse response) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "localhost:3000/member/signin");
+        return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+
+//    @GetMapping("/signin")
+//    public String oauthLogin(HttpServletResponse response) throws IOException {
+//        //String redirect_uri="http://localhost:3000/member/signin";
+//
+//        System.out.println("@@@");
+//        return "redirect:http://localhost:3000/member/signin";
+//
+//    }
+
+
+
+    // -----------------> test Only
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/greeting")
+    public String hello() {
+        return "hello";
+    }
+
 
     /**
      * methodName : findAll
@@ -49,11 +106,31 @@ public class MemberMgmtController {
 
     // 회원 가입
     @PostMapping("/save")
+    @PreAuthorize("isAnonymous()")
     @ApiOperation(value =  "회원 가입 api", notes = "회원 가입 처리함")
     public Long save(@RequestBody MemberDTO memberDTO) {
         Long result = memberService.save(memberDTO);
         return result;
     }
+
+
+
+
+    /**
+     * methodName : saveManage
+     * author : TAEIL KIM
+     * description : 매니저 계정은 어드민계정만 가능하다.
+     *
+     * @return Long
+     */
+    @PostMapping("/savemanage")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @ApiOperation(value = "admin권한을 가진 계정으로 매니저권한을 가진 계정을 생성 api", notes = "admin권한을 가진 계정으로 매니저권한을 가진 계정을 생성함")
+    public Long manageSave(@RequestBody MemberDTO memberDTO) {
+        Long result = memberService.manageSave(memberDTO);
+        return result;
+    }
+
 
     @DeleteMapping("/deletemember")
     @ApiOperation(value =  "회원 탈퇴 api", notes = "회원 탈퇴 처리함")
@@ -72,22 +149,6 @@ public class MemberMgmtController {
         MemberDTO result = memberService.findById(inDto);
         return result;
     }
-
-    /**
-     * methodName : memberLogin
-     * author : TAEIL KIM
-     * description :
-     *
-     * @param MemberDTO
-     * @return String
-     */
-    @ApiOperation(value = "회원 로그인 api", notes = "회원 로그인 처리함")
-    @PostMapping("/memberlogin")
-    public String memberLogin (@RequestBody MemberDTO memberDTO) {
-        return "df";
-    }
-
-
 
     /**
      * methodName : updateMember
@@ -117,6 +178,7 @@ public class MemberMgmtController {
 
     // 회원 아이디로 회원 객체 검색
     @GetMapping("/findbymemberid")
+    @PreAuthorize("isAnonymous()")
     public MemberDTO findByMemberId(@RequestParam String memberId) {
         MemberDTO inDTO = MemberDTO.builder()
                 .memberId(memberId)
@@ -133,6 +195,7 @@ public class MemberMgmtController {
      *
      * @return int
      */
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/chkdupliId")
     @ApiOperation(value =  "회원가입시 사용되는 아이디 중복확인 api", notes = "아이디 중복을 체크함")
     public int chkDupliId(@RequestParam String memberId) {

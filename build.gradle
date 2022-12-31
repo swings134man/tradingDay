@@ -26,20 +26,32 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' // Model mapper
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc' // h2
 	implementation 'com.google.code.gson:gson:2.10'
+	testImplementation 'org.projectlombok:lombok:1.18.22'
 	runtimeOnly 'com.h2database:h2'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
+
 	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor('org.projectlombok:lombok')
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 
 	//https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 
+
+
+
+
+
+
 	implementation 'org.springframework.boot:spring-boot-starter-mail' // Email
+	implementation("com.auth0:java-jwt:3.16.0")
 }
 
 tasks.named('test') {
