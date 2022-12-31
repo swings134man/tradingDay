@@ -47,7 +47,7 @@ public class MemberMgmtController {
     }
 
     @PostMapping("/pwdchk")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+//    @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value ="고객 정보 수정시 비밀번호 확인 API", notes ="고객 정보 수정시 비밀번호 확인함")
     public boolean memberModiPwdChk(@RequestBody MemberDTO memberDTO) {
         return memberService.memberModiPwdChk(memberDTO);
