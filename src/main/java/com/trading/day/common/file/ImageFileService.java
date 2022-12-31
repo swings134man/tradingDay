@@ -26,7 +26,7 @@ import java.util.UUID;
 @Slf4j
 public class ImageFileService {
 
-    @Value("${file.dir}")
+    @Value("${spring.servlet.multipart.location}")
     private String filePath; // file path : /Users/seokjunKang/intellij-gradle/day-file/
 
     private final ImageFileJpaRepository repository; //repo

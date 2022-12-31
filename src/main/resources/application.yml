@@ -1,0 +1,99 @@
+#Trading - Day
+
+# Locations
+  # http://localhost:8080/swagger-ui.html
+
+# Default setting
+spring:
+  profiles:
+    active: h2
+
+  #    JPA
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        formate_sql: true
+    hibernate:
+      ddl-auto: none
+    # SQL Auto Create allow - 1.use: true, allow, 2.notUse: false, never setting
+    defer-datasource-initialization: false
+
+  sql:
+     init:
+      mode: never
+
+# swaggerDoc
+  springdoc:
+    api-docs:
+      path: /api-docs
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  springdoc-swagger-ui:
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: false
+#  springdoc.swagger-ui.path-/swagger-ui.html
+
+ # Email
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: email.test.only134@gmail.com
+      password: ''
+      properties:
+        mail:
+          debug: true
+          smtp:
+            connectiontimeout: 5000
+            starttls:
+              enable: true
+              required: true
+            auth: false
+
+# File Server - TODO: profiles setting to Move
+  servlet:
+      multipart:
+         enabled: true
+         max-file-size: 100MB
+         max-request-size: 150MB
+         file-size-threshold: 2KB
+         location: /Users/seokjunKang/intellij-gradle/day-file
+
+#file.dir: /Users/seokjunKang/intellij-gradle/day-file/
+
+
+---
+# H2
+  spring:
+    config:
+      activate:
+        on-profile: h2
+    datasource:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:tcp://localhost/~/trade
+      username: sa
+# batch
+    batch:
+      jdbc:
+        initialize-schema: embedded
+      job:
+        enabled: true
+
+---
+# MySQL
+  spring:
+    config:
+      activate:
+        on-profile: mysql
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/make?useSSL=false
+      username: root
+      password: 1234
+# batch
+    batch:
+      jdbc:
+        initialize-schema: always
+      job:
+        enabled: true
