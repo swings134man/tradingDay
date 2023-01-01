@@ -51,8 +51,11 @@ function MyPage(props) {
                 </div>
             </div>
 
-            <div id="page-content-wrapper">
-                <div className="container-fluid">
+            <div style={{paddingLeft: 400}}>
+            {/*<div style={{margin: 0 "auto"}}>*/}
+            {/*<div id="page-content-wrapper">*/}
+            {/*    <div className="container-fluid">*/}
+                <div>
                     {quarter === false ?
                         <PersonPwdChk /> : null
                     }
