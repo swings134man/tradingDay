@@ -24,12 +24,16 @@ function ItemBoard() {
         try {
             const item = await axios.get(`/item/v1/findAllPage`, {
                 params: {page}
+            }, {
+                headers: {
+                    AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                }
             });
             setItemList(item.data);
             console.log(itemList);
         } catch (err) {
             console.log(err);
-        };
+        }
     }
         getData();
     }, [page])//use eff

@@ -31,7 +31,7 @@ function ItemDetail() {
             console.log(item.data);
         }
         getData();
-
+        // console.log("length? " + data.replys);
         // 이미지 to Server
         // const dataImageList = item.data.images; // Image List
         // console.log('이미지 리스트 : '+dataImageList);
@@ -89,21 +89,32 @@ function ItemDetail() {
     /*
      댓글
     */
-    const writerId = "iu1234"; // 작성자 ID --> TODO : Login session ID
+    const writerId = localStorage.getItem("memberId") // 작성자 ID --> TODO : Login session ID
     let replyId = 0; // 댓글 ID
     const answerRef = useRef(null);
 
     // 댓글 post
     const onClickReply = () => {
-        const replyInputVal = answerRef.current.value; // 댓글 입력값.
+        // 비로그인시
+        if(localStorage.getItem("memberId") === null) {
+            const rCon = window.confirm("해당 기능은 로그인이 필요한 서비스 입니다!");
+            if(rCon === true) {
+                navigate("/member/signin");
+                return;
+            }else {
+                return;
+            }
+        }
 
-            axios.post('/item/v1/reply/save', {
+        const replyInputVal = answerRef.current.value; // 댓글 입력값.
+            axios.post('/item/v1/reply/auth/save', {
                     boardId: id,
                     writer: writerId,
                     content: replyInputVal
             }, {
                 headers: {
                     "Content-Type": `application/json`,
+                    AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                 }}).then(function (response){
                 console.log('댓글 작성 완료');
                 answerRef.current.value = "";
@@ -118,21 +129,41 @@ function ItemDetail() {
     //댓글 delete
     const onClickReplyDelete = (e) => {
         // TODO : 로그인 상황에 따라 삭제 버튼을 disable, 혹은 해당 함수에서 제거.
-        let replyId = e.target.getAttribute('data-id');
-        const cfm = window.confirm('해당 댓글을 정말 삭제하시겠습니까?');
-        if(cfm === true){
-            axios.delete('/item/v1/reply/delete', {
-                params: {
-                    id:replyId
-                }
-            }).then(function (res) {
-                console.log('댓글 삭제 완료');
-                reSearch();
-            }).catch(function (error) {
-                console.log('댓글 삭제중 문제가 발생 : '+error);
-                window.alert('댓글 삭제중 문제가 발생');
-            })
+        let replyId = e.target.getAttribute('data-id'); // 댓글 Long
+        let replyWriter = e.target.getAttribute('data-writer'); // 댓글 작성자
+
+        // 권한 체크
+        // if(localStorage.getItem("memberId") === null || replyWriter !== localStorage.getItem("memberId")){
+        //     window.alert("해당 댓글의 삭제 권한이 없습니다.");
+        //     return;
+        // }
+
+        if(replyWriter === localStorage.getItem("memberId")
+            || localStorage.getItem("memberId") === "admin" || localStorage.getItem("memberId") === "manager") {
+            // Delete
+            const data = {id: replyId*1};
+            const cfm = window.confirm('해당 댓글을 정말 삭제하시겠습니까?');
+            if(cfm === true){
+                axios.delete('/item/v1/reply/auth/delete?id='+ replyId*1, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+                    },
+                }).then(function (res) {
+                    console.log('댓글 삭제 완료');
+                    reSearch();
+                }).catch(function (error) {
+                    console.log('댓글 삭제중 문제가 발생 : '+error);
+                    window.alert('댓글 삭제중 문제가 발생');
+                })
+            }
+        }else if (localStorage.getItem("memberId") === null || replyWriter !== localStorage.getItem("memberId")) {
+                window.alert("해당 댓글의 삭제 권한이 없습니다.");
+                return;
         }
+
+
+
+
     } //del
 
     // 댓글 update
@@ -155,8 +186,13 @@ function ItemDetail() {
     const answerClickUpdate = (e) => {
         const modiAnswerVal = modiAnswerRef.current.value; // textarea
         replyId = e.target.getAttribute("data-id"); // 댓글의 아이디
+        if(replyId !== localStorage.getItem("memberId")) {
+            window.alert("해당 댓글의 수정 권한이 없습니다.")
+            return;
+        }
 
-        axios.put(`/item/v1/reply/update`, {
+
+        axios.put(`/item/v1/reply/auth/update`, {
             id: replyId,
             writer: writerId,
             content: modiAnswerVal,
@@ -174,10 +210,22 @@ function ItemDetail() {
 
     // 지원하기 버튼
     const clickApply = () => {
+        // 모집 완료시
         if(data.type === '모집완료') {
             window.alert('해당 게시글은 모집이 완료되었습니다.');
             return;
         }
+        // 비로그인 시
+        if(localStorage.getItem("memberId") == null) {
+            const conf = window.confirm("로그인이 필요한 기능입니다!");
+            if(conf === true) {
+                navigate("/member/signin");
+                return;
+            }else {
+                return;
+            }
+        }
+
         navigate('/applyWrite/' + data.id + '/' + data.writer);
     }
 
@@ -250,17 +298,24 @@ function ItemDetail() {
                 {/*        src={'/Users/seokjunKang/intellij-gradle/day-file/30c746db-55f4-4f12-a993-72df17b8b78d.png'}/>*/}
 
                 </div>
-
+                {localStorage.getItem("memberId") === data.writer
+                || localStorage.getItem("memberId") === 'admin' || localStorage.getItem("memberId") === 'manager'
+                    ?
                 <div align="right">
-                    <button className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}} >
-                        <Link to={`/itemBoardUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`} style={{color: "white"}}>
-                            게시글 수정
-                        </Link>
-                    </button>
-                    <button onClick={onClickDelete} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
-                        게시글 삭제
-                    </button>
-                </div>
+                        <button className="btn btn-warning"
+                                style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
+                            <Link
+                                to={`/itemBoardUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`}
+                                style={{color: "white"}}>
+                                게시글 수정
+                            </Link>
+                        </button>
+                        <button onClick={onClickDelete} className="btn btn-warning"
+                                style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
+                            게시글 삭제
+                        </button>
+                </div> : <div></div>
+                }
                 {/* 댓글 */}
                 <div align="center" style={{ padding : 75}}>
                     <hr />
@@ -283,69 +338,110 @@ function ItemDetail() {
                         </tr>
                         </tbody>
                     </table>
+
                     {/*댓글 list*/}
-                    <table border={1} className="table table-striped table-bordered ">
-                        <tbody >
-                        {data.replys && data.replys.map(answer =>  (
-                            <tr key={v4()}>
-                                <td>
-                                    <div border={1}>
-                                        <div  style={{ backgroundColor: "#EBEBEB"}}>
-                                            <div style={{padding:10, fontWeight:"bold"}}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
+                    <br/>
+                    <h3>댓글 목록</h3>
+                    {data.replys <= 0 ? <h4>댓글이 존재 하지 않습니다!</h4>
+                        :
+                        <table border={1} className="table table-striped table-bordered ">
+                            <tbody>
+                            {data.replys && data.replys.map(answer => (
+                                <tr key={v4()}>
+                                    <td>
+                                        <div border={1}>
+                                            <div style={{backgroundColor: "#EBEBEB"}}>
+                                                <div style={{
+                                                    padding: 10,
+                                                    fontWeight: "bold"
+                                                }}> {answer.writer} {writeDate = answer.createdDate.substring(0, 10)}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        {answer.content}
                                         <div>
+                                            {answer.content}
+                                            <div>
 
-                                        </div>
-                                        {/*<div align="right">*/}
-                                        {/*    <button className="btn btn-warning"*/}
-                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                        {/*            data-id={answer.id}*/}
-                                        {/*            onClick={(e) => {answerClickDelete(e)}}>삭제</button>*/}
+                                            </div>
+                                            {/*<div align="right">*/}
+                                            {/*    <button className="btn btn-warning"*/}
+                                            {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
+                                            {/*            data-id={answer.id}*/}
+                                            {/*            onClick={(e) => {answerClickDelete(e)}}>삭제</button>*/}
 
-                                        {/*    <button className="btn btn-warning"*/}
-                                        {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                        {/*            data-id={answer.id}*/}
-                                        {/*            // onClick={(e) => {answerClickUpdate(e)}}>>수정</button>*/}
-                                        {/*            onClick={modiInputShow}>수정</button>*/}
-                                        {/*</div>*/}
+                                            {/*    <button className="btn btn-warning"*/}
+                                            {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
+                                            {/*            data-id={answer.id}*/}
+                                            {/*            // onClick={(e) => {answerClickUpdate(e)}}>>수정</button>*/}
+                                            {/*            onClick={modiInputShow}>수정</button>*/}
+                                            {/*</div>*/}
 
-                                        {modiTextArea && selectIndex == answer.id? (
-                                            <div style={{float:"left"}}>
-                                                <textarea style={{width: 800, height: 100}} placeholder="수정내용을 입력하세요" ref={modiAnswerRef}/>
+                                            {modiTextArea && selectIndex == answer.id ? (
+                                                <div style={{float: "left"}}>
+                                                    <textarea style={{width: 800, height: 100}}
+                                                              placeholder="수정내용을 입력하세요" ref={modiAnswerRef}/>
 
+                                                    <div align="right">
+                                                        <button className="btn btn-warning"
+                                                                style={{
+                                                                    backgroundColor: "#217Af0",
+                                                                    width: 45,
+                                                                    height: 25,
+                                                                    color: "white",
+                                                                    fontSize: 10
+                                                                }}
+                                                                data-id={answer.id}
+                                                                onClick={answerClickUpdate}
+                                                        > 수정
+                                                        </button>
+                                                        <button className="btn btn-warning"
+                                                                style={{
+                                                                    backgroundColor: "#217Af0",
+                                                                    width: 70,
+                                                                    height: 25,
+                                                                    color: "white",
+                                                                    fontSize: 10
+                                                                }}
+                                                                onClick={modiInputShow}> 수정취소
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
                                                 <div align="right">
                                                     <button className="btn btn-warning"
-                                                            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
+                                                            style={{
+                                                                backgroundColor: "#217Af0",
+                                                                width: 45,
+                                                                height: 25,
+                                                                color: "white",
+                                                                fontSize: 10
+                                                            }}
                                                             data-id={answer.id}
-                                                            onClick={answerClickUpdate}
-                                                    > 수정 </button>
-                                                    <button className="btn btn-warning"
-                                                            style={{backgroundColor: "#217Af0", width: 70, height: 25, color: "white", fontSize:10}}
-                                                            onClick={modiInputShow} > 수정취소 </button>
-                                                </div>
-                                            </div>
-                                        ) :  (
-                                            <div align="right">
-                                                <button className="btn btn-warning"
-                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
-                                                        data-id={answer.id}
-                                                        onClick={(e) => {onClickReplyDelete(e)}}>삭제</button>
+                                                            data-writer={answer.writer}
+                                                            onClick={(e) => {
+                                                                onClickReplyDelete(e)
+                                                            }}>삭제
+                                                    </button>
 
-                                                <button className="btn btn-warning"
-                                                        style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}
-                                                        data-id={answer.id}
-                                                        onClick={modiInputShow}>수정</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                                                    <button className="btn btn-warning"
+                                                            style={{
+                                                                backgroundColor: "#217Af0",
+                                                                width: 45,
+                                                                height: 25,
+                                                                color: "white",
+                                                                fontSize: 10
+                                                            }}
+                                                            data-id={answer.id}
+                                                            onClick={modiInputShow}>수정
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    }
                     {/*상단*/}
                 </div>
             {/*  center  */}
