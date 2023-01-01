@@ -16,9 +16,8 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: none
-    # SQL Auto Create allow - 1.use: true, allow, 2.notUse: false, never setting
+    # SQL Auto Create allow - 1.use: true, always, 2.notUse: false, never setting
     defer-datasource-initialization: false
-
   sql:
      init:
       mode: never
@@ -33,7 +32,6 @@ spring:
   springdoc-swagger-ui:
     disable-swagger-default-url: true
     display-query-params-without-oauth2: false
-#  springdoc.swagger-ui.path-/swagger-ui.html
 
  # Email
   mail:

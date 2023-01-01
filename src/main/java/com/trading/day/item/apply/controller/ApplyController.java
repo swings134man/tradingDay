@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /************
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/apply/v1/")
 public class ApplyController {
 
@@ -40,6 +41,7 @@ public class ApplyController {
      * @Description :
      */
     @ApiOperation(value = "지원서 저장 API", notes = "지원서 작성시 저장.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("save")
     public int saveApply(@RequestBody ApplyDTO.ApplyRequest inDTO) {
         int result = service.savePost(inDTO);
@@ -56,6 +58,8 @@ public class ApplyController {
     * @return  :
     * @Description :
     */
+   @ApiOperation(value = "지원서 상세 페이지 API", notes = "각 지원서 디테일 정보 확인.")
+   @PreAuthorize("hasRole('ROLE_USER')")
    @GetMapping("applyDetail")
     public ApplyDTO findByApplyId(@RequestParam Long applyId) {
         ApplyDTO outDTO = service.findByApplyId(applyId);
@@ -73,6 +77,7 @@ public class ApplyController {
      * @Description : String Writer 로 검색후 Paging 처리
      */
     @ApiOperation(value = "문의 리스트 확인 API", notes = "String Wrtier 값으로 문의 Paging 조회.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("findByWriter")
     public Page<ApplyDTO> findByWriter(@RequestParam(required = true) String memberId,
                                        @PageableDefault(size = 10, sort = "applyId", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -95,6 +100,7 @@ public class ApplyController {
      * 지원자 이메일주소, 게시판 ID
      */
     @ApiOperation(value = "지원서 거절 답변", notes = "지원에 대한 거절(불합) 통지")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("applyReplyReject")
     public String applyReplyReject(@RequestBody ApplyDTO.ApplyRequest inDTO) {
         String resultMsg = service.applyReplyReject(inDTO);
@@ -119,6 +125,7 @@ public class ApplyController {
      * 제목, 내용, 지원자 이메일주소
      */
     @ApiOperation(value = "지원서 수락 답변", notes = "지원에 대한 수락(합격) 통지")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("applyReplyAccept")
     public String applyReplyPermit(@RequestBody ApplyDTO.ApplyRequest inDTO) {
         System.out.println("test : " + inDTO);

@@ -6,6 +6,7 @@ import org.apache.catalina.connector.Response;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +44,7 @@ public class ImageFileController {
      */
 
     @ApiOperation(value = "이미지 출력", notes = "게시판 Id로 이미지 출력")
+    @PreAuthorize("isAnonymous()")
     @GetMapping("showImage")
     @ResponseBody
     public Resource showImageByBoardId(@RequestParam("boardId") Long boardId) throws IOException {
@@ -62,6 +64,7 @@ public class ImageFileController {
      * @Description :
      */
     @GetMapping("showImageList")
+    @PreAuthorize("isAnonymous()")
     @ResponseBody
     public void showImageList(@RequestParam List<Long> list) throws IOException{
         List<ImageFile> resultList = service.showImageList(list);
@@ -71,8 +74,6 @@ public class ImageFileController {
 //            resourceList.add(new UrlResource(resultList.get(i).getSavePath()));
 //        }
 //        System.out.println(resourceList.get(0));
-
-
         return ;
     }
 

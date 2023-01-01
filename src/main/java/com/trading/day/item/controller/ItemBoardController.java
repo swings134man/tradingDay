@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +34,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/item/v1/")
 public class ItemBoardController {
 
@@ -49,6 +50,7 @@ public class ItemBoardController {
     * @return  : ItemBoardDTO
     */
     @ApiOperation(value = "게시물 저장 API", notes = "게시물 작성시 저장.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("savePost")
     // parameter @RequestBody 확인 필요
     public ItemBoardDTO savePost(@RequestBody ItemBoardDTO.ItemRequest inDTO) {
@@ -68,6 +70,7 @@ public class ItemBoardController {
     * @return  : Page<ItemBoardDTO>
     */
     @ApiOperation(value = "게시물 전체조회 Paging API", notes = "조건 상관없이 모든 게시물 조회 후 페이징처리.")
+    @PreAuthorize("isAnonymous()")
     @GetMapping("findAllPage")
     public Page<ItemBoardDTO> findAllPage(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         // Page.page : 몇번째 페이지인지, Page.size : 한화면에 몇개의 항목
@@ -86,6 +89,7 @@ public class ItemBoardController {
     * @return  :
     */
     @ApiOperation(value = "게시물 조건 검색 API", notes = "작성자, 제목 중 하나의 조건으로 조회 후 페이징 처리.")
+    @PreAuthorize("isAnonymous()")
     @GetMapping("findTitleOrWriter")
     public Page<ItemBoardDTO> findTitleOrWriter(@RequestParam(required = true) String keyWord, @RequestParam String keyType,
                                   @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
@@ -109,6 +113,7 @@ public class ItemBoardController {
     * @return  : int
     */
     @ApiOperation(value = "게시물 삭제 API", notes = "선택한 게시물 한개 삭제.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("deletePostOne")
     public int deletePostOne(@RequestParam Long id) {
         ItemBoardDTO inDTO = new ItemBoardDTO();
@@ -135,6 +140,7 @@ public class ItemBoardController {
     * @return  : ItemBoardDTO
     */
     @ApiOperation(value = "게시물 정보 수정 API", notes = "게시물 수정시 저장.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("updatePost")
     public ItemBoardDTO updatePost(@RequestBody ItemBoardDTO.ItemRequest inDTO) {
         System.out.println(inDTO.getId());
@@ -154,6 +160,7 @@ public class ItemBoardController {
     * @return  : ItemBoardDTO
     */
     @ApiOperation(value = "게시물 상세 페이지 API", notes = "게시물 상세페이지 이동.")
+    @PreAuthorize("isAnonymous()")
     @GetMapping("detailPost")
     public ItemBoardDTO detailPost(@RequestParam Long id) {
         ItemBoardDTO itemBoardDTO = service.detailPost(id);
@@ -173,6 +180,7 @@ public class ItemBoardController {
      */
     // 이미지 테스트 2 - 현재 사용가능 메서드
     @ApiOperation(value = "게시물 저장 & Image API", notes = "게시물 작성시 이미지,글 저장.")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "savePost/images")
     public ItemBoardDTO savePostImage2(@RequestPart(value = "dto") ItemBoardDTO.ItemRequest inDTO,
                                       @RequestPart(value = "file", required = false) MultipartFile file,
