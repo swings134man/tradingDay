@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 ************/
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/item/v1/reply")
 public class ItemBoardReplyController {
 
@@ -31,7 +31,7 @@ public class ItemBoardReplyController {
 
     @ApiOperation(value = "item 게시판 댓글 저장 API", notes = "게시판 댓글 저장")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/save")
+    @PostMapping("/auth/save")
     public ItemBoardReplyDTO replySave(@RequestBody ItemBoardReplyDTO inDTO) {
         System.out.println(" Control indto : " + inDTO);
         return service.replySave(inDTO);
@@ -39,15 +39,15 @@ public class ItemBoardReplyController {
 
     @ApiOperation(value = "item 게시판 댓글 수정 API", notes = "게시판 댓글 수정")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("update")
+    @PutMapping("/auth/update")
     public ItemBoardReplyDTO replyUpdate(@RequestBody ItemBoardReplyDTO inDTO) {
         return service.replyUpdate(inDTO);
     }
 
     @ApiOperation(value = "item 게시판 댓글 삭제 API", notes = "게시판 댓글 삭제")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @DeleteMapping("/delete")
-    public int replyDelete(@RequestParam Long id) {
+    @DeleteMapping("/auth//delete")
+    public int replyDelete(@RequestParam("id") long id) {
         return service.replyDelete(id);
     }
 
