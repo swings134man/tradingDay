@@ -31,19 +31,43 @@ function PersonPwdChk() {
             },
             {withCredentials:true}
         ).then(function (res) {
-            console.log(res)
             setPwdSuccess(res.data);
         }).catch(function (err){
             setPwdSuccess(false);
             // setPwdSuccess(err.data);
             alert('비밀번호를 확인 후 다시 입력해주세요.');
         })
+
     }
+
+    const getMemberData = () => {
+      axios.get('/member/v1/findbymemberid', {
+          memberId : localStorage.getItem('memberId'),
+      },
+          {
+              headers : {
+                  AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+              }
+          },
+          {withCredentials:true}
+      ).then(function (res){
+          console.log(res)
+      }).catch(function (err){
+          console.log(err)
+      })
+    }
+
+
     return (
+        <div className="d-flex  justify-content-center " >
+        {pwdSuccess === false ?
+        // <div align="center" style={{ marginLeft: 400}}>
         <div>
-        {pwdSuccess === false ? <div align="center" style={{ marginLeft: 400}}>
-            <h1>비밀번호 확인</h1>
+            <div >
+                <h1>비밀번호 확인</h1>
+            </div>
             <br />
+
             <form onSubmit={memberPwdChk}>
                 <input type="password"
                        ref={pwdRef}
@@ -54,11 +78,14 @@ function PersonPwdChk() {
                        autoFocus />
                 <br />
                 <br />
-                <button className="btn btn-warning"  style={{backgroundColor: "#217Af0", color: "white"}}> 비밀번호 확인하기 </button>
+                <button className="btn btn-warning"
+                        style={{backgroundColor: "#217Af0", color: "white"}}
+                        onClick={getMemberData}>
+                        비밀번호 확인하기 </button>
                 <br />
             </form>
             </div>
-             : <PersonInfoModi/> }
+             : <PersonInfoModi confirm={pwdSuccess}/> }
         </div>
 
     )

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import PersonInfoModi from "./PersonInfoModi";
 import PersonPwdChk from "./PersonPwdChk";
 import {render} from "react-dom";
+// import {mypageCss} from
 
 
 
@@ -34,16 +35,15 @@ function MyPage(props) {
     }
 
     return (
-        <div className="d-flex" id="wrapper" style={{padding: 100}}>
-
-            <div className="border-end bg-white" id="sidebar-wrapper" style={{marginLeft: 150}}>
+        // <div className="d-flex" >
+        <div className="d-flex justify-content-center " style={{ paddingTop:100, height: '100vh'}}>
+            <div className="border-end" id="sidebar-wrapper" >
                 <div className="sidebar-heading border-bottom bg-light" align="center">마이페이지</div>
                 <div className="list-group list-group-flush">
                     <a className="list-group-item list-group-item-action list-group-item-light p-3"
                        data-id={"apply"}
                        onClick={pageRender}
                        href="#!">지원서</a>
-
                     <a className="list-group-item list-group-item-action list-group-item-light p-3"
                        href="#!"
                        data-id={"mypage"}
@@ -51,21 +51,14 @@ function MyPage(props) {
                 </div>
             </div>
 
-            <div style={{paddingLeft: 400}}>
-            {/*<div style={{margin: 0 "auto"}}>*/}
-            {/*<div id="page-content-wrapper">*/}
-            {/*    <div className="container-fluid">*/}
-                <div>
-                    {quarter === false ?
-                        <PersonPwdChk /> : null
-                    }
-
-                    {/*{ props.pwdChk === true ?*/}
-                    {/*    <PersonInfoModi /> : null }*/}
-
+            <div >
+                <div style={{width: '100vh'}}>
+                    {quarter === false ? <PersonPwdChk /> : null }
                 </div>
             </div>
         </div>
+
+        // </div>
    )
 }
 
