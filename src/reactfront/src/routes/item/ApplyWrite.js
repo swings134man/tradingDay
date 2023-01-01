@@ -7,7 +7,6 @@ function ApplyWrite() {
     const {id, writer} = useParams(); //param
     const titleRef = useRef(null);
     const contentRef = useRef(null);
-    const writerRef = useRef(null);
     const writerEmailRef = useRef(null);
     const applyType = useRef(null);
 
@@ -28,7 +27,7 @@ function ApplyWrite() {
 
         const memberId = writer;// 게시판 작성자
         const boardId = id; //게시판 아이디
-        const applyWriter = writerRef.current.value; // 지원자 ID
+        const applyWriter = localStorage.getItem("memberId"); // 지원자 ID
         const applyWriterEmail = writerEmailRef.current.value; // 지원자 email
         const titleVal = titleRef.current.value; // title
         const contentVal = contentRef.current.value; // 내용
@@ -46,6 +45,10 @@ function ApplyWrite() {
             itemBoard: boardId,
             memberId: memberId,
             applyStatus: 'none'
+        }, {
+            headers: {
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            }
         }).then(function (res){
             window.alert("지원서 제출이 완료되었습니다.");
             navigate('/itemDetail/' + id);
@@ -65,10 +68,7 @@ function ApplyWrite() {
                     <tr>
                         {/*TODO : td 작성자 부분 삭제 혹은 로그인 기반 데이터 입력*/}
                         <th scope="row" >작성자 ID</th>
-                        {/*<td colSpan="6">iu1234</td>*/}
-                        <td colSpan='6'>
-                            <input ref={writerRef} type="text" style={{width:200}}/>
-                        </td>
+                        <td colSpan="6">{localStorage.getItem("memberId")}</td>
                     </tr>
                     <tr>
                         <th scope="row" >제목</th>

@@ -69,14 +69,14 @@ function ItemDetail() {
         const confirm = window.confirm("해당 게시물을 삭제하시겠습니까?");
         if (confirm === true) {
             const delData = async () => {
-                const res = await axios.delete('/item/v1/deletePostOne', {
-                    params:{
-                        id:id
+                const res = await axios.delete('/item/v1/deletePostOne?id='+id*1, {
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
                 }).then(function (response) {
                     if(response.status === 200) {
                         window.alert("게시물이 성공적으로 삭제되었습니다.");
-                        // navigate('/item/itemBoard');
+                        navigate('/item/itemBoard');
                     }
                 }).catch(function (error) {
                     window.alert("삭제 도중 오류가 발생했습니다. " + error);
@@ -89,7 +89,7 @@ function ItemDetail() {
     /*
      댓글
     */
-    const writerId = localStorage.getItem("memberId") // 작성자 ID --> TODO : Login session ID
+    const writerId = localStorage.getItem("memberId") // 작성자 ID
     let replyId = 0; // 댓글 ID
     const answerRef = useRef(null);
 
@@ -128,16 +128,11 @@ function ItemDetail() {
 
     //댓글 delete
     const onClickReplyDelete = (e) => {
-        // TODO : 로그인 상황에 따라 삭제 버튼을 disable, 혹은 해당 함수에서 제거.
+        // 버튼 disabled
         let replyId = e.target.getAttribute('data-id'); // 댓글 Long
         let replyWriter = e.target.getAttribute('data-writer'); // 댓글 작성자
 
         // 권한 체크
-        // if(localStorage.getItem("memberId") === null || replyWriter !== localStorage.getItem("memberId")){
-        //     window.alert("해당 댓글의 삭제 권한이 없습니다.");
-        //     return;
-        // }
-
         if(replyWriter === localStorage.getItem("memberId")
             || localStorage.getItem("memberId") === "admin" || localStorage.getItem("memberId") === "manager") {
             // Delete
@@ -160,10 +155,6 @@ function ItemDetail() {
                 window.alert("해당 댓글의 삭제 권한이 없습니다.");
                 return;
         }
-
-
-
-
     } //del
 
     // 댓글 update
@@ -296,28 +287,30 @@ function ItemDetail() {
                 {/*          아래부터 이미지              */}
                 {/*<img  style={{height:'30%',width:'30%'}}*/}
                 {/*        src={'/Users/seokjunKang/intellij-gradle/day-file/30c746db-55f4-4f12-a993-72df17b8b78d.png'}/>*/}
-
                 </div>
+
+                {/* 수정, 삭제 버튼 */}
                 {localStorage.getItem("memberId") === data.writer
-                || localStorage.getItem("memberId") === 'admin' || localStorage.getItem("memberId") === 'manager'
+                    || localStorage.getItem("memberId") === 'admin' || localStorage.getItem("memberId") === 'manager'
                     ?
-                <div align="right">
-                        <button className="btn btn-warning"
-                                style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
-                            <Link
-                                to={`/itemBoardUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`}
-                                style={{color: "white"}}>
-                                게시글 수정
-                            </Link>
-                        </button>
-                        <button onClick={onClickDelete} className="btn btn-warning"
-                                style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
-                            게시글 삭제
-                        </button>
-                </div> : <div></div>
+                    <div align="right">
+                    <button className="btn btn-warning"
+                    style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
+                    <Link
+                    to={`/itemBoardUpdate/${data.id}/${data.title}/${data.writer}/${data.content}/${data.createdDate}`}
+                    style={{color: "white"}}>
+                    게시글 수정
+                    </Link>
+                    </button>
+                    <button onClick={onClickDelete} className="btn btn-warning"
+                    style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
+                    게시글 삭제
+                    </button>
+                    </div> : <div></div>
                 }
+
                 {/* 댓글 */}
-                <div align="center" style={{ padding : 75}}>
+                    <div align="center" style={{ padding : 75}}>
                     <hr />
                     {/*입력 form*/}
                     <table border={1}>
@@ -362,19 +355,6 @@ function ItemDetail() {
                                             <div>
 
                                             </div>
-                                            {/*<div align="right">*/}
-                                            {/*    <button className="btn btn-warning"*/}
-                                            {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                            {/*            data-id={answer.id}*/}
-                                            {/*            onClick={(e) => {answerClickDelete(e)}}>삭제</button>*/}
-
-                                            {/*    <button className="btn btn-warning"*/}
-                                            {/*            style={{backgroundColor: "#217Af0", width: 45, height: 25, color: "white", fontSize:10}}*/}
-                                            {/*            data-id={answer.id}*/}
-                                            {/*            // onClick={(e) => {answerClickUpdate(e)}}>>수정</button>*/}
-                                            {/*            onClick={modiInputShow}>수정</button>*/}
-                                            {/*</div>*/}
-
                                             {modiTextArea && selectIndex == answer.id ? (
                                                 <div style={{float: "left"}}>
                                                     <textarea style={{width: 800, height: 100}}
@@ -442,11 +422,8 @@ function ItemDetail() {
                             </tbody>
                         </table>
                     }
-                    {/*상단*/}
                 </div>
-            {/*  center  */}
             </div>
-        {/*  전체area  */}
         </div>
     ) //return
 }//func

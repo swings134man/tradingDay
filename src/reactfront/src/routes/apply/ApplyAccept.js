@@ -11,10 +11,11 @@ function ApplyAccept() {
     const navigate = useNavigate();
     // parameters
     const {applyId} = useParams();
-    const {writer} = useParams();
+    const {writer} = useParams(); // 지원자 ID
     const {writerEmail} = useParams();
     const {title} = useParams();
     const {itemBoard} = useParams();
+    const myId = localStorage.getItem("memberId"); // 로그인 사용자 ID
 
     // ref
     const contentRef = useRef(null); //내용
@@ -40,13 +41,17 @@ function ApplyAccept() {
         const data = {
             writerEmail: writerEmail,
             content: contentRef.current.value,
-            title: title,
+            title: titleRef.current.value,
             writer: writer,
             applyId: applyId,
             boardId: itemBoard
         }
         //axios
-        axios.post('/apply/v1/applyReplyAccept',data)
+        axios.post('/apply/v1/applyReplyAccept',data, {
+            headers: {
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            }
+        })
             .then(function (res) {
                 console.log(res);
                 window.alert("답변이 성공적으로 전달되었습니다!");
@@ -69,8 +74,8 @@ function ApplyAccept() {
                     <tbody>
                     <tr>
                         {/*TODO : td 작성자 부분 삭제 혹은 로그인 기반 데이터 입력*/}
-                        <th scope="row" >작성자 ID</th>
-                        <td colSpan="6">iu1234</td>
+                        <th scope="row" >지원자 ID</th>
+                        <td colSpan="6">{writer}</td>
                         {/*<td colSpan='6'>*/}
                         {/*    <input ref={writerRef} type="text" style={{width:200}}/>*/}
                         {/*</td>*/}

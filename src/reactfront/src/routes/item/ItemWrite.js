@@ -6,6 +6,8 @@ import axios from "axios";
 // TODO : 2022.11.17 기준 -> 이미지 인풋(List) 테이블 만들기(테이블 삽입 제목 아래에 tr 하나더 삽입.), post Test 필요. ONLY DTO Test 완료.
 function ItemWrite() {
 
+
+
     /*
         input Box Ref
      */
@@ -16,6 +18,7 @@ function ItemWrite() {
     const [images, setImages] = useState([]);
     const imageList = [];
     let now = null;
+
     const onAddImages = (e) => {
         // setImages(e.target.files[0]);
         now = e.target.files;
@@ -110,9 +113,8 @@ function ItemWrite() {
                     <table className="table table-striped table-bordered table-hover">
                         <tbody>
                         <tr>
-                            {/*TODO : td 작성자 부분 삭제 혹은 로그인 기반 데이터 입력*/}
                             <th scope="row" >작성자</th>
-                            <td colSpan="6">iu1234</td>
+                            <td colSpan="6">{localStorage.getItem("memberId")}</td>
                         </tr>
                         <tr>
                             <th scope="row" >제목</th>

@@ -25,6 +25,9 @@ function ApplyBoardList() {
                     params: {
                         memberId: memberId,
                         pageable: page
+                    },
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
                 });
                 setApplyList(list.data);

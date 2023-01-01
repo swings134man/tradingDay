@@ -17,6 +17,9 @@ function ApplyDetail() {
                 const item = await axios.get('/apply/v1/applyDetail', {
                     params: {
                         applyId: applyId
+                    },
+                    headers: {
+                        AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
                 });
                 setData(item.data);
@@ -42,6 +45,10 @@ function ApplyDetail() {
             writerEmail: email,
             memberId: id,
             applyId: applyId
+        },{
+            headers: {
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            }
         }).then(function (res) {
             if(res.status === 200) {
                 window.alert("해당 지원자에게 거절 이메일을 발송 했습니다!");

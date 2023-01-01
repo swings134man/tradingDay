@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import {v4} from 'uuid';
 import axios from "axios";
@@ -12,6 +12,7 @@ function ItemBoard() {
     const [itemList, setItemList] = React.useState([]); // post
     const [page, setPage] = React.useState(1); // page Data
     let total = 0;
+    const navigate = useNavigate();
 
     // paging handler
     const handlePageChange = (page) => {
@@ -93,6 +94,18 @@ function ItemBoard() {
         getSearch();
     }//btn
 
+    // 글작성 버튼
+    const moveWrite = () => {
+        if(localStorage.getItem("memberId") == null) {
+            window.alert("해당 기능은 로그인이 필요한 서비스 입니다!");
+            navigate('/member/signin');
+            return;
+        }else {
+            // 로그인이 되어있다면
+            navigate('/itemWrite');
+        }
+    }
+
     /*
         각 컴포넌트 별 이벤트 및 핸들링
      */
@@ -158,10 +171,8 @@ function ItemBoard() {
                 </div>
 
                 <div align="right" style={{paddingBottom:50}}>
-                    <button className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
-                        <Link to={"/itemWrite"} style={{color: "white"}}>
-                            글작성
-                        </Link>
+                    <button className="btn btn-warning" onClick={moveWrite} style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
+                        글작성
                     </button>
                 </div>
 
