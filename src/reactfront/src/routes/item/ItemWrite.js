@@ -70,7 +70,7 @@ function ItemWrite() {
         const data = {
             title: titleVal,
             content: contentVal,
-            writer: "iu1234",
+            writer: localStorage.getItem("memberId"),
             type: select};
         frm.append("dto", new Blob([JSON.stringify(data)],  {type: "application/json"}));
         // frm.append("files", imageList.values());
@@ -83,6 +83,7 @@ function ItemWrite() {
         axios.post("/item/v1/savePost/images", frm, {
             headers: {
                 "Content-Type": `multipart/form-data`,
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
             }})
             .then(function (response) {
                 // response
