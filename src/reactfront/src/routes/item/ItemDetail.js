@@ -177,7 +177,9 @@ function ItemDetail() {
     const answerClickUpdate = (e) => {
         const modiAnswerVal = modiAnswerRef.current.value; // textarea
         replyId = e.target.getAttribute("data-id"); // 댓글의 아이디
-        if(replyId !== localStorage.getItem("memberId")) {
+        const replyWriter = e.target.getAttribute("data-writer"); // 댓글 작성자 id
+
+        if(replyWriter !== localStorage.getItem("memberId")) {
             window.alert("해당 댓글의 수정 권한이 없습니다.")
             return;
         }
@@ -185,9 +187,13 @@ function ItemDetail() {
 
         axios.put(`/item/v1/reply/auth/update`, {
             id: replyId,
-            writer: writerId,
+            writer: localStorage.getItem("memberId"),
             content: modiAnswerVal,
             boardId: id
+        },{
+            headers: {
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            }
         })
             .then(function (res){
                 window.alert("댓글 수정 완료.");
@@ -370,6 +376,7 @@ function ItemDetail() {
                                                                     fontSize: 10
                                                                 }}
                                                                 data-id={answer.id}
+                                                                data-writer={answer.writer}
                                                                 onClick={answerClickUpdate}
                                                         > 수정
                                                         </button>
