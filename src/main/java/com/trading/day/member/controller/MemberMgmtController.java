@@ -47,7 +47,7 @@ public class MemberMgmtController {
     }
 
     @PostMapping("/pwdchk")
-//    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value ="고객 정보 수정시 비밀번호 확인 API", notes ="고객 정보 수정시 비밀번호 확인함")
     public boolean memberModiPwdChk(@RequestBody MemberDTO memberDTO) {
         return memberService.memberModiPwdChk(memberDTO);
@@ -124,6 +124,7 @@ public class MemberMgmtController {
      * @return qna dto
      */
     @ApiOperation(value = "회원정보 수정 api", notes = "회원 정보를 수정함")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/updatemember")
     public MemberDTO updateMember(@RequestBody MemberDTO memberDTO) {
         return memberService.updateMember(memberDTO);
@@ -143,7 +144,7 @@ public class MemberMgmtController {
 
     // 회원 아이디로 회원 객체 검색
     @GetMapping("/findbymemberid")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public MemberDTO findByMemberId(@RequestParam String memberId) {
         MemberDTO inDTO = MemberDTO.builder()
                 .memberId(memberId)

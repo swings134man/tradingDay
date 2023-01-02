@@ -24,6 +24,7 @@ public class MemberDTO {
     private String email;               /* 이메일 */
     private String telNo;               /* 전화번호 */
     private String address;                /* 주소 */
+    private String detailAddr;             /*상세 주소*/
     private String pwd;                     /*비밀번호*/
 
     private LocalDateTime createdDate;   /* 가입 날짜 */

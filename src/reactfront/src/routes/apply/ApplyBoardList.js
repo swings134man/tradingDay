@@ -23,7 +23,7 @@ function ApplyBoardList() {
             try{
                 const list = await axios.get('/apply/v1/findByWriter', {
                     params: {
-                        memberId: memberId,
+                        memberId: localStorage.getItem("memberId"),
                         pageable: page
                     },
                     headers: {

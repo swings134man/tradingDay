@@ -157,17 +157,24 @@ public class MemberService implements UserDetailsService{
 
 
     public MemberDTO updateMember(MemberDTO memberDTO) {
-        //pk로 업데이트
-        Optional<Member> searchResult = Optional.ofNullable(memberRepository.findById(memberDTO.getMemberNo()).orElseThrow(
-                () -> new IllegalArgumentException("게시물 업데이트에 실패했습니다."))); // NoSuchElementException::new));
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String pwd = "";
+        Member searchMember = memberRepository.findByMemberId(memberDTO.getMemberId());
+        if(memberDTO.getPwd().isBlank()) {
+            memberDTO.setPwd(searchMember.getPwd());
+            pwd = memberDTO.getPwd();
+        } else {
+            pwd = bCryptPasswordEncoder.encode(memberDTO.getPwd());
+        }
 
-        Member updateEntity = searchResult.get();
-        updateEntity.setMemberNo(searchResult.get().getMemberNo());
-        updateEntity.setName(memberDTO.getName());
-        updateEntity.setEmail(memberDTO.getEmail());
-        updateEntity.setTelNo(memberDTO.getTelNo());
+        searchMember.setDetailAddr(memberDTO.getDetailAddr());
+        searchMember.setAddress(memberDTO.getAddress());
+        searchMember.setPwd(pwd);
+        searchMember.setName(memberDTO.getName());
+        searchMember.setEmail(memberDTO.getEmail());
+        searchMember.setTelNo(memberDTO.getTelNo());
 
-        return modelMapper.map(updateEntity, MemberDTO.class);
+        return modelMapper.map(searchMember, MemberDTO.class);
     }
 
     // findByName -- > member name 으로 검색

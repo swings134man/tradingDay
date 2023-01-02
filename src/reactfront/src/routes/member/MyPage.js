@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import PersonInfoModi from "./PersonInfoModi";
 import PersonPwdChk from "./PersonPwdChk";
 import {render} from "react-dom";
+import ApplyBoardList from "../apply/ApplyBoardList";
 // import {mypageCss} from
 
 
@@ -11,7 +12,6 @@ function MyPage(props) {
     // false인 경우 마이 페이지 렌더링, true인 경우 지원서 페이지 렌더링 온클릭에 넣어서 분기
     const [quarter, setQuarter] = useState();
     //const [memberPwdChk, setMemberPwdChk] = useState(false);
-    console.log('props', props.pwdChk)
 
     const memberPwdChk = () => {
         if(props.pwdChk) {
@@ -55,6 +55,10 @@ function MyPage(props) {
                 <div style={{width: '100vh'}}>
                     {quarter === false ? <PersonPwdChk /> : null }
                 </div>
+                <div style={{width: '100vh'}}>
+                    {quarter !== false ? <ApplyBoardList/> : null}
+                </div>
+
             </div>
         </div>
 

@@ -28,36 +28,31 @@ const Post = (props) => {
     }
 
 
-    // const postCodeStyle = {
-    //     display: 'block',
-    //     position: 'relative',
-    //     top: '0%',
-    //     width: '450px',
-    //     height: '700px',
-    //     padding: '7px',
-    // };
-    const width = 595;
-    const height = 700;
+    // const modalStyle = {
+    //     position: "absolute",
+    //     top: "8%",
+    //     left: "0%",
+    //     border: "1px solid #000000",
+    // }
     const modalStyle = {
-        position: "absolute",
-        top: "8%",
-        // left: "-178px",
-        left: "0%",
-        zIndex: "100",
-        border: "1px solid #000000",
-        overflow: "hidden"
-
+    //     .postmodal{
+    //     background : rgba(0,0,0,0.25);
+    //     position : fixed;
+    //     left:0;
+    //     top:0;
+    //     height:100%;
+    //     width:100%;
+    // }
     }
+
 
     return (
         <div >
             <DaumPostcode
-                // className="postmodal"
-                style={modalStyle}
+                className="postmodal"
+                //style={modalStyle}
                 autoClose
                 onComplete={complete}
-                width={width}
-                height={height}
             />
         </div>
     );

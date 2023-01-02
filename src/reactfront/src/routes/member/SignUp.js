@@ -120,16 +120,14 @@ function SignUp() {
             alert("아이디 중복체크 해야합니다.");
             return;
         }
-
-        const addrVal = searchAddrVal + " " +addrDetail;
-
         axios.post("/member/v1/save", {
             memberId: idVal,
             name: nameVal,
             pwd: pwdVal,
             email: emailVal,
             telNo: phoneVal,
-            address: addrVal
+            address: searchAddrVal,
+            detailAddr: addrDetail
         })
             .then(function (response) {
                 console.log('res : ' + response.status);
