@@ -53,6 +53,9 @@ function ApplyWrite() {
             window.alert("지원서 제출이 완료되었습니다.");
             navigate('/itemDetail/' + id);
         }).catch(function (err) {
+            if(err.response.status === 403) {
+                navigate("/member/signin");
+            }
             window.alert("지원서 제출중 문제가 발생했습니다. 잠시후 다시 시도해주세요.");
         })
     }

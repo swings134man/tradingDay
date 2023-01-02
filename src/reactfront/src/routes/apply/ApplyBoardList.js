@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Pagination from "react-js-pagination";
 import {v4} from 'uuid';
 import axios from "axios";
 
 function ApplyBoardList() {
 
+    const navigate = useNavigate();
     const [applyList, setApplyList] = React.useState([]); //data
     const [page, setPage] = React.useState(1) // page Data
     let total = 0;
@@ -29,10 +30,13 @@ function ApplyBoardList() {
                     headers: {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
-                });
+                })
                 setApplyList(list.data);
                 console.log(list.data);
             } catch (err) {
+                if(err.response.status === 403) {
+                    navigate("/member/signin");
+                }
                 console.log(err);
             }
         }
@@ -68,6 +72,7 @@ function ApplyBoardList() {
                             <th scope="col">제목</th>
                             <th scope="col">지원자 아이디</th>
                             <th scope="col">지원 날짜</th>
+                            <th scope="col">지원서 상태</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -85,6 +90,23 @@ function ApplyBoardList() {
                                 <td>
                                     {data.createdDate}
                                 </td>
+                                    {/* 상태확인 */}
+                                    {
+                                        data.applyStatus === 'accept'
+                                            ?
+                                            <td style={{color:"green"}}>
+                                                수락함
+                                            </td>
+                                            :( data.applyStatus === 'denied'
+                                                ?
+                                                    <td style={{color:"red"}}>
+                                                        거절
+                                                    </td>
+                                                : <td style={{color:"gray"}}>
+                                                        답변안함
+                                                    </td>
+                                            )
+                                    }
                             </tr> ))}
                         </tbody>
                     </table>

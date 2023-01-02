@@ -25,7 +25,7 @@ function ApplyAccept() {
     // Loading
     const [loading, setLoading] = useState(false);
     if(loading) {
-        return <Loader type='spin' color='blue' message={"메시지를 보내는 중입니다."}/>;
+        return <Loader type='spin' color='blue' message={"메일을 발송 중입니다."}/>;
     }
 
 
@@ -53,11 +53,21 @@ function ApplyAccept() {
             }
         })
             .then(function (res) {
-                console.log(res);
+                // return data = true/false
+                if(res.data === false) {
+                    window.alert("답변을 전송하던 도중 문제가 발생 했습니다!!");
+                    setLoading(false);
+                    return;
+                }
+
+                // 성공시
                 window.alert("답변이 성공적으로 전달되었습니다!");
                 setLoading(false);
                 navigate('/'); // home 화면으로
             }).catch(function (err){
+                if(err.response.status === 403) {
+                    navigate("/member/signin");
+                }
                 window.alert("답변을 전송하던 도중 문제가 발생 했습니다!" + err);
                 setLoading(false);
         });
