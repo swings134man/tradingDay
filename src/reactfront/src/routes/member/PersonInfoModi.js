@@ -22,9 +22,6 @@ function PersonInfoModi( data ) {
     const searchAddr = useRef(null);
     const addrDetailRef = useRef(null);
 
-
-
-
     //--------------------------------주소검색 api----------------------
     const [enroll_company, setEnroll_company] = useState({address:'', });
     const [popup, setPopup] = useState(false);
@@ -148,16 +145,7 @@ function PersonInfoModi( data ) {
             console.log(err)
         })
 
-
-
-
-
-
-
     } // submit end
-
-
-
 
     return(
         <div>

@@ -14,7 +14,6 @@ function QnaBoard() {
     const [page, setPage] = useState(1);
     const [isCheckingBox, setIsCheckingBox] = useState(false)
 
-
     useEffect(() => {
         const chkVal = authTokenCheck(localStorage.getItem("auth_token"));
         if(chkVal == null) {

@@ -5,6 +5,7 @@ import com.trading.day.member.domain.MemberDTO;
 import com.trading.day.member.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,9 +78,6 @@ public class MemberMgmtController {
         Long result = memberService.save(memberDTO);
         return result;
     }
-
-
-
 
     /**
      * methodName : saveManage

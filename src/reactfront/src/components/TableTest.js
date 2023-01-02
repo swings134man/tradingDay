@@ -3,16 +3,29 @@ import {v4} from 'uuid';
 import {Link} from "react-router-dom";
 import {manageQuarter} from "./RoleQuarterUtil";
 
+import Note from "./Note";
 
 function TableTest({data}) {
     let date = "";
     const [userRole, setUserRole] = useState("");
-    //
-    // setUserRole(manageQuarter(localStorage.getItem("memberId")));
+
+    // 쪽지 스테이트
+    const [note, setNote] =useState(false);
+    const [selectIndex, setSelectIndex] = useState(0);
+
+
     useEffect(() => {
         setUserRole(manageQuarter(localStorage.getItem("userRole")));
     }, []);
 
+    const noteClick = ((e) => {
+        setSelectIndex(e.target.getAttribute("data-id"));
+        if(note) {
+            setNote(true);
+        } else {
+            setNote(false);
+        }
+    });
 
     return (
         <div>
@@ -38,7 +51,15 @@ function TableTest({data}) {
                                     }
                                 </td>
                             <td>
-                                {dataList.writer}
+                                <div >
+                                    <a href={"#!"} onClick={noteClick} data-id={dataList.qnaId}>
+                                        {dataList.writer}
+                                    </a>
+                                    <div>
+                                        {setNote && selectIndex == dataList.qnaId ? <Note /> : null }
+                                    </div>
+                                </div>
+
                             </td>
                             <td>
                                 {date = dataList.createdDate.substring(0, 10)}
