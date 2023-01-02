@@ -3,6 +3,8 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import Pagination from "react-js-pagination";
 import {v4} from 'uuid';
 import axios from "axios";
+import {useState} from "react";
+import Note from "../../components/Note";
 
 function ApplyBoardList() {
 
@@ -51,8 +53,30 @@ function ApplyBoardList() {
     total *= 1;
 
 
+    // 쪽지 스테이트
+    const [note, setNote] =useState(false);
+    const [selectIndex, setSelectIndex] = useState(0);
+    const [click, setClick] = useState(false);
 
+    // 쪽지 show hide , 데이터 세팅
+    // TODO : 01.03 데이터 넘어온걸로 Note.JS 에 파라미터 던질것. + 팝업 처리 해야함
+    const noteClick = ((e) => {
+        setSelectIndex(e.target.getAttribute("data-id")); // index
+        const strWriter = e.target.getAttribute("data-writer") // writer String 값
 
+        // console.log(selectIndex);
+        // console.log(strWriter);
+
+        // Click Show & hide
+        if(click === false) {
+            setNote(true);
+            setClick(true);
+        }else {
+            setNote(false);
+            setClick(false);
+        }
+
+    });
 
     return (
         <div className="d-flex  justify-content-center">
@@ -85,7 +109,19 @@ function ApplyBoardList() {
                                     <Link to={`/applyDetail/${data.applyId}/${data.itemBoard}`}> {data.title} </Link>
                                 </td>
                                 <td>
-                                    {data.writer}
+                                    {/*{data.writer}*/}
+                                    <div >
+                                        <a href={"#!"} onClick={noteClick} data-id={data.applyId} data-writer={data.writer}>
+                                            {data.writer}
+                                        </a>
+
+                                        {/*--------------- 컴포넌트 보여 주기 -------------*/}
+                                        <div>
+                                            <div style={{paddingLeft: 30}}>
+                                                {note && selectIndex == data.applyId ? <Note /> : null }
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     {data.createdDate}

@@ -18,14 +18,23 @@ function TableTest({data}) {
     // 쪽지 스테이트
     const [note, setNote] =useState(false);
     const [selectIndex, setSelectIndex] = useState(0);
+    const [click, setClick] = useState(false);
 
     // 쪽지 show hide , 데이터 세팅
     const noteClick = ((e) => {
         setSelectIndex(e.target.getAttribute("data-id"));
-        if(note) {
+        // 해당 코드는 한번 더 클릭시 사라지지 않음.
+        // if(note) {
+        //     setNote(true);
+        // } else {
+        //     setNote(false);
+        // }
+        if(click === false) {
             setNote(true);
-        } else {
+            setClick(true);
+        }else {
             setNote(false);
+            setClick(false);
         }
     });
 
@@ -56,12 +65,13 @@ function TableTest({data}) {
                                 <div >
                                     <a href={"#!"} onClick={noteClick} data-id={dataList.qnaId}>
                                         {dataList.writer}
-                                    </a>
 
+                                    </a>
                                     {/*--------------- 컴포넌트 보여 주기 -------------*/}
+                                    {/*2023.01.03 03:00:00 시 코드 수정 setNote -> note */}
                                     <div>
                                         <div style={{paddingLeft: 30}}>
-                                            {setNote && selectIndex == dataList.qnaId ? <Note /> : null }
+                                            {note && selectIndex == dataList.qnaId ? <Note /> : null }
                                         </div>
                                     </div>
                                 </div>
