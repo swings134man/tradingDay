@@ -77,6 +77,9 @@ spring:
         initialize-schema: embedded
       job:
         enabled: true
+  logging:
+    level:
+      com.trading.day: debug
 
 ---
 # MySQL
