@@ -96,6 +96,9 @@ function ItemWrite() {
             }).catch(function (error) {
             // 오류발생시 실행
             console.log('error message : '+ error);
+            if(error.response.status === 403) {
+                navigate("/member/signin");
+            }
             window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
         }); // axios
     }// onClick

@@ -43,14 +43,16 @@ function ItemBoardUpdate() {
                 headers: {
                     AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                 }
-            }
-            ).then(function (res) {
-            window.alert('게시글 수정 완료');
-            navigate('/itemDetail/'+idVal);
-        }).catch(function (err){
-            console.log(err);
-            window.alert('게시글 수정중 문제가 발생했습니다.');
-        })
+            }).then(function (res) {
+                window.alert('게시글 수정 완료');
+                navigate('/itemDetail/'+idVal);
+            }).catch(function (err){
+                console.log(err);
+                if(err.response.status === 403) {
+                    navigate("/member/signin");
+                }
+                window.alert('게시글 수정중 문제가 발생했습니다.');
+            })
     }
 
 

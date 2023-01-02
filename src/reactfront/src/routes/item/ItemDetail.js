@@ -79,6 +79,9 @@ function ItemDetail() {
                         navigate('/item/itemBoard');
                     }
                 }).catch(function (error) {
+                    if(error.response.status === 403) {
+                        navigate("/member/signin");
+                    }
                     window.alert("삭제 도중 오류가 발생했습니다. " + error);
                 });
             }// delData
@@ -121,6 +124,9 @@ function ItemDetail() {
                 // navigate('/itemDetail/'+id);
                 reSearch();
             }).catch(function (error){
+                if(error.response.status === 403) {
+                    navigate("/member/signin");
+                }
                 console.log('댓글 작성 에러' + error);
                 window.alert('댓글 작성중 문제가 발생하였습니다.');
             });
@@ -147,6 +153,9 @@ function ItemDetail() {
                     console.log('댓글 삭제 완료');
                     reSearch();
                 }).catch(function (error) {
+                    if(error.response.status === 403) {
+                        navigate("/member/signin");
+                    }
                     console.log('댓글 삭제중 문제가 발생 : '+error);
                     window.alert('댓글 삭제중 문제가 발생');
                 })
@@ -194,13 +203,14 @@ function ItemDetail() {
             headers: {
                 AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
             }
-        })
-            .then(function (res){
+            }).then(function (res){
                 window.alert("댓글 수정 완료.");
                 setModiTextArea(false);
                 reSearch();
-            })
-            .catch(function (err) {
+            }).catch(function (err) {
+                if(err.response.status === 403) {
+                    navigate("/member/signin");
+                }
                 window.alert("댓글을 수정하던 도중 문제가 발생했습니다.");
             });
     }
