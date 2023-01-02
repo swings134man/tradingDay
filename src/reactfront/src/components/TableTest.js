@@ -9,15 +9,17 @@ function TableTest({data}) {
     let date = "";
     const [userRole, setUserRole] = useState("");
 
-    // 쪽지 스테이트
-    const [note, setNote] =useState(false);
-    const [selectIndex, setSelectIndex] = useState(0);
-
-
     useEffect(() => {
         setUserRole(manageQuarter(localStorage.getItem("userRole")));
     }, []);
 
+
+
+    // 쪽지 스테이트
+    const [note, setNote] =useState(false);
+    const [selectIndex, setSelectIndex] = useState(0);
+
+    // 쪽지 show hide , 데이터 세팅
     const noteClick = ((e) => {
         setSelectIndex(e.target.getAttribute("data-id"));
         if(note) {
@@ -55,6 +57,8 @@ function TableTest({data}) {
                                     <a href={"#!"} onClick={noteClick} data-id={dataList.qnaId}>
                                         {dataList.writer}
                                     </a>
+
+                                    {/*--------------- 컴포넌트 보여 주기 -------------*/}
                                     <div>
                                         <div style={{paddingLeft: 30}}>
                                             {setNote && selectIndex == dataList.qnaId ? <Note /> : null }
