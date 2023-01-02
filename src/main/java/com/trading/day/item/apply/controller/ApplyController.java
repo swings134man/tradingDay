@@ -102,8 +102,8 @@ public class ApplyController {
     @ApiOperation(value = "지원서 거절 답변", notes = "지원에 대한 거절(불합) 통지")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("applyReplyReject")
-    public String applyReplyReject(@RequestBody ApplyDTO.ApplyRequest inDTO) {
-        String resultMsg = service.applyReplyReject(inDTO);
+    public boolean applyReplyReject(@RequestBody ApplyDTO.ApplyRequest inDTO) {
+        boolean resultMsg = service.applyReplyReject(inDTO);
         return resultMsg;
     }
 
@@ -127,9 +127,9 @@ public class ApplyController {
     @ApiOperation(value = "지원서 수락 답변", notes = "지원에 대한 수락(합격) 통지")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("applyReplyAccept")
-    public String applyReplyPermit(@RequestBody ApplyDTO.ApplyRequest inDTO) {
+    public boolean applyReplyPermit(@RequestBody ApplyDTO.ApplyRequest inDTO) {
         System.out.println("test : " + inDTO);
-        String resultMsg = service.applyReplyPermit(inDTO);
+        boolean resultMsg = service.applyReplyPermit(inDTO);
         return resultMsg;
     }
 

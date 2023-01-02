@@ -18,7 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -33,20 +35,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class ApplyService {
 
     private final ApplyJpaRepository repository; //repo
     private final MemberJpaRepository memberRepository; //member
     private final ItemBoardJpaRepository boardReposiory; // Board
     private final EmailService emailService;            // email
-
     private final ModelMapper modelMapper;      //model mapper
-
-//    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    // log파일 저장. - 지원서 작성시에만 로깅.
-//    public void makeLog (Long memberNo, String type, String level) {
-//        logger.info("memberNo: " +memberNo+ "applyType: " +type+ "applyLevel: " +level);
-//    }
 
     /**
      * @info    : 지원서 작성 - 저장
@@ -58,6 +54,7 @@ public class ApplyService {
      * @return  :
      * @Description : 성공시 1, 실패시 0 return.
      */
+    @Transactional
     public int savePost(ApplyDTO.ApplyRequest inDTO) {
         int success = 0;
         // Member
@@ -96,6 +93,7 @@ public class ApplyService {
      * @return  :
      * @Description :
      */
+    @Transactional
     public ApplyDTO findByApplyId(Long applyId) {
         Optional<Apply> applyEntity = Optional.ofNullable(repository.findById(applyId)).orElseThrow(
                 () -> new IllegalArgumentException("해당 지원서가 존재하지 않습니다." + applyId));
@@ -118,6 +116,7 @@ public class ApplyService {
      * @Description : String Writer 로 검색후 Paging 처리
      * 프로세스 : String 회원아이디 조회 -> Apply 에서 회원의 Long Id로 where 조회 후 DTO converting, return.
      */
+    @Transactional
     public Page<ApplyDTO> findByWriter(String memberId, Pageable pageable) {
         Member memberEntity = memberRepository.findByMemberId(memberId);
         if(memberEntity == null) {
@@ -142,7 +141,10 @@ public class ApplyService {
      * @return  :
      * @Description :
      */
-    public String applyReplyReject(ApplyDTO.ApplyRequest inDTO) {
+    @Transactional
+    public boolean applyReplyReject(ApplyDTO.ApplyRequest inDTO) {
+
+        boolean res = false;
         String msg = "메일 발송 실패";
         EmailDTO emailDTO = EmailDTO.builder()
                 .targetMail(inDTO.getWriterEmail())
@@ -154,20 +156,23 @@ public class ApplyService {
         }
 
         try {
-            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
-            Apply apply = findId.get();
-            apply.setApplyStatus("denied"); // 상태 : 거절
-
             boolean result = emailService.sendMailReject(emailDTO);
-            if (result == true){
+            if (result){
                 msg = "메일 발송 성공.";
+                res = true;
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
+        if(res) {
+            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
+            Apply apply = findId.get();
+            apply.setApplyStatus("denied"); // 상태 : 거절
+        }
+
         //TODO : batch 테이블 or history 테이블로 쌓아야함.
-        return msg;
+        return res;
     }
 
     /**
@@ -180,8 +185,11 @@ public class ApplyService {
      * @return  :
      * @Description :
      */
-    public String applyReplyPermit(ApplyDTO.ApplyRequest inDTO) {
+    @Transactional
+    public boolean applyReplyPermit(ApplyDTO.ApplyRequest inDTO) {
+
         String msg = "메일 발송 실패.";
+        boolean res = false;
         EmailDTO emailDTO = EmailDTO.builder()
                 .title(inDTO.getTitle())
                 .content(inDTO.getContent())
@@ -191,19 +199,26 @@ public class ApplyService {
 
         try {
             boolean result = emailService.sendMailMime(emailDTO);
-            if (result == true){
+            if (result){
                 msg = "메일 발송 성공.";
+                res = true;
+            }else {
+//                throw new RuntimeException("이메일 발송 중 문제가 발생했습니다!");
+                return false;
             }
 
-            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
-            Apply apply = findId.get();
-            apply.setApplyStatus("accept"); // 상태 : 수락
         }catch (Exception e){
             e.printStackTrace();
         }
 
+        if(res) {
+            Optional<Apply> findId = repository.findById(inDTO.getApplyId());
+            Apply apply = findId.get();
+            apply.setApplyStatus("accept"); // 상태 : 수락
+        }
+
         //TODO : batch 테이블 or history 테이블로 쌓아야함.
-        return msg;
+        return res;
     }
 
     // 추가할 메서드 : 해당 지원서는 history 테이블로 전송.

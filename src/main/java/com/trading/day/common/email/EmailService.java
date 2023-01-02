@@ -1,6 +1,7 @@
 package com.trading.day.common.email;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +12,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /************
  * @info : 이메일 전송을 위한 공통 컴포넌트
@@ -22,6 +25,7 @@ import java.io.UnsupportedEncodingException;
  ************/
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
@@ -39,6 +43,7 @@ public class EmailService {
     @Async
     public boolean sendMailReject(EmailDTO inDTO) throws Exception{
         boolean msg = false;
+
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
         simpleMailMessage.setTo(inDTO.getTargetMail());
@@ -48,11 +53,13 @@ public class EmailService {
 
         try {
             javaMailSender.send(simpleMailMessage);
+            msg = true;
         } catch (Exception e) {
             e.printStackTrace();
             return msg;
         }
-        return msg = true;
+
+        return msg;
     } //reject email
 
 
@@ -82,13 +89,15 @@ public class EmailService {
 //            message.setContent(info, "text/html; charset=euc-kr"); // 위의 방법이 안될떄 사용.
 
             javaMailSender.send(message);
-        }catch (MessagingException e){
+        }catch (Exception e){
             e.printStackTrace();
-            return msg;
-        } catch (UnsupportedEncodingException e){
-            e.printStackTrace();
+            log.warn("Mail Sending Error={}", "이메일을 발송 도중 문제가 발생했습니다!");
             return msg;
         }
+//        catch (UnsupportedEncodingException e){
+//            e.printStackTrace();
+//            return msg;
+//        }
         return msg = true;
     }// 지원 수락.
 
