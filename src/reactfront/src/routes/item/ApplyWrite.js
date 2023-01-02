@@ -34,6 +34,15 @@ function ApplyWrite() {
         const skillLevelVal = select; // 스킬레벨
         const applyTypeVal = applyType.current.value; // 지원분야
 
+        const emailValiForm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        // Email 형식 체크
+        if(!emailValiForm.test(applyWriterEmail)) {
+            alert("이메일 형식을 다시 확인해주세요!");
+            writerEmailRef.current.focus();
+            return;
+        }
+
+
         // memberId : -> 작성자는 String 으로 Request, 서버에서 해당 ID값 조회.
         axios.post('/apply/v1/save', {
             title: titleVal,
