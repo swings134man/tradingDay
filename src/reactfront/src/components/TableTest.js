@@ -56,7 +56,9 @@ function TableTest({data}) {
                                         {dataList.writer}
                                     </a>
                                     <div>
-                                        {setNote && selectIndex == dataList.qnaId ? <Note /> : null }
+                                        <div style={{paddingLeft: 30}}>
+                                            {setNote && selectIndex == dataList.qnaId ? <Note /> : null }
+                                        </div>
                                     </div>
                                 </div>
 
