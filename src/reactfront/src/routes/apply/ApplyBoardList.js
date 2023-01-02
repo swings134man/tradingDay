@@ -51,14 +51,16 @@ function ApplyBoardList() {
 
 
     return (
-        <div>
-            <div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>
-                <div>
+        <div className="d-flex  justify-content-center">
+            {/*<div align="center" style={{padding : 100, paddingRight: 330, paddingLeft: 330}}>*/}
+            <div>
+
+                <div className="d-flex  justify-content-center">
                     <h1>지원서 목록</h1>
                 </div>
 
                 {/*테이블*/}
-                <div>
+                <div className="d-flex  justify-content-center">
                     <table className="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
@@ -110,6 +112,7 @@ function ApplyBoardList() {
                 {/*    </button>*/}
                 {/*</div>*/}
 
+                <div className="d-flex  justify-content-center">
                 {/*  paging  */}
                 <Pagination
                     activePage={page} // 현재 페이지
@@ -120,6 +123,7 @@ function ApplyBoardList() {
                     nextPageText={"›"} // "다음"을 나타낼 텍스트
                     onChange={handlePageChange} // 페이지 변경을 핸들링하는 함수
                 />
+                </div>
             </div>
         </div>
     )//return
