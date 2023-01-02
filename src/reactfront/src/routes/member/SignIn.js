@@ -39,7 +39,7 @@ function SignIn() {
             // auth_token은 로컬스토리지
             localStorage.setItem('auth_token', res.headers.auth_token);
             localStorage.setItem('memberId', res.data.username);
-            navigate('/')
+            window.location.assign("/");
 
         }).catch(function (err){
             alert('아이디와 비밀번호를 확인하세요');
