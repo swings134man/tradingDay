@@ -13,8 +13,6 @@ function TableTest({data}) {
         setUserRole(manageQuarter(localStorage.getItem("userRole")));
     }, []);
 
-
-
     // 쪽지 스테이트
     const [note, setNote] =useState(false);
     const [selectIndex, setSelectIndex] = useState(0);
@@ -80,7 +78,8 @@ function TableTest({data}) {
                             <td>
                                 {date = dataList.createdDate.substring(0, 10)}
                             </td>
-                        </tr> ))}
+                        </tr>
+                ))}
                 </tbody>
                     </table>
         </div>
