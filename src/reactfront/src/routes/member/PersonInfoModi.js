@@ -151,8 +151,15 @@ function PersonInfoModi( data ) {
         <div>
             <div >
                 {popup === true ?
-                    <div  style={{position: "fixed", width: 590, height: 370}}>
-                        { <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                    <div>
+                        <div className="d-flex justify-content-end">
+                            <button className="d-flex justify-content-end btn "
+                                    style={{backgroundColor: "#217Af0", width: 70, border: "solid"}}
+                                    onClick={handleComplete}>창닫기</button>
+                        </div>
+                        <div  style={{position: "fixed", width: 590, height: 370}}>
+                            {<Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                        </div>
                     </div> : null}
             </div>
             <table className="table table-striped table-bordered " >

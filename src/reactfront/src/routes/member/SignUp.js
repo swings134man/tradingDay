@@ -157,10 +157,8 @@ function SignUp() {
     return (
         <div>
             <div id="con">
-
                 <div id="login">
                     <div id="login_form">
-
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
                         <form onSubmit={chkSubmit}>
@@ -198,7 +196,6 @@ function SignUp() {
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}></p>
                                 <input type="password" placeholder="비밀번호 확인" className="size" ref={pwdConfirmRef}/>
                             </label>
-
                             <br />
                             <label >
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: 15}}>Mobile Phone</p>
@@ -212,27 +209,33 @@ function SignUp() {
                             </label>
 
                             <br/>
-                            <label>
+                            <label style={{paddingBottom: 20}}>
                                 <br />
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: -20}}>E-mail</p>
                                 <input type="text" placeholder="이메일" className="size" style={{paddingTop: -20}} ref={emailRef}/>
                             </label>
                             <br />
 
-                            <label >
+                            <label className="d-flex justify-content-start">
                                 <br />
-                                    <div style={{textAlign: "left"}}>
-                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", marginRight: 275}}>주소</p>
+                                    <div >
+                                        <div className="d-flex justify-content-start">
+                                            {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                                            <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
+                                            <button type="button" className="btn"
+                                                    style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
+                                                    onClick={() => {
+                                                        handleComplete()}}
+                                                    onChange={handleInput}> 주소검색 </button>
+                                        </div>
                                     </div>
                             </label>
 
                             <div>
-                                {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+
                                 <input type="text"
-                                       placeholder="주소를 검색해주세요 click me..!"
+                                       placeholder="주소를 검색해주세요"
                                        className="size"
-                                       onClick={handleComplete}
-                                       onChange={handleInput}
                                        value={enroll_company.address}
                                        ref={searchAddr}
                                 />
