@@ -59,7 +59,6 @@ function ApplyBoardList() {
     const [click, setClick] = useState(false);
 
     // 쪽지 show hide , 데이터 세팅
-    // TODO : 01.03 데이터 넘어온걸로 Note.JS 에 파라미터 던질것. + 팝업 처리 해야함
     const noteClick = ((e) => {
         setSelectIndex(e.target.getAttribute("data-id")); // index
         const strWriter = e.target.getAttribute("data-writer") // writer String 값
@@ -118,7 +117,7 @@ function ApplyBoardList() {
                                         {/*--------------- 컴포넌트 보여 주기 -------------*/}
                                         <div>
                                             <div style={{paddingLeft: 30}}>
-                                                {note && selectIndex == data.applyId ? <Note /> : null }
+                                                {note && selectIndex == data.applyId ? <Note memberId={data.writer}/> : null }
                                             </div>
                                         </div>
                                     </div>

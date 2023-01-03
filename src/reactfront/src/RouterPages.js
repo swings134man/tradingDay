@@ -21,6 +21,7 @@ import ApplyAccept from "./routes/apply/ApplyAccept";
 import Mypage from "./routes/member/MyPage";
 import MyPage from "./routes/member/MyPage";
 import PersonInfoModi from "./routes/member/PersonInfoModi";
+import NoteWrite from "./components/NoteWrite";
 
 function RouterPages () {
     return (
@@ -56,6 +57,9 @@ function RouterPages () {
             <Route path="/applyBoardList/:memberId" element={<ApplyBoardList/>} />
             <Route path="/applyDetail/:applyId/:itemBoard" element={<ApplyDetail/>}/>
             <Route path="/applyAccept/:applyId/:title/:writer/:writerEmail/:itemBoard" element={<ApplyAccept/>}/>
+
+            {/*  쪽지관련 Route  */}
+            <Route path="/noteWrite/:receiveId" element={<NoteWrite/>}/>
         </Routes>
 
         {/*<Routes>*/}

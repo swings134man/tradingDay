@@ -7,6 +7,7 @@ import axios from "axios";
 import Paging from "../../components/Paging";
 import TableTest from "../../components/TableTest";
 import Pagination from "react-js-pagination";
+import Note from "../../components/Note";
 
 function ItemBoard() {
     const [itemList, setItemList] = React.useState([]); // post
@@ -44,6 +45,32 @@ function ItemBoard() {
      */
     total = itemList.totalElements;
     total *= 1;
+
+    /*
+        쪽지 관련
+     */
+    // 쪽지 스테이트
+        const [note, setNote] =useState(false);
+        const [selectIndex, setSelectIndex] = useState(0);
+        const [click, setClick] = useState(false);
+
+        // 쪽지 show hide , 데이터 세팅
+        const noteClick = ((e) => {
+            setSelectIndex(e.target.getAttribute("data-id")); // index
+            const strWriter = e.target.getAttribute("data-writer") // writer String 값
+
+            // Click Show & hide
+            if(click === false) {
+                setNote(true);
+                setClick(true);
+            }else {
+                setNote(false);
+                setClick(false);
+            }
+        });
+
+
+
 
     /*
         검색
@@ -144,8 +171,20 @@ function ItemBoard() {
                                 <td>
                                     <Link to={`/itemDetail/${data.id}`}> {data.title} </Link>
                                 </td>
+                                {/*작성자*/}
                                 <td>
-                                    {data.writer}
+                                    {/*{data.writer}*/}
+                                    <div >
+                                        <a href={"#!"} onClick={noteClick} data-id={data.id} data-writer={data.writer}>
+                                            {data.writer}
+                                        </a>
+                                        {/*--------------- 컴포넌트 보여 주기 -------------*/}
+                                        <div>
+                                            <div style={{paddingLeft: 30}}>
+                                                {note && selectIndex == data.id ? <Note memberId={data.writer}/> : null }
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
 
                                 {/* 모집 상태 IF 조건문 */}
