@@ -100,5 +100,39 @@ class MemberMgmtControllerTest {
 //        Assertions.assertThat(1L).isEqualTo(memberNo);
     }
 
+    @Test
+    void addAccount() {
+                MemberDTO memberDTO = MemberDTO.builder()
+                .name("관리자")
+                .memberId("admin")
+                .email("admin@trading.com")
+                .address("서울시 어딘가")
+                        .pwd("djemals1!")
+                .build();
+        Long memberNo = service.save(memberDTO);
+        Assertions.assertThat(1L).isEqualTo(memberNo);
+
+        MemberDTO dto2 = MemberDTO.builder()
+                .name("매니저")
+                .memberId("manager")
+                .email("manager@trading.com")
+                .address("써울")
+                .pwd("aoslwj1!")
+                .build();
+        Long memberNo2 = service.save(dto2);
+        Assertions.assertThat(2L).isEqualTo(memberNo2);
+
+        MemberDTO dto3 = MemberDTO.builder()
+                .name("김윈터")
+                .memberId("winter123")
+                .email("winter123@trading.com")
+                .address("써울")
+                .pwd("dnlsxj1!")
+                .build();
+        Long memberNo3 = service.save(dto3);
+        Assertions.assertThat(3L).isEqualTo(memberNo3);
+
+    }
+
 
 }//class

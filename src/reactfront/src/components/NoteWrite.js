@@ -51,7 +51,7 @@ function NoteWrite() {
         }else {
 
             // 통신
-            axios.post('', {
+            axios.post('/note/v1/auth/sendnote', {
                 receiveMemberId: receiveId, // 받는 사람
                 senderMemberId: senderId, // 보내는 사람
                 title: titleVal,
