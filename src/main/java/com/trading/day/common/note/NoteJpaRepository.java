@@ -1,6 +1,8 @@
 package com.trading.day.common.note;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -8,5 +10,6 @@ import java.util.Optional;
 public interface NoteJpaRepository extends JpaRepository<Note, Long> {
 
 
-    Optional<Note> findByReceiveMemberId(String receiveMemberId);
+    Optional<Note> findByReceiveMemberId(String receiveMemberId); // 받는사람 검색
+    Page<Note> findByReceiveMemberId(String receiveMemberId, Pageable pageable); // 받는사람 페이징.
 }

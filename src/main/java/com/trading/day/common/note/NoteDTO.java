@@ -2,6 +2,7 @@ package com.trading.day.common.note;
 
 import com.trading.day.config.BooleanToConverter;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import javax.persistence.Convert;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,26 @@ public class NoteDTO {
     private String title;
     private String content;
 
-    private String status;          /*열람 여부 - Y/N*/
+    private boolean status;          /*열람 여부 - Y/N*/
+
+    private String createdDate; // 생성 시간
+    private String modifiedDate;// 수정 시간
+
+        //Paging
+        public Page<NoteDTO> toPageDTO(Page<Note> entity) {
+            Page<NoteDTO> noteListPage = entity.map(m ->
+                    NoteDTO.builder()
+                            .content(m.getContent())
+                            .title(m.getTitle())
+                            .receiveMemberId(m.getReceiveMemberId())
+                            .senderMemberId(m.getSenderMemberId())
+                            .createdDate(m.getCreatedDate())
+                            .modifiedDate(m.getModifiedDate())
+                            .status(m.isStatus())
+                            .build()
+                    );
+            return noteListPage;
+        }
+
 
 }
