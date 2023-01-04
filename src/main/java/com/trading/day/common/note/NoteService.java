@@ -1,5 +1,7 @@
 package com.trading.day.common.note;
 
+import com.trading.day.member.domain.Member;
+import com.trading.day.member.repository.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /************
@@ -26,6 +29,7 @@ import java.util.Optional;
 @Transactional
 public class NoteService {
 
+    private final MemberJpaRepository memberRepository;
     private final NoteJpaRepository repository;
     private final ModelMapper modelMapper;
 
@@ -43,10 +47,10 @@ public class NoteService {
         noteEntity.setStatus(false);
 
         // 회원 존재 유무
-        Optional<Note> byReceiveMemberId =
-                Optional.ofNullable(repository.findByReceiveMemberId(noteEntity.getReceiveMemberId()))
-                        .orElseThrow(
-                                () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. " + noteEntity.getReceiveMemberId()));
+        Member byMemberId = memberRepository.findByMemberId(noteEntity.getReceiveMemberId());
+        if(byMemberId == null) {
+            throw new IllegalArgumentException("해당 회원이 존재하지 않습니다. " + noteEntity.getReceiveMemberId());
+        }
 
         Note saveEntity = repository.save(noteEntity);
 
@@ -67,13 +71,13 @@ public class NoteService {
     public Page<NoteDTO> findByReceivePage(String receiveMemberId, Pageable pageable) {
         // Paging
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
-        pageable = PageRequest.of(page, 10, Sort.by("id").descending());
+        pageable = PageRequest.of(page, 10, Sort.by("noteNo").descending());
 
         // Get
         Page<Note> result = repository.findByReceiveMemberId(receiveMemberId, pageable);
 
         return new NoteDTO().toPageDTO(result);
-    }
+    }// paging
 
     /**
      * @info    : 쪽지 상세 정보 - 읽음표시 기능 추가
@@ -86,9 +90,9 @@ public class NoteService {
      * @Description :
      */
     @Transactional
-    public NoteDTO noteDetail(Long note_no) {
-        Optional<Note> result = Optional.ofNullable(repository.findById(note_no).orElseThrow(
-                () -> new IllegalArgumentException("해당 쪽지가 존재하지 않습니다." + note_no)
+    public NoteDTO noteDetail(Long noteNo) {
+        Optional<Note> result = Optional.ofNullable(repository.findById(noteNo).orElseThrow(
+                () -> new IllegalArgumentException("해당 쪽지가 존재하지 않습니다." + noteNo)
         ));
         Note noteRes = result.get();
 
@@ -98,7 +102,18 @@ public class NoteService {
         // toDTO
         NoteDTO outDTO = modelMapper.map(noteRes, NoteDTO.class);
         return outDTO;
-    }
+    }// detail
 
+    @Transactional
+    public boolean delete(List<Long> list) {
+        boolean status = false;
+
+        int i = repository.deleteAllByIdInQuery(list);
+        if(i > 0) {
+            status = true;
+        }
+
+        return status;
+    }
 
 }//class

@@ -25,7 +25,7 @@ import javax.persistence.Id;
 @Builder
 public class NoteDTO {
 
-    private Long NoteNo;
+    private Long noteNo;
 
     private String receiveMemberId; /*받는 사람 ID*/
     private String senderMemberId;  /*보내는 사람 ID*/
@@ -42,6 +42,7 @@ public class NoteDTO {
         public Page<NoteDTO> toPageDTO(Page<Note> entity) {
             Page<NoteDTO> noteListPage = entity.map(m ->
                     NoteDTO.builder()
+                            .noteNo(m.getNoteNo())
                             .content(m.getContent())
                             .title(m.getTitle())
                             .receiveMemberId(m.getReceiveMemberId())

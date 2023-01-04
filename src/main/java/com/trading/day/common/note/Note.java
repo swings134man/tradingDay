@@ -25,7 +25,7 @@ public class Note extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "note_no")
-    private Long NoteNo;
+    private Long noteNo;
 
     //TODO : FK를 해야할지 고민?
     private String receiveMemberId; /*받는 사람 ID*/

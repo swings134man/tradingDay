@@ -10,6 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /************
  * @info : 쪽지 컨트롤러 클래스
  * @name : NoteController
@@ -79,13 +81,18 @@ public class NoteController {
     @ApiOperation(value = "쪽지 상세 정보 보기", notes = "쪽지 상세정보 및, 읽음표시")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("noteDetail")
-    public NoteDTO noteDetail(@RequestParam Long note_no) {
-        NoteDTO noteDTO = service.noteDetail(note_no);
+    public NoteDTO noteDetail(@RequestParam Long noteNo) {
+        NoteDTO noteDTO = service.noteDetail(noteNo);
         return noteDTO;
     }
 
-    // 쪽지 삭제 단건
-
+    // 쪽지 삭제 다,단건
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("delete")
+    public boolean delete(@RequestParam(name = "data") List<Long> list) {
+        boolean res = service.delete(list);
+        return res;
+    }
 
     // 쪽지 삭제 다건
 
