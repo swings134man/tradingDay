@@ -168,7 +168,8 @@ function NoteBoardList() {
                         </thead>
                         <tbody>
                         {noteList.content && noteList.content.map(data => (
-                            <tr key={v4()} style={data.status === true ? {color: "gray"} : {color: "blue"}}>
+                            // <tr key={v4()} style={data.status === true ? {color: "gray"} : {color: "blue"}}>
+                            <tr key={v4()}>
                                 {/*체크 박스*/}
                                 <td>
                                     <input type="checkbox" name={'select-${noteList.noteNo}'}

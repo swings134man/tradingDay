@@ -79,7 +79,7 @@ function NoteDetail() {
     return (
         <div>
             <div align="center" style={{padding: 100, paddingBottom: 20}}>
-                <div align="left" style={{paddingLeft:20}}>
+                <div align="left">
                     <button  onClick={onClickPre}  className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100, color: "white"}}>
                         이전으로
                     </button>
