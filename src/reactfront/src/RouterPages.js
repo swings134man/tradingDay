@@ -22,6 +22,8 @@ import Mypage from "./routes/member/MyPage";
 import MyPage from "./routes/member/MyPage";
 import PersonInfoModi from "./routes/member/PersonInfoModi";
 import NoteWrite from "./components/NoteWrite";
+import NoteBoardList from "./routes/note/NoteBoardList";
+import NoteDetail from "./routes/note/NoteDetail";
 
 function RouterPages () {
     return (
@@ -60,6 +62,8 @@ function RouterPages () {
 
             {/*  쪽지관련 Route  */}
             <Route path="/noteWrite/:receiveId" element={<NoteWrite/>}/>
+            <Route path="/noteBoardList/:memberId" element={<NoteBoardList/>}/>
+            <Route path="/noteDetail/:noteNo/:memberId" element={<NoteDetail/>}/>
         </Routes>
 
         {/*<Routes>*/}
