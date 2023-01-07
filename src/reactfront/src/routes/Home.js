@@ -10,8 +10,9 @@ import jwt_decode from "jwt-decode";
 function Home() {
 
     const token = useLocation();
-    console.log(token)
+
     if(token.search !== '') {
+        // google
         if(token.search.substring(11) !== null || token.search.substring(11) !== '') {
             //토큰 디코드
             const decode_token = jwt_decode(token.search.substring(11));
@@ -22,25 +23,6 @@ function Home() {
             window.location.assign("/");
         }
     }
-
-
-
-    // const socialEmail = emailData.search.substring(7);
-    //console.log(token.search.substring(11))
-    // if(token.search !== null) {
-    //     console.log(token.search.substring(11))
-    // }
-
-    // const test = decodeURI(token.search.substring(11));
-    // console.log(test);
-
-    // if() {
-    //
-    // }
-
-    //const socialEmail = emailData.search.substring(7);
-
-
 
     return (
         <div>
