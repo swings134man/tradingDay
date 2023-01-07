@@ -14,13 +14,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
         <React.StrictMode>
-            <GoogleOAuthProvider clientId='215366700441-tdhcgm0hhnedpoaogcnc4riisha0j6dh.apps.googleusercontent.com'>
                 <CookiesProvider>
                     <RouterPages>
                         <Home/>
                     </RouterPages>
                 </CookiesProvider>
-            </GoogleOAuthProvider>
         </React.StrictMode>
 
 
