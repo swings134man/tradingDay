@@ -35,7 +35,7 @@ import java.util.Map;
  * -------------------------------------------------------
  * 2022/12/15        taeil                   최초생성
  */
-@EnableWebSecurity()
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -44,6 +44,8 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private OAuth2SuccessHandler oAuth2SuccessHandler;
     @Autowired
     private TokenManageJpaRepository tokenManageJpaRepository;
 
@@ -70,7 +72,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/member/v1/**", "/logout").permitAll()
-                .antMatchers("/item/v1/**", "/apply/v1/**").permitAll()
+                .antMatchers("/item/v1/**", "/apply/v1/**", "/login/oauth2/code/google").permitAll()
                 .antMatchers("/qna/v1/**", "/answer/v1/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
@@ -84,6 +86,13 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(checkFilter, BasicAuthenticationFilter.class)
                 .logout(logout ->
                         logout.deleteCookies("refresh_token"));
+
+        // ----------------- 소셜 로그인 config -----------------------------------
+        http
+                .oauth2Login(oauth2 ->
+                        oauth2.successHandler(oAuth2SuccessHandler) );
+
+
     }
     //cors 설정
     @Bean

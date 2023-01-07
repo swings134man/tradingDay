@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,29 +34,22 @@ public class MemberMgmtController {
 
     private final MemberService memberService;
 
-
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public ResponseEntity handleGet(HttpServletResponse response) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "localhost:3000/member/signin");
-        return new ResponseEntity(headers, HttpStatus.FOUND);
-    }
-
     // -----------------> test Only
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/greeting")
-    public String hello() {
-        return "hello";
+    public OAuth2User hello(@AuthenticationPrincipal OAuth2User user) {
+        return user;
     }
 
+
+
+    // -----------------> test Only
     @PostMapping("/pwdchk")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value ="고객 정보 수정시 비밀번호 확인 API", notes ="고객 정보 수정시 비밀번호 확인함")
     public boolean memberModiPwdChk(@RequestBody MemberDTO memberDTO) {
         return memberService.memberModiPwdChk(memberDTO);
     }
-
-
 
 
     /**
@@ -176,4 +171,15 @@ public class MemberMgmtController {
         MemberDTO out = memberService.updateName(inDto);
         return out;
     }
+// -----------------소셜-------------------------------
+    @PostMapping("/socialsave")
+    @PreAuthorize("isAnonymous()")
+    @ApiOperation(value = "소셜로 접근한 회원가입 api", notes = "소셜로 접근한 회원가입 처리함")
+    public Long socialSave(@RequestBody MemberDTO memberDTO) {
+        Long result = memberService.socialSave(memberDTO);
+        return result;
+    }
+
+
+
 }//class

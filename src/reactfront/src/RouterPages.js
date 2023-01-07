@@ -21,6 +21,8 @@ import ApplyAccept from "./routes/apply/ApplyAccept";
 import Mypage from "./routes/member/MyPage";
 import MyPage from "./routes/member/MyPage";
 import PersonInfoModi from "./routes/member/PersonInfoModi";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import SocialSignUp from "./routes/member/SocialSignUp";
 
 function RouterPages () {
     return (
@@ -31,6 +33,7 @@ function RouterPages () {
         <Routes>
             <Route path="/" element={<Home />} />
             {/*member 관련 route*/}
+            <Route path="/member/socialsignup" element={<SocialSignUp />} />
             <Route path="/member/signin" element={<SignIn />}/>
             <Route path="/login" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>
