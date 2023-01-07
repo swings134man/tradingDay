@@ -4,12 +4,11 @@ import {Link, useNavigate} from "react-router-dom";
 import {useRef} from "react";
 import axios from "axios";
 import { userNavigate } from "react-router-dom";
-import Google from "../../components/Google";
 import {GoogleLogin} from "@react-oauth/google";
-import GoogleLoginButton from "../../components/GoogleLoginButton";
 import {Container} from "react-bootstrap";
 import styled from "styled-components";
 import googleLoginImage from "../../img/googleSignInLight.png";
+import kakaoLoginImg from "../../img/kakaoLoginImg.png";
 import GoogleButton from "react-google-button";
 
 function SignIn() {
@@ -53,47 +52,12 @@ function SignIn() {
         })
     } // login onClick
 
-
-    // let test = '';
-    // const onClick = () => {
-    //     axios({
-    //         url: '/login/oauth2/code/google',
-    //         method: 'get',
-    //         data: {
-    //             AUTHORIZATION: test
-    //         }
-    //     }).then(function (res) {
-    //         console.log(res)
-    //     });
-    // }
-
-    // function LoginPage() {
-    //     const login = useGoogleLogin({
-    //         onSuccess: tokenResponse => {
-    //             console.log(tokenResponse);
-    //         },
-    //     });
-
     function googleLoginLocation() {
+        //google location
         window.location.href="http://localhost:8080/oauth2/authorization/google";
-        // axios.get('http://localhost:8080/oauth2/authorization/google'
-        // ).then(function (res) {
-        //     console.log(res);
-        //     // window.location.assign("/");
-        //
-        // }).catch(function (err){
-        //     console.log(err)
-        //     alert('소셜 로그인 실패');
-        // })
     }
 
-
-
-
-
-
     return(
-
         <div>
             <div id="con">
                 <div id="login">
@@ -101,22 +65,22 @@ function SignIn() {
                         <form onSubmit={loginOnClick}>
                             <h3 className="login" style={
                                 {letterSpacing: -1, paddingBottom: 10}}>Happy Trade ~</h3>
-                            <GoogleButton onClick={googleLoginLocation} style={{width:300}}/>
 
-                            {/*<GoogleLoginButton />*/}
-                            {/*<button type="button"*/}
-                            {/*        onClick={googleLoginLocation}*/}
-                            {/*        className="my-signin2"*/}
-                            {/*        >*/}
-                            {/*    <img src={googleLoginImage} alt="google" style={{width:300, height: 60}}/>*/}
-                            {/*</button>*/}
-                            {/*<button>*/}
-                            {/*    <a href="/login/oauth2/code/google" className="btn btn-sm btn-success active"*/}
-                            {/*       role="button">Google Login</a>*/}
-                            {/*    <br/>*/}
-                            {/*</button>*/}
-                            {/*<Google />*/}
+                                <GoogleButton onClick={googleLoginLocation} style={{width:300}}/>
 
+                            {/*kakaoLogin button*/}
+                                <div  style={{width:300, paddingTop: 10}}>
+                                    <a href="!#">
+                                        <button
+                                            type="button"
+                                            style={{width:300,
+                                                    borderStyle:"none",
+                                                    height:50,
+                                                    backgroundImage: "url(" + `${kakaoLoginImg}` + ")", backgroundSize: 300
+                                                }}
+                                        />
+                                    </a>
+                                </div>
                             <hr />
                                 <label>
                                     <p style={{textAlign: "left", fontSize: 12, color: "#666"}}>id</p>
