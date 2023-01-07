@@ -43,11 +43,8 @@ public class Member extends BaseTimeEntity {
     private String address;                /* 주소 */
     private String detailAddr;             /*상세 주소*/
     private String pwd;                     /*비밀번호*/
+    private String socialEmail;             /*소셜 로그인이면 소셜 로그인 이메일*/
 
-//    @CreatedDate
-//    private LocalDateTime createDate;      /* 가입 날짜 */
-//    @CreatedDate
-//    private LocalDateTime modifiedDate;     /* 수정 날짜 */
 
     // Item 게시판 Mapping
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)

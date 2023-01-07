@@ -3,12 +3,9 @@ package com.trading.day.config.jwtConfig;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.trading.day.member.domain.Member;
-import com.trading.day.member.domain.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -52,6 +49,24 @@ public class JWTUtil {
                 .withClaim("memberId", details.getUsername())
                 .sign(ALGORITHM);
     }
+
+    public static String makeSocialAuthToken(String memberId) {
+        return JWT.create().withSubject(memberId)
+                .withClaim("exp", Instant.now().getEpochSecond() + REFRESH_TIME)
+                .withClaim("memberId", memberId)
+                .withClaim("userRole", "ROLE_USER")
+                .sign(ALGORITHM);
+    }
+
+    public static String makeSocialRefreshToken(String memberId) {
+        return JWT.create().withSubject(memberId)
+                .withClaim("exp", Instant.now().getEpochSecond() + REFRESH_TIME)
+                .withClaim("memberId", memberId)
+                .withClaim("userRole", "ROLE_USER")
+                .sign(ALGORITHM);
+    }
+
+
 
 
     // 토큰의 유효성을 검증함

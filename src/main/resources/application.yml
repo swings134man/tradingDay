@@ -7,6 +7,8 @@
 spring:
   profiles:
     active: h2
+    include: oauth
+
 
   #    JPA
   jpa:
@@ -98,3 +100,5 @@ spring:
         initialize-schema: always
       job:
         enabled: true
+
+

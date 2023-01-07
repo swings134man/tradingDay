@@ -18,12 +18,15 @@ import ApplyWrite from "./routes/item/ApplyWrite";
 import ApplyBoardList from "./routes/apply/ApplyBoardList";
 import ApplyDetail from "./routes/apply/ApplyDetail";
 import ApplyAccept from "./routes/apply/ApplyAccept";
-import Mypage from "./routes/member/MyPage";
 import MyPage from "./routes/member/MyPage";
 import PersonInfoModi from "./routes/member/PersonInfoModi";
+
 import NoteWrite from "./components/NoteWrite";
 import NoteBoardList from "./routes/note/NoteBoardList";
 import NoteDetail from "./routes/note/NoteDetail";
+
+import SocialSignUp from "./routes/member/SocialSignUp";
+
 
 function RouterPages () {
     return (
@@ -34,6 +37,7 @@ function RouterPages () {
         <Routes>
             <Route path="/" element={<Home />} />
             {/*member 관련 route*/}
+            <Route path="/member/socialsignup" element={<SocialSignUp />} />
             <Route path="/member/signin" element={<SignIn />}/>
             <Route path="/login" element={<SignIn />}/>
             <Route path="/member/signup" element={<SignUp />}/>

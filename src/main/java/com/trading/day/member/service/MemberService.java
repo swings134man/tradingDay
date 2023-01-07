@@ -4,12 +4,10 @@ import com.trading.day.config.jwtConfig.JWTLoginFilter;
 import com.trading.day.jwtToken.domain.ResponseTokenDTO;
 import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.jwtToken.repository.TokenManageJpaRepository;
-import com.trading.day.member.domain.Member;
-import com.trading.day.member.domain.MemberDTO;
-import com.trading.day.member.domain.Role;
-import com.trading.day.member.domain.UserRole;
+import com.trading.day.member.domain.*;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
+import com.trading.day.member.repository.SocialMemberRepository;
 import com.trading.day.member.repository.UserRoleJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +33,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+//import static com.trading.day.member.domain.SocialMember.Provider.google;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +45,8 @@ public class MemberService implements UserDetailsService{
     private final UserRoleJpaRepository urRepository; // User_Role
     private final RoleJpaRepository roleRepository; // Role
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
-    private final TokenManageJpaRepository tokenManageJpaRepository;
+
+    private final SocialMemberRepository socialMemberRepository;
 
     public Long save(MemberDTO inDto) {
 
@@ -238,6 +239,44 @@ public class MemberService implements UserDetailsService{
         return new org.springframework.security.core.userdetails.User(user.getMemberId(),
                 user.getPwd(),
                 grantedAuthorities);
+    }
+    // -------------------------------------소셜 로그인 사용 메서드----------------------------------------------------------
+
+
+
+//    public Member socialLogin(SocialMember socialMember) {
+//        SocialMember dbMember = socialMemberRepository.findById(socialMember.getOauth2UserId()).orElseGet(() ->{
+//            return null;
+//        });
+//        return memberRepository.findById(dbMember.getMemberNo()).get();
+//    }
+
+    public Member socialFindMember(String email) {
+        Member findDbData = memberRepository.findByEmail(email);
+            return findDbData;
+    }
+
+    public Long socialSave( MemberDTO memberDTO) {
+
+        Member member = modelMapper.map(memberDTO, Member.class);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        String pwd = bCryptPasswordEncoder.encode(member.getPwd());
+        member.setPwd(pwd);
+
+        Member save = memberRepository.save(member);
+        addAuthority(save.getMemberNo(), "ROLE_USER");
+
+        MemberDTO out = modelMapper.map(save, MemberDTO.class);
+
+        // SocialMember save
+//        SocialMember socialMember = SocialMember.builder()
+//                .memberNo(out.getMemberNo())
+//                .email(out.getEmail())
+//                .build();
+//        socialMemberRepository.save(socialMember);
+
+        return out.getMemberNo();
     }
 
 }//class
