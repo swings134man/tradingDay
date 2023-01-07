@@ -161,6 +161,21 @@ public class MemberMgmtController {
         return memberService.chkDupliId(memberId);
     }
 
+
+    /**
+     * methodName : chkdupliEmail
+     * author : TAEIL KIM
+     * description : 회원가입시 사용되는 이메일 중복확인 api
+     *
+     * @return int
+     */
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/chkdupliemail")
+    @ApiOperation(value="회원가입시 사용되는 이메일 중복확인 api", notes = "이메일 중복 체크함")
+    public int chkDupliEmail(@RequestParam String email) {
+        return memberService.chkDupliEmail(email);
+    }
+
     // 회원 이름 update
     @PutMapping("/updatename")
     public MemberDTO updateName(@RequestParam String name) {

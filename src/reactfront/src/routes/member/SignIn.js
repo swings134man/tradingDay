@@ -56,6 +56,9 @@ function SignIn() {
         //google location
         window.location.href="http://localhost:8080/oauth2/authorization/google";
     }
+    function kakaoLoginLocation() {
+        window.location.href="http://localhost:8080/login/oauth2/code/kakao";
+    }
 
     return(
         <div>
@@ -67,19 +70,16 @@ function SignIn() {
                                 {letterSpacing: -1, paddingBottom: 10}}>Happy Trade ~</h3>
 
                                 <GoogleButton onClick={googleLoginLocation} style={{width:300}}/>
-
-                            {/*kakaoLogin button*/}
                                 <div  style={{width:300, paddingTop: 10}}>
-                                    <a href="!#">
-                                        <button
-                                            type="button"
-                                            style={{width:300,
-                                                    borderStyle:"none",
-                                                    height:50,
-                                                    backgroundImage: "url(" + `${kakaoLoginImg}` + ")", backgroundSize: 300
-                                                }}
-                                        />
-                                    </a>
+                                {/*kakaoLogin button*/}
+                                    <button
+                                        type="button"
+                                        onClick={kakaoLoginLocation}
+                                        style={{width:300,
+                                                borderStyle:"none",
+                                                height:50,
+                                                backgroundImage: "url(" + `${kakaoLoginImg}` + ")", backgroundSize: 300
+                                        }}/>
                                 </div>
                             <hr />
                                 <label>

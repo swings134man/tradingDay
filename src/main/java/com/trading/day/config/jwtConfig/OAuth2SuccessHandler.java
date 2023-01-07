@@ -16,6 +16,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * packageName : com.trading.day.config.jwtConfig
@@ -33,7 +36,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     private MemberService memberService;
-
+    @Autowired
+    private OAuth2UserService oAuth2UserService;
     @Autowired
     private TokenService tokenService;
 
@@ -43,14 +47,17 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
 
         OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+        String clientId = oAuth2UserService.getClientId();
 
-        String email = principal.getAttribute("email");
-        Member findMember = memberService.socialFindMember(email);
+        //조회된 결과가 있을경우, 가입된 정보를 기반으로 로그인
+        if(clientId.equals("google")) {
+            String email = principal.getAttribute("email");
+            Member findMember = memberService.socialFindMember(email);
 
-        if (ObjectUtils.isEmpty(findMember)) {
-            response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
-        } else {
-             //조회된 결과가 있을경우, 가입된 정보를 기반으로 로그인시키자.
+            if(ObjectUtils.isEmpty(findMember)) {
+                // 이메일로 맴버 조회 -> 없으면 신규 가입으로 리턴
+                response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
+            }
 
             String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
             String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
@@ -66,7 +73,32 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .refresh_token(refresh_token.substring("Bearer ".length()))
                     .build();
             tokenService.saveRefreshToken(tokenDTO);
+            response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
 
+        } else if(clientId.equals("kakao")) {
+            Map<String, Object> kakao_account = (Map<String, Object>) principal.getAttributes().get("kakao_account");
+            String email =  kakao_account.get("email").toString();
+
+            Member findMember = memberService.socialFindMember(email);
+
+            if(ObjectUtils.isEmpty(findMember)) {
+                response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
+            }
+
+            String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
+            String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
+
+            Cookie cookie = new Cookie("refresh_token", refresh_token);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            response.addCookie(cookie);
+
+            TokenDTO tokenDTO = TokenDTO.builder()
+                    .userName(findMember.getMemberId())
+                    .refresh_token(refresh_token.substring("Bearer ".length()))
+                    .build();
+            tokenService.saveRefreshToken(tokenDTO);
             response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
         }
     }

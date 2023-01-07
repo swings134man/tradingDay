@@ -80,6 +80,7 @@ public class MemberService implements UserDetailsService{
 
     }
 
+    @Transactional(readOnly = true)
     public boolean memberModiPwdChk(MemberDTO memberDTO) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
@@ -135,7 +136,7 @@ public class MemberService implements UserDetailsService{
      *
      * @return int
      */
-
+    @Transactional(readOnly = true)
     public int chkDupliId(@RequestParam String memberId) {
         int result = 1;
 
@@ -146,6 +147,15 @@ public class MemberService implements UserDetailsService{
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public int chkDupliEmail(String email) {
+        int result = 1;
+        Member resultEntity = memberRepository.findByEmail(email);
+        if(ObjectUtils.isEmpty(resultEntity)) {
+            result = 0;
+        }
+        return result;
+    }
 
     public MemberDTO updateMember(MemberDTO memberDTO) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

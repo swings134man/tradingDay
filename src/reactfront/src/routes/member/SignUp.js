@@ -7,8 +7,10 @@ import {useNavigate} from "react-router-dom";
 
 
 function SignUp() {
-    const [dupli, setDupli] = useState(0);
+    const [dupli, setDupli] = useState(0); // -> id 중복체크 스테이트
     const [disabled, setDisabled] = useState(false);
+    // const [emailDupli, setEmailDupli] = useState(0);
+    const [emailDisabled, setEmailDisabled] = useState(false);
     const navigate = useNavigate();
 
     const nameRef =useRef(null);
@@ -20,6 +22,31 @@ function SignUp() {
     const emailRef = useRef(null);
     const searchAddr = useRef(null);
     const addrDetailRef = useRef(null);
+
+    const emailDupliChk = async () => {
+            await axios.get('/member/v1/chkdupliemail', {
+                params: {
+                    email: emailRef.current.value
+                }
+            }).then(function (res) {
+                console.log(res)
+                //setEmailDupli(res.data)
+
+                if (!emailRef.current.value) {
+                    alert("이메일을 입력하세요")
+                } else if(res.data === 1) {
+                    alert("이미 가입되어 있는 이메일입니다.")
+                } else if(res.data === 0) {
+                    const useCfn = window.confirm("사용 가능한 이메일입니다. 사용 하시겠어요?")
+                    if(useCfn === true) {
+                        setEmailDisabled(true);
+                        console.log(emailDisabled);
+                    }
+                }
+            }).catch(function (err) {
+               console.log(err);
+            })
+    }
 
     const chkSubmit = async (e) => {
         e.preventDefault();
@@ -96,6 +123,9 @@ function SignUp() {
             alert("이메일 형식을 확인 후 다시 입력해주세요");
             emailRef.current.focus();
                 return;
+        } else if (emailDisabled === false) {
+            alert("이메일 중복체크 해야합니다.");
+            return;
         } else if (pwdVal !== pwdConfirmVal) {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             pwdRef.current.focus();
@@ -158,7 +188,7 @@ function SignUp() {
         <div>
             <div id="con">
                 <div id="login">
-                    <div id="login_form">
+                    <div id="login_form" style={{paddingBottom:50}}>
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
                         <form onSubmit={chkSubmit}>
@@ -178,7 +208,6 @@ function SignUp() {
                                     />
                                 </label>
                         </form>
-                            <br />
 
                         <form onSubmit={onSubmit}>
                             <label>
@@ -211,8 +240,27 @@ function SignUp() {
                             <br/>
                             <label style={{paddingBottom: 20}}>
                                 <br />
-                                <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: -20}}>E-mail</p>
-                                <input type="text" placeholder="이메일" className="size" style={{paddingTop: -20}} ref={emailRef}/>
+                                <div className="d-flex justify-content-start">
+                                    <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: -20, paddingRight:5}}>E-mail</p>
+                                    <button
+                                        type="button"
+                                        className="btn"
+                                        onClick={emailDupliChk}
+                                            style={{fontSize: 12,
+                                                backgroundColor: "#217Af0",
+                                                width: 50,
+                                                height:10,
+                                                paddingBottom: 21,
+                                                color: "white",
+                                                }}> 중복 </button>
+                                </div>
+                                <input type="text"
+                                       placeholder="이메일"
+                                       className="size"
+                                       style={{paddingTop: -20}}
+                                       ref={emailRef}
+                                       disabled={emailDisabled === true}
+                                    />
                             </label>
                             <br />
 
@@ -222,7 +270,8 @@ function SignUp() {
                                         <div className="d-flex justify-content-start">
                                             {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
                                             <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
-                                            <button type="button" className="btn"
+                                            <button type="button"
+                                                    className="btn"
                                                     style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
                                                     onClick={() => {
                                                         handleComplete()}}
@@ -230,15 +279,12 @@ function SignUp() {
                                         </div>
                                     </div>
                             </label>
-
                             <div>
-
                                 <input type="text"
                                        placeholder="주소를 검색해주세요"
                                        className="size"
-                                       value={enroll_company.address}
-                                       ref={searchAddr}
-                                />
+                                       defaultValue={enroll_company.address}
+                                       ref={searchAddr}/>
                             </div>
                             <br />
                                 <div style={{marginTop: -8, paddingBottom: -100}} >
