@@ -24,9 +24,6 @@ function SignUp() {
     const searchAddr = useRef(null);
     const addrDetailRef = useRef(null);
 
-
-
-
     const chkSubmit = async (e) => {
         e.preventDefault();
 

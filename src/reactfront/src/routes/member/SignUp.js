@@ -9,7 +9,6 @@ import {useNavigate} from "react-router-dom";
 function SignUp() {
     const [dupli, setDupli] = useState(0); // -> id 중복체크 스테이트
     const [disabled, setDisabled] = useState(false);
-    // const [emailDupli, setEmailDupli] = useState(0);
     const [emailDisabled, setEmailDisabled] = useState(false);
     const navigate = useNavigate();
 
