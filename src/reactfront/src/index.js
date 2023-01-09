@@ -5,10 +5,6 @@ import Home from "./routes/Home";
 import {BrowserRouter} from "react-router-dom";
 import RouterPages from "./RouterPages";
 import {CookiesProvider} from "react-cookie";
-import {GoogleOAuthProvider} from "@react-oauth/google";
-//import axios from "axios";
-
-//axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

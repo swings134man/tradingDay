@@ -63,6 +63,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     @SneakyThrows
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
+
+
         // --> 로그인 폼에 대한 예외처리도 추가..해야함...
         Member member = objectMapper.readValue(request.getInputStream(), Member.class);
 
@@ -75,11 +77,11 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         for (Cookie cookie : cookies) {
             targetCookie.put(cookie.getName(), cookie.getValue());
         }
-        if(targetCookie.get("refresh_token") != null) {
+        if (targetCookie.get("refresh_token") != null) {
             String cookieResult = targetCookie.get("refresh_token");
             refresh_tokenVal = cookieResult.substring("Bearer ".length());
         }
-        if(refresh_tokenVal.isBlank()) {
+        if (refresh_tokenVal.isBlank()) {
             // 리프레시 토큰을 가지고 있지 않으면, 토큰 생성
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     member.getMemberId(), member.getPwd(), null
@@ -90,7 +92,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             //refreshToken이 왔다면
 //            VerifyResult verify = JWTUtil.verify(member.getRefreshToken());
             VerifyResult verify = JWTUtil.verify(refresh_tokenVal);
-            if(verify.isSuccess()) {
+            if (verify.isSuccess()) {
                 //AuthenticationManager에게 위임하지 않고, 바로 통행증을 만들어서 보내줌
                 UserDetails details = memberService.loadUserByUsername(verify.getMemberId());
                 return new UsernamePasswordAuthenticationToken(

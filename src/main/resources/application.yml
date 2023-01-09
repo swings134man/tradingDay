@@ -17,7 +17,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     # SQL Auto Create allow - 1.use: true, always, 2.notUse: false, never setting
     defer-datasource-initialization: false
   sql:

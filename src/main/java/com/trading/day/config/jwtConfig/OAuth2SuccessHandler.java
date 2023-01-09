@@ -57,24 +57,23 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             if(ObjectUtils.isEmpty(findMember)) {
                 // 이메일로 맴버 조회 -> 없으면 신규 가입으로 리턴
                 response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
+            } else {
+                String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
+                String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
+
+                Cookie cookie = new Cookie("refresh_token", refresh_token);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true);
+                response.addCookie(cookie);
+
+                TokenDTO tokenDTO = TokenDTO.builder()
+                        .userName(findMember.getMemberId())
+                        .refresh_token(refresh_token.substring("Bearer ".length()))
+                        .build();
+                tokenService.saveRefreshToken(tokenDTO);
+                response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
             }
-
-            String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
-            String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
-
-            Cookie cookie = new Cookie("refresh_token", refresh_token);
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            response.addCookie(cookie);
-
-            TokenDTO tokenDTO = TokenDTO.builder()
-                    .userName(findMember.getMemberId())
-                    .refresh_token(refresh_token.substring("Bearer ".length()))
-                    .build();
-            tokenService.saveRefreshToken(tokenDTO);
-            response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
-
         } else if(clientId.equals("kakao")) {
             Map<String, Object> kakao_account = (Map<String, Object>) principal.getAttributes().get("kakao_account");
             String email =  kakao_account.get("email").toString();
@@ -83,23 +82,24 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
             if(ObjectUtils.isEmpty(findMember)) {
                 response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
+
+            } else {
+                String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
+                String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
+
+                Cookie cookie = new Cookie("refresh_token", refresh_token);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true);
+                response.addCookie(cookie);
+
+                TokenDTO tokenDTO = TokenDTO.builder()
+                        .userName(findMember.getMemberId())
+                        .refresh_token(refresh_token.substring("Bearer ".length()))
+                        .build();
+                tokenService.saveRefreshToken(tokenDTO);
+                response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
             }
-
-            String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
-            String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
-
-            Cookie cookie = new Cookie("refresh_token", refresh_token);
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            response.addCookie(cookie);
-
-            TokenDTO tokenDTO = TokenDTO.builder()
-                    .userName(findMember.getMemberId())
-                    .refresh_token(refresh_token.substring("Bearer ".length()))
-                    .build();
-            tokenService.saveRefreshToken(tokenDTO);
-            response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
         }
     }
 }

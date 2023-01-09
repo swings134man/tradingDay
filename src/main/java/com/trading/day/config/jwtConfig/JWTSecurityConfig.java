@@ -3,6 +3,7 @@ package com.trading.day.config.jwtConfig;
 import com.trading.day.jwtToken.repository.TokenManageJpaRepository;
 import com.trading.day.jwtToken.service.TokenService;
 import com.trading.day.member.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -37,6 +39,7 @@ import java.util.Map;
  */
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Slf4j
 public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -72,7 +75,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/member/v1/**", "/logout").permitAll()
-                .antMatchers("/item/v1/**", "/apply/v1/**", "/login/oauth2/code/google").permitAll()
+                .antMatchers("/item/v1/**", "/apply/v1/**", "/login/oauth2/**").permitAll()
                 .antMatchers("/qna/v1/**", "/answer/v1/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()

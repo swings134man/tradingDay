@@ -184,7 +184,7 @@ function QnaDetail() {
     }
     return (
         <div>
-            <div align="center" style={{ padding : 40}}>
+            <div align="center" style={{ padding : 50}}>
                 <h1>문의 게시판</h1>
                 <div align="left">
                     <table className="table table-striped table-bordered table-hover">

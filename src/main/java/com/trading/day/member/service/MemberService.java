@@ -230,8 +230,12 @@ public class MemberService implements UserDetailsService{
     private User createUser(String username, Member user) {
         if (!user.isActivated()) {
             throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
+
         }
-                                                    // member.get
+//        else if(!user.isNonLocked()) {
+//            throw new RuntimeException(username + " -> 계정이 잠겨있습니다.");
+//        }
+
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
                 .collect(Collectors.toList());
@@ -259,7 +263,6 @@ public class MemberService implements UserDetailsService{
         addAuthority(save.getMemberNo(), "ROLE_USER");
 
         MemberDTO out = modelMapper.map(save, MemberDTO.class);
-
         return out.getMemberNo();
     }
 

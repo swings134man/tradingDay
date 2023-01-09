@@ -1,10 +1,9 @@
 
 import style from "../../css/signInStyle.css";
 import {Link, useNavigate} from "react-router-dom";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { userNavigate } from "react-router-dom";
-import {GoogleLogin} from "@react-oauth/google";
 import {Container} from "react-bootstrap";
 import styled from "styled-components";
 import googleLoginImage from "../../img/googleSignInLight.png";
@@ -48,16 +47,18 @@ function SignIn() {
             window.location.assign("/");
 
         }).catch(function (err){
+            console.log(err);
             alert('아이디와 비밀번호를 확인하세요');
         })
     } // login onClick
 
     function googleLoginLocation() {
-        //google location
+        // google location
         window.location.href="http://localhost:8080/oauth2/authorization/google";
     }
     function kakaoLoginLocation() {
-        window.location.href="http://localhost:8080/login/oauth2/code/kakao";
+        //kakao location
+        window.location.href="http://localhost:8080/oauth2/authorization/kakao";
     }
 
     return(

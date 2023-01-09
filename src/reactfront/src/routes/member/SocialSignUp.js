@@ -246,7 +246,7 @@ function SignUp() {
 
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>
-                                <input type="submit" defaultValue="가입!" className="btn" style={{backgroundColor: "#217Af0", color: "white"}}/>
+                                <input type="submit" Value="가입!" className="btn" style={{backgroundColor: "#217Af0", color: "white"}}/>
                             </p>
                         </form>
 
