@@ -251,10 +251,12 @@ public class ItemBoardService {
         if(!(file == null && files == null)) {
             try{
                 List<ImageFile> imageResult = imageFileService.saveImageList(files);
-                System.out.println("파라미터 사이즈 : " + files.size());
-                System.out.println("결과 사이즈 : " + imageResult.size());
-                for(int i=0; i<imageResult.size(); i++){
-                    entityResult.addImages(imageResult.get(i));
+
+                // null 이 아닐때만 add -> 지정폴더가 없을시 null 반환.
+                if(imageResult != null) {
+                    for(int i=0; i<imageResult.size(); i++){
+                        entityResult.addImages(imageResult.get(i));
+                    }
                 }
             }catch (IOException e){};
         }

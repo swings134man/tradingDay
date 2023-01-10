@@ -65,8 +65,14 @@ public class ImageFileService {
                 .savePath(savePath)
                 .build();
 
+        File filePath = new File(savePath);
+        // 업로드 폴더 경로 확인
+        if(!filePath.exists()) {
+            return null; // 파일 저장 X - Entity 저장 X
+        }
         // Directory에 uuid를 파일명으로 저장
-        files.transferTo(new File(savePath));
+//      files.transferTo(new File(savePath));
+        files.transferTo(filePath);
 
         // DB 파일정보 save
         ImageFile saveResult = repository.save(file);
@@ -112,8 +118,13 @@ public class ImageFileService {
                     .savePath(savePath)
                     .build();
 
+            File filePath = new File(savePath);
+            // 업로드 폴더 경로 확인
+            if(!filePath.exists()) {
+                return null; // 파일 저장 X - Entity 저장 X
+            }
             // Directory에 uuid를 파일명으로 저장
-            file.transferTo(new File(savePath));
+            file.transferTo(filePath);
 
             list.add(fileEntity);
         }

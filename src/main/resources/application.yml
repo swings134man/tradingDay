@@ -17,7 +17,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     # SQL Auto Create allow - 1.use: true, always, 2.notUse: false, never setting
     defer-datasource-initialization: false
   sql:
@@ -59,6 +59,8 @@ spring:
          max-request-size: 150MB
          file-size-threshold: 2KB
          location: /Users/seokjunKang/intellij-gradle/day-file/
+#         location: ~/folderTest
+
 
 #file.dir: /Users/seokjunKang/intellij-gradle/day-file/
 
