@@ -13,8 +13,6 @@ function MyPage() {
 
     const [quarter, setQuarter] = useState("apply");
 
-
-
     const pageRender = (page) => {
         let pageId = page.target.getAttribute("data-id")
 
@@ -32,7 +30,9 @@ function MyPage() {
     return (
         <div className="d-flex justify-content-center " style={{ paddingTop:100, height: '100vh'}}>
             <div className="border-end" id="sidebar-wrapper" >
-                <div className="sidebar-heading border-bottom bg-light" align="center">마이페이지</div>
+                <div className="sidebar-heading border-bottom bg-light" align="center">
+                    <p>마이페이지</p>
+                </div>
                 <div className="list-group list-group-flush">
                     <a className="list-group-item list-group-item-action list-group-item-light p-3"
                        data-id={"apply"}

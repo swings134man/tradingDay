@@ -138,6 +138,9 @@ function PersonInfoModi( data ) {
             },
         },
         ).then(function (res){
+            if(res.status === 403) {
+                navigate('/member/signin');
+            }
             console.log(res);
             alert('회원정보 수정이 완료되었습니다')
             navigate('/')

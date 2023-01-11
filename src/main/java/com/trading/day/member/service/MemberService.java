@@ -66,8 +66,6 @@ public class MemberService implements UserDetailsService{
 
     public Long manageSave(MemberDTO memberDTO) { // -> admin 가입시키면 --> 매니저
         Member member = modelMapper.map(memberDTO, Member.class);
-//        member.setCreateDate(LocalDateTime.now());
-//        member.setModifiedDate(LocalDateTime.now());
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String pwd = bCryptPasswordEncoder.encode(member.getPwd());

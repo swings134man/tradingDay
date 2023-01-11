@@ -33,6 +33,9 @@ function PersonPwdChk() {
             {withCredentials:true}
         ).then(function (res) {
             console.log(res);
+            if(res.status === 403) {
+                navigate('/member/signin');
+            }
             if(res.data === false) {
                 alert('비밀번호를 확인 후 다시 입력해주세요.');
             }
@@ -53,7 +56,7 @@ function PersonPwdChk() {
     }
 
     return (
-        <div className="d-flex  justify-content-center " >
+        <div className="d-flex  justify-content-center" >
         {pwdSuccess === false ?
         // <div align="center" style={{ marginLeft: 400}}>
         <div>

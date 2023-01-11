@@ -35,9 +35,11 @@ function NavigationBar() {
                         <li className="nav-item"><a className="nav-link" href="/item/itemBoard">Trade!</a></li>
                         <li className="nav-item"><a className="nav-link" href="/qnaboard">Support </a></li>
 
-                        { localStorage.getItem("memberId") == null ?
-                            <li className="nav-item"><a className="nav-link" href="/member/signup">Sign Up</a></li>
-                            : <li className="nav-item"><a className="nav-link" href="/member/mypage">my Page</a></li> }
+                        { localStorage.getItem("memberId") == null
+                                ? <li className="nav-item"><a className="nav-link" href="/member/signup">Sign Up</a></li>
+                                : ( localStorage.getItem("userRole") === "ROLE_ADMIN"
+                                    ? <li className="nav-item"><a className="nav-link" href="/member/admin">admin</a></li>
+                                    : <li className="nav-item"><a className="nav-link" href="/member/mypage">my Page</a></li> )}
 
                         { localStorage.getItem("memberId") == null ?
                             <li className="nav-item"><a className="nav-link" href="/member/signin">Log In</a></li>
