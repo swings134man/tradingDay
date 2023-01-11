@@ -1,8 +1,10 @@
 import axios from "axios";
+import {useState} from "react";
 
 
 
 function NavigationBar() {
+
     const logout = () => {
         axios.post('/logout')
             .then(function res(response){
@@ -17,6 +19,10 @@ function NavigationBar() {
         localStorage.removeItem("userRole");
     }
 
+    if(localStorage.getItem("userRole") === "ROLE_ADMIN") {
+
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 
@@ -27,7 +33,6 @@ function NavigationBar() {
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item"><a className="nav-link" href="/item/itemBoard">Trade!</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#!">Community</a></li>
                         <li className="nav-item"><a className="nav-link" href="/qnaboard">Support </a></li>
 
                         { localStorage.getItem("memberId") == null ?

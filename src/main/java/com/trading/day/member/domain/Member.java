@@ -86,7 +86,4 @@ public class Member extends BaseTimeEntity {
     @Column(name = "activated")
     private final boolean activated = true;
 
-//    //user details
-//    @Column(name = "non_locked")
-//    private final boolean NonLocked = true;
 }
