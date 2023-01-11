@@ -42,8 +42,6 @@ public class MemberMgmtController {
     }
 
 
-
-    // -----------------> test Only
     @PostMapping("/pwdchk")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @ApiOperation(value ="고객 정보 수정시 비밀번호 확인 API", notes ="고객 정보 수정시 비밀번호 확인함")
