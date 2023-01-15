@@ -1,20 +1,13 @@
 package com.trading.day.config.jwtConfig;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.trading.day.jwtToken.domain.ResponseTokenDTO;
 import com.trading.day.jwtToken.domain.TokenDTO;
-import com.trading.day.jwtToken.domain.TokenManage;
 import com.trading.day.jwtToken.service.TokenService;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -64,7 +57,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-
         // --> 로그인 폼에 대한 예외처리도 추가..해야함...
         Member member = objectMapper.readValue(request.getInputStream(), Member.class);
 
@@ -90,7 +82,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             return getAuthenticationManager().authenticate(token);
         } else {
             //refreshToken이 왔다면
-//            VerifyResult verify = JWTUtil.verify(member.getRefreshToken());
             VerifyResult verify = JWTUtil.verify(refresh_tokenVal);
             if (verify.isSuccess()) {
                 //AuthenticationManager에게 위임하지 않고, 바로 통행증을 만들어서 보내줌
@@ -117,7 +108,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // Bearer은 꼭 리스폰스에 담아서 갈 필요는 없음 --> 서버에서 필요한것
         response.setHeader("auth_token", JWTUtil.makeAuthToknen(details));
-//        response.setHeader("refresh_token", JWTUtil.makeRefreshToken(details));
 
         String refresh_token = "Bearer "+JWTUtil.makeRefreshToken(details);
         refresh_token = URLEncoder.encode(refresh_token);

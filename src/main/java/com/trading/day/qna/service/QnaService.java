@@ -112,17 +112,10 @@ public class QnaService {
      * @return int
      */
     public int deleteQna(QnaDTO qnaInDTO) {
-        //TODO 다건으로할까 단건으로할까..
-        // pk를 담을 리스트
-        List<Long> qnaIdList = new ArrayList<Long>();
-        int result = 0;
 
+        int result = 0;
         try {
-//            for(int i = 0; i < qnaInDTO.getQnaList().size(); i++) {
-//                qnaIdList.set(i, qnaInDTO.getQnaList().get(i).getQnaId());
-//                System.out.println("qnaInDTO : "  + qnaIdList.get(i));
-                qnaRepository.deleteById(qnaInDTO.getQnaId());
-//            }
+            qnaRepository.deleteById(qnaInDTO.getQnaId());
             result = 1;
         } catch(Exception e) {
             throw new IllegalArgumentException("삭제에 실패했습니다. 다시 확인하고 삭제해주세요.");
@@ -148,6 +141,14 @@ public class QnaService {
         return new QnaDTO().toPageDTO(findQnaEntity);
     }
 
+    /**
+     * methodName : findAllPaging
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param pageable
+     * @return page
+     */
     @Transactional(readOnly = true)
     public Page<QnaDTO> findAllPaging(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);

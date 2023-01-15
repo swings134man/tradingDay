@@ -93,7 +93,6 @@ public class JWTCheckFilter extends BasicAuthenticationFilter {
 
                 if(findDBResult.equals(token)) {
                     if (result.isSuccess()) {
-//                    UserDetails user = memberService.loadUserByUsername(result.getMemberId());
                         user = memberService.loadUserByUsername(result.getMemberId());
                         UsernamePasswordAuthenticationToken memberToken = new UsernamePasswordAuthenticationToken(
                                 user.getUsername(), null, user.getAuthorities()

@@ -28,8 +28,6 @@ import java.util.Optional;
  *               김태일                       최초생성
  */
 public interface QnaRepository extends JpaRepository<Qna,Long> {
-    // 특정 고객이 남긴 문의글만 조회
-    //List<Qna> findByWriter(String writer);
 
     Qna findByQnaId(Long QnaId);
     Qna findByQnaIdAndPwd(Long qnaId, String pwd);

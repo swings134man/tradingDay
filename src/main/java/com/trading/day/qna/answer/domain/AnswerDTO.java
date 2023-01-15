@@ -32,13 +32,6 @@ public class AnswerDTO {
     private String createdDate; // 생성 시간
     private String modifiedDate;// 수정 시간
 
-//    public AnswerDTO(Answer answer) {
-//        id = answer.getId();
-//        content = answer.getContent();
-//        writer = answer.getWriter();
-//        createdDate = answer.getCreatedDate();
-//        modifiedDate = answer.getModifiedDate();
-//
-//    }
+
 }
 

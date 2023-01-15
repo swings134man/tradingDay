@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-//import static com.trading.day.member.domain.SocialMember.Provider.google;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -38,12 +36,17 @@ public class MemberService implements UserDetailsService{
     private final RoleJpaRepository roleRepository; // Role
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
 
+    /**
+     * methodName : save
+     * author : TAEIL KIM
+     * description : 일반회원가입
+     *
+     * @return Long
+     */
     public Long save(MemberDTO inDto) {
 
         //Entity 변환 작업
         Member member = modelMapper.map(inDto, Member.class);
-//        member.setCreateDate(LocalDateTime.now());
-//        member.setModifiedDate(LocalDateTime.now());
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String pwd = bCryptPasswordEncoder.encode(member.getPwd());
@@ -55,6 +58,13 @@ public class MemberService implements UserDetailsService{
         return out.getMemberNo();
     }
 
+    /**
+     * methodName : addAuthority
+     * author : TAEIL KIM
+     * description : 유저 권한 부여
+     *
+     * @return void
+     */
     public void addAuthority(Long userId, String authority) {
         memberRepository.findById(userId).ifPresent(user -> {
             UserRole newRole = new UserRole(user.getMemberNo(), authority);
@@ -64,6 +74,13 @@ public class MemberService implements UserDetailsService{
         });
     }
 
+    /**
+     * methodName : manageSave
+     * author : TAEIL KIM
+     * description : 매지저 권한 부여
+     *
+     * @return Long
+     */
     public Long manageSave(MemberDTO memberDTO) { // -> admin 가입시키면 --> 매니저
         Member member = modelMapper.map(memberDTO, Member.class);
 
@@ -78,6 +95,13 @@ public class MemberService implements UserDetailsService{
 
     }
 
+    /**
+     * methodName : memberModiPwdChk
+     * author : TAEIL KIM
+     * description : 개인정보 수정 페이지 진입시 사용자 비밀번호 확인
+     *
+     * @return boolean
+     */
     @Transactional(readOnly = true)
     public boolean memberModiPwdChk(MemberDTO memberDTO) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -89,16 +113,30 @@ public class MemberService implements UserDetailsService{
         return bCryptPasswordEncoder.matches(dtoPwd, dbPwd);
     }
 
-
+    // testOnly !
     public Member save2(Member member) {
         return memberRepository.save(member);
     }
 
+    /**
+     * methodName : findAll
+     * author : TAEIL KIM
+     * description : 조건에 상관없이 모든 고객을 가져옴
+     *
+     * @return List<Member>
+     */
     @Transactional(readOnly = true)
     public List<Member> findAll() {
         return memberRepository.findAll(Sort.by(Sort.Direction.DESC, "memberNo"));
     }
 
+    /**
+     * methodName : deleteMember
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return int
+     */
     public int deleteMember(MemberDTO inDto) {
         Optional<Member> findResult = memberRepository.findById(inDto.getMemberNo());
         if(findResult.isPresent()) {
@@ -108,7 +146,13 @@ public class MemberService implements UserDetailsService{
         return 0;
     }
 
-    // ID(PK)- Member_No 로 회원 정보 검색
+    /**
+     * methodName : findById
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return MemberDTO
+     */
     @Transactional(readOnly = true)
     public MemberDTO findById(MemberDTO inDto) {
         Optional<Member> result = memberRepository.findById(inDto.getMemberNo());
@@ -117,7 +161,13 @@ public class MemberService implements UserDetailsService{
         return out;
     }
 
-    // ID - memberId 로 회원 객체 검색
+    /**
+     * methodName : findByMemberId
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return MemberDTO
+     */
     @Transactional(readOnly = true)
     public MemberDTO findByMemberId(MemberDTO inDTO) {
         Member resultEntity = memberRepository.findByMemberId(inDTO.getMemberId());
@@ -145,6 +195,13 @@ public class MemberService implements UserDetailsService{
         return result;
     }
 
+    /**
+     * methodName : chkDupliEmail
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return 이메일 중복확인
+     */
     @Transactional(readOnly = true)
     public int chkDupliEmail(String email) {
         int result = 1;
@@ -155,6 +212,13 @@ public class MemberService implements UserDetailsService{
         return result;
     }
 
+    /**
+     * methodName : updateMember
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return memberDTO
+     */
     public MemberDTO updateMember(MemberDTO memberDTO) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String pwd = "";
@@ -176,7 +240,13 @@ public class MemberService implements UserDetailsService{
         return modelMapper.map(searchMember, MemberDTO.class);
     }
 
-    // findByName -- > member name 으로 검색
+    /**
+     * methodName : findByName
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return memberDTO
+     */
     public MemberDTO findByName(MemberDTO inDto) {
 
         // Entity
@@ -186,21 +256,6 @@ public class MemberService implements UserDetailsService{
         // DTO
         MemberDTO out = modelMapper.map(result, MemberDTO.class);
         return out;
-    }
-
-    // Update
-    public MemberDTO updateName(MemberDTO inDto) {
-
-        Long pk = Long.valueOf(inDto.getMemberId());
-
-        Optional<Member> result = memberRepository.findById(pk);
-        if(result.isPresent()){
-            result.get().setName(inDto.getName()); // 이름 변경
-            // to DTO
-            MemberDTO out = modelMapper.map(result.get(), MemberDTO.class); // Entity 가 Optional 로 Wrap 되어 있으므로 .get()으로 값 꺼내줘야함.
-            return out;
-        }
-        return null;
     }
 
     /**
@@ -241,11 +296,25 @@ public class MemberService implements UserDetailsService{
     }
     // -------------------------------------소셜 로그인 사용 메서드----------------------------------------------------------
 
+    /**
+     * methodName : socialFindMember
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return Member
+     */
     public Member socialFindMember(String email) {
         Member findDbData = memberRepository.findByEmail(email);
             return findDbData;
     }
 
+    /**
+     * methodName : socialSave
+     * author : TAEIL KIM
+     * description :
+     *
+     * @return Long
+     */
     public Long socialSave( MemberDTO memberDTO) {
 
         Member member = modelMapper.map(memberDTO, Member.class);

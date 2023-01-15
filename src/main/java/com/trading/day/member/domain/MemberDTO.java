@@ -15,7 +15,6 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//public class MemberDTO implements UserDetails{
 public class MemberDTO {
 
     private Long memberNo;              /* 고객번호 */

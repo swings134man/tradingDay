@@ -21,7 +21,6 @@ import lombok.*;
 @NoArgsConstructor
 public class TokenDTO {
     // 클라이언트와 request, response DTO
-
     private String tokenId;
     private String userName;
     private Long memberNo;

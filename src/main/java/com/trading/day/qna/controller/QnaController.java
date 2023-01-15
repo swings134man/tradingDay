@@ -156,6 +156,14 @@ public class QnaController {
         return qnaService.saveQna(inQnaDTO);
     }
 
+    /**
+     * methodName : pwdChk
+     * author : TAEIL KIM
+     * description :
+     *
+     * @param inQnaDTO
+     * @return int
+     */
     @ApiOperation(value="문의글 비밀번호 확인 api", notes = "문의글 작성시 설정한 비밀번호 일치 여부 확인함")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/confirmpwd")

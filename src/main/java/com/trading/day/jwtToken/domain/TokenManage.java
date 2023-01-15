@@ -31,14 +31,5 @@ public class TokenManage extends BaseTimeEntity {
     private String userName;
     private String refreshToken;
     private Long memberNo;
-//    @ManyToOne
-//    @JoinColumn(name = "member_no")
-//    private Member memberEntity;
-
-    // 사용하는 refreshToken이 유효시간이 만료되었을때 DB에 업데이트
-    public void refreshUpdate(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
 
 }
