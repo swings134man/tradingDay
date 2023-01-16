@@ -4,6 +4,12 @@ import com.trading.day.member.domain.*;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
 import com.trading.day.member.repository.UserRoleJpaRepository;
+import com.trading.day.qna.answer.domain.Answer;
+import com.trading.day.qna.answer.repository.AnswerRepository;
+import com.trading.day.qna.answer.service.AnswerService;
+import com.trading.day.qna.domain.Qna;
+import com.trading.day.qna.repository.QnaRepository;
+import com.trading.day.qna.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -34,7 +40,11 @@ public class MemberService implements UserDetailsService{
     private final MemberJpaRepository memberRepository; // MEMBER
     private final UserRoleJpaRepository urRepository; // User_Role
     private final RoleJpaRepository roleRepository; // Role
+    private final AnswerRepository answerRepository; // 문의답변 repo
+    private final QnaRepository qnaRepository; // 문의 repo
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
+    private final QnaService qnaService;
+    private final AnswerService answerService;
 
     /**
      * methodName : save
@@ -137,13 +147,34 @@ public class MemberService implements UserDetailsService{
      *
      * @return int
      */
-    public int deleteMember(MemberDTO inDto) {
-        Optional<Member> findResult = memberRepository.findById(inDto.getMemberNo());
-        if(findResult.isPresent()) {
-            memberRepository.delete(findResult.get());
-            return 1;
+    @Transactional
+    public int deleteMember(MemberDTO memberDTO) {
+        int result = 1;
+        // 가지고온 아이디로 맴버 테이블 검색
+        Member dbMember = memberRepository.findByMemberId(memberDTO.getMemberId());
+
+        if(ObjectUtils.isEmpty(dbMember)) {
+            result = 0;
+            return result;
         }
-        return 0;
+        // 작성자명으로 qna 테이블을 조회
+        List<Qna> qnaList = qnaService.findByWriter(dbMember.getMemberId());
+
+        //answer, qna테이블 삭제
+        if(!ObjectUtils.isEmpty(qnaList)) {
+            for(int i = 0; i < qnaList.size(); i++) {
+                Long qnaId = qnaList.get(i).getQnaId();
+                Long answerId = answerService.findByQnaId(qnaId);
+
+                answerRepository.deleteByAnswerId(answerId);
+                qnaRepository.deleteByWriter(qnaList.get(i).getWriter());
+            }
+        }
+        // 권한, 유저권한 테이블 삭제
+        urRepository.deleteByMemberNo(dbMember.getMemberNo());
+        memberRepository.deleteByMemberNo(dbMember.getMemberNo());
+
+        return result;
     }
 
     /**

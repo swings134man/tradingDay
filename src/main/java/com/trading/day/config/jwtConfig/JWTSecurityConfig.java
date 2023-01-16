@@ -37,7 +37,8 @@ import java.util.Map;
  * -------------------------------------------------------
  * 2022/12/15        taeil                   최초생성
  */
-@EnableWebSecurity(debug = true)
+//@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {

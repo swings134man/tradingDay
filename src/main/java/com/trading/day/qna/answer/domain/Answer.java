@@ -37,7 +37,7 @@ public class Answer extends BaseTimeEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "qna_id_qna_id")
+    @JoinColumn(name = "qna_id")
     private Qna qnaId;
 
 

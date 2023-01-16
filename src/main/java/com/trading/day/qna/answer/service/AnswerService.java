@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -67,6 +68,11 @@ public class AnswerService {
         ));
         answerRepository.delete(result.get());
         return 1;
+    }
+    // 회원탈퇴시 사용되는 메서드
+    public Long findByQnaId(Long qna) {
+        Long answerId = answerRepository.findByQnaId(qna);
+        return  answerId;
     }
 
 }

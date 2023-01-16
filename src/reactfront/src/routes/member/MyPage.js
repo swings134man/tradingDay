@@ -5,6 +5,7 @@ import {render} from "react-dom";
 import ApplyBoardList from "../apply/ApplyBoardList";
 import Note from "../../components/Note";
 import NoteBoardList from "../note/NoteBoardList";
+import MemberSecession from "./MemberSecession";
 // import {mypageCss} from
 
 
@@ -24,6 +25,9 @@ function MyPage() {
         }
         if(pageId === "note") {
             setQuarter("note");
+        }
+        if(pageId === "secession") {
+            setQuarter("secession");
         }
     }
 
@@ -49,6 +53,11 @@ function MyPage() {
                        data-id={"note"}
                        onClick={pageRender}>쪽지함
                     </a>
+                    <a className="list-group-item list-group-item-action list-group-item-light p-3"
+                       href="#!"
+                       data-id={"secession"}
+                       onClick={pageRender}>회원탈퇴
+                    </a>
                 </div>
             </div>
 
@@ -61,6 +70,9 @@ function MyPage() {
                 </div>
                 <div style={{width: '100vh'}}>
                     {quarter === "note"  ? <NoteBoardList/> : null}
+                </div>
+                <div style={{width: '100vh'}}>
+                    {quarter === "secession"  ? <MemberSecession/> : null}
                 </div>
             </div>
         </div>

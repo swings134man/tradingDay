@@ -34,5 +34,11 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
     // id로 작성자 검색
     Page<Qna> findByWriter(String Writer, Pageable pageable);
     Page<Qna> findAll(Pageable pageable);
+    // 조회
+    List<Qna> findByWriter(String writer);
+
+    @Modifying
+    @Query(value = "delete from Qna where writer=:writer")
+    void deleteByWriter(@Param("writer") String writer);
 
 }

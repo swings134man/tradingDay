@@ -7,8 +7,7 @@ function NavigationBar() {
 
     const logout = () => {
         axios.post('/logout')
-            .then(function res(response){
-            })
+            .then(function res(response){})
             .catch(function (err){
                 alert('로그아웃 실패 잠시 후 다시 시도해주세요');
             })
@@ -18,11 +17,6 @@ function NavigationBar() {
         localStorage.removeItem("memberId");
         localStorage.removeItem("userRole");
     }
-
-    if(localStorage.getItem("userRole") === "ROLE_ADMIN") {
-
-    }
-
     return (
         <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 

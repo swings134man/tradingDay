@@ -174,11 +174,8 @@ public class QnaService {
         if(!ObjectUtils.isEmpty(selectMemberNo)) {
             System.out.println("selectMemberNo : " + selectMemberNo.getMemberNo());
         } else {
-            // TODO : 공용익셉션을 만들어볼까? 생각해보자(BizException)
-            // 결과가 없으면 exception으로 잡아서 ui(view)로 잡아서 던지면 좋겠당..
             throw new IllegalArgumentException("조회된 아이디가 없어요.");
         }
-
         Qna qnaEntity =  modelMapper.map(inQnaDTO, Qna.class);
         qnaEntity.setMember(selectMemberNo);
 
@@ -201,9 +198,6 @@ public class QnaService {
      */
     @Transactional(readOnly = true)
     public int pwdChk(QnaDTO inQnaDTO) {
-        System.out.println("inqnaDTO @@: " + inQnaDTO.getPwd());
-        System.out.println("inqnaDTO @@: " + inQnaDTO.getQnaId());
-
         int outVal = 1;
         Qna result = qnaRepository.findByQnaIdAndPwd(inQnaDTO.getQnaId(), inQnaDTO.getPwd());
         if(ObjectUtils.isEmpty(result)) {
@@ -211,5 +205,19 @@ public class QnaService {
         }
         return outVal;
     }
+
+    /**
+     * methodName : findByWriter
+     * author : TAEIL KIM
+     * description : 작성자명으로 문의글 조회
+     *
+     * @param writer
+     * @return Qna Entity
+     */
+    public List<Qna> findByWriter(String writer) {
+        List<Qna> qnaList = qnaRepository.findByWriter(writer);
+        return qnaList;
+    }
+
 
 } // service end

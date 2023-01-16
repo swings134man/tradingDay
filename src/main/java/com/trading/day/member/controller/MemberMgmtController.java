@@ -93,10 +93,11 @@ public class MemberMgmtController {
     *
     * @return int
     */
-    @DeleteMapping("/deletemember")
+    @DeleteMapping("/memberdelete")
     @ApiOperation(value =  "회원 탈퇴 api", notes = "회원 탈퇴 처리함")
-    public int deleteMember(MemberDTO inDto) {
-        int result = memberService.deleteMember(inDto);
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public int deleteMember(@RequestBody MemberDTO memberDTO) {
+        int result = memberService.deleteMember(memberDTO);
         return result;
     }
 

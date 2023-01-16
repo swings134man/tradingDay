@@ -27,6 +27,7 @@ import NoteDetail from "./routes/note/NoteDetail";
 
 import SocialSignUp from "./routes/member/SocialSignUp";
 import AdminPage from "./routes/admin/AdminPage";
+import MemberSecession from "./routes/member/MemberSecession";
 
 
 function RouterPages () {
@@ -46,6 +47,7 @@ function RouterPages () {
             <Route path="/member/mypage" element={<MyPage/>} />
             <Route path="/member/personalinfomodi" element={<PersonInfoModi/>} />
             <Route path="/member/admin" element={<AdminPage/>} />
+            <Route path="/member/secession" element={<MemberSecession/>} />
 
             {/*qna관련 route*/}
             <Route path="/qnaboard" element={<QnaBoard />} />
