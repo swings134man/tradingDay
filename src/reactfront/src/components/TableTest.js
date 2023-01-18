@@ -69,7 +69,7 @@ function TableTest({data}) {
                                     {/*2023.01.03 03:00:00 시 코드 수정 setNote -> note */}
                                     <div>
                                         <div style={{paddingLeft: 30}}>
-                                            {note && selectIndex == dataList.qnaId ? <Note /> : null }
+                                            {note && selectIndex == dataList.qnaId ? <Note memberId={dataList.writer}/> : null }
                                         </div>
                                     </div>
                                 </div>
