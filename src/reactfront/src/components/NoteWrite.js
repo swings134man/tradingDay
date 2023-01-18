@@ -76,6 +76,7 @@ function NoteWrite() {
                 }
                 alert("쪽지를 전송하던 도중 문제가 발생했습니다.\n 잠시 후 다시 시도해주세요.");
             })
+
     }
 
     return (
