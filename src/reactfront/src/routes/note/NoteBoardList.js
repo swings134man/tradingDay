@@ -16,7 +16,9 @@ function NoteBoardList() {
     const [page, setPage] = React.useState(1) // page Data
     let total = 0;
 
-    const {memberId} = useParams();
+    // const {memberId} = useParams();
+    // console.log(memberId);
+    const memberId = localStorage.getItem("memberId");
 
     // paging handler
     const handlePageChange = (page) => {

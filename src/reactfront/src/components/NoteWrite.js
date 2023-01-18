@@ -48,7 +48,12 @@ function NoteWrite() {
         let confirm1 = window.confirm("쪽지를 보내시겠습니까?");
         if(confirm1 === false) {
             return;
-        }else {
+        }
+        // 보내는 사람 & 받는사람이 같으면 denied
+        if(receiveId === senderId) {
+            window.alert("본인에게 쪽지를 보낼 수 없습니다!");
+            return;
+        }
 
             // 통신
             axios.post('/note/v1/auth/sendnote', {
@@ -71,7 +76,6 @@ function NoteWrite() {
                 }
                 alert("쪽지를 전송하던 도중 문제가 발생했습니다.\n 잠시 후 다시 시도해주세요.");
             })
-        }
     }
 
     return (

@@ -14,6 +14,9 @@ function AdminPage() {
         if(pageId === "manageSignUp") {
             setQuarter("manageSignUp");
         }
+        if(pageId === "note") {
+            setQuarter("note");
+        }
     }
 
     return (
@@ -28,12 +31,20 @@ function AdminPage() {
                        onClick={pageRender}
                        href="#!">매니저 계정 생성
                     </a>
+                    <a className="list-group-item list-group-item-action list-group-item-light p-3"
+                       href="#!"
+                       data-id={"note"}
+                       onClick={pageRender}>쪽지함
+                    </a>
                 </div>
             </div>
 
             <div >
                 <div style={{width: '100vh'}}>
                     {quarter === "manageSignUp" ? <ManageSignUp /> : null}
+                </div>
+                <div style={{width: '100vh'}}>
+                    {quarter === "note"  ? <NoteBoardList/> : null}
                 </div>
             </div>
         </div>
