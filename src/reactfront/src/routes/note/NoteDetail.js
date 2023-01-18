@@ -41,7 +41,7 @@ function NoteDetail() {
         각 버튼 이벤트
      */
     const onClickPre = () => {
-        navigate("/noteBoardList/"+ memberId);
+        navigate(-1);
     }
 
     // 답장
