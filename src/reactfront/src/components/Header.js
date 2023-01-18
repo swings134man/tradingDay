@@ -4,9 +4,9 @@ function Header() {
         <header className="masthead text-center text-white">
             <div className="masthead-content">
                 <div className="container px-5">
-                    <h1 className="masthead-heading mb-0">인덱스 헤더예용</h1>
-                    <h2 className="masthead-subheading mb-0">짜증나는 리액트 ^^</h2>
-                    <a className="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">가보자고....</a>
+                    <h1 className="masthead-heading mb-0">Today Is Trading Day!</h1>
+                    <h2 className="masthead-subheading mb-0">당신의 프로젝트 파트너를 구해보세요!</h2>
+                    <a className="btn btn-primary btn-xl rounded-pill mt-5" href="/item/itemBoard">찾아보기</a>
                 </div>
             </div>
             <div className="bg-circle-1 bg-circle"></div>
