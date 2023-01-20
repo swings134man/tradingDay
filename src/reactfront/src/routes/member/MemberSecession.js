@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 function MemberSecession() {
     const idRef = useRef(null);
+    const navigate = useNavigate();
 
     const logout = () => {
         axios.post('/logout')
@@ -38,7 +39,9 @@ function MemberSecession() {
                 withCredentials: true,
                 }).then(function (res) {
                     console.log(res);
-
+                    if(res.status === 403) {
+                        navigate('/member/signin');
+                    }
                     if(res.data === 1) {
                         localStorage.removeItem("auth_token");
                         localStorage.removeItem("memberId");
