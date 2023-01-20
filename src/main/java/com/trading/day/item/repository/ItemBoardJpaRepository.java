@@ -15,7 +15,4 @@ public interface ItemBoardJpaRepository extends JpaRepository<ItemBoard, Long> {
     Page<ItemBoard> findAll(Pageable pageable); // 전체검색 페이징
     Page<ItemBoard> findByTitleContaining(String title, Pageable pageable); // 제목 검색 페이징
     Page<ItemBoard> findByWriterContaining(String writer, Pageable pageable); // 작성자 검색 페이징
-
-    // 태일-> 회원탈퇴시 관련 데이터 전체 삭제를 위한 메서드 추가
-
 }
