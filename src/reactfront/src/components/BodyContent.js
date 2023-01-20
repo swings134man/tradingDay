@@ -2,6 +2,9 @@ import styles from "../css/styles.css";
 import img1 from "../img/01.jpg";
 import img2 from "../img/02.jpg";
 import img3 from "../img/03.jpg";
+import main_people from "../img/main_people.jpg"
+import main_handshake from "../img/main_handshake.jpg"
+import main_listening from "../img/main_listening.jpg"
 import favicon from "../img/favicon.ico";
 function BodyContent() {
     return (
@@ -10,7 +13,7 @@ function BodyContent() {
                 <div className="container px-5">
                     <div className="row gx-5 align-items-center">
                         <div className="col-lg-6 order-lg-2">
-                            <div className="p-5"><img className="img-fluid rounded-circle" src={img1} alt="..." /></div>
+                            <div className="p-5"><a href="/item/itemBoard"><img className="img-fluid rounded-circle" src={main_people} alt="..." /></a></div>
                         </div>
                         <div className="col-lg-6 order-lg-1">
                             <div className="p-5">
@@ -26,7 +29,7 @@ function BodyContent() {
                 <div className="container px-5">
                     <div className="row gx-5 align-items-center">
                         <div className="col-lg-6">
-                            <div className="p-5"><img className="img-fluid rounded-circle" src={img2} alt="..." /></div>
+                            <div className="p-5"><a href="/item/itemBoard"><img className="img-fluid rounded-circle" src={main_handshake} alt="..." /></a></div>
                         </div>
                         <div className="col-lg-6">
                             <div className="p-5">
@@ -42,7 +45,7 @@ function BodyContent() {
                 <div className="container px-5">
                     <div className="row gx-5 align-items-center">
                         <div className="col-lg-6 order-lg-2">
-                            <div className="p-5"><img className="img-fluid rounded-circle" src={img3} alt="..." /></div>
+                            <div className="p-5"><a href="/qnaboard"><img className="img-fluid rounded-circle" src={main_listening} alt="..." /></a></div>
                         </div>
                         <div className="col-lg-6 order-lg-1">
                             <div className="p-5">
