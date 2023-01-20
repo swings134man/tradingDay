@@ -47,7 +47,9 @@ public class Member extends BaseTimeEntity {
 
 
     // Item 게시판 Mapping
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member",
+               fetch = FetchType.EAGER,
+               cascade = CascadeType.REMOVE)
     private List<ItemBoard> itemBoards = new ArrayList<>();
 
     // Qna mapping
