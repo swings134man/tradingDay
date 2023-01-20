@@ -78,6 +78,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/member/v1/**", "/logout").permitAll()
                 .antMatchers("/item/v1/**", "/apply/v1/**", "/login/oauth2/**").permitAll()
                 .antMatchers("/qna/v1/**", "/answer/v1/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/css/**", "/images/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
@@ -113,16 +114,16 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
-                // -- Static resources
-                "/css/**", "/images/**", "/js/**"
-                // -- Swagger UI v2
-                , "/v2/api-docs", "/swagger-resources/**"
-                , "/swagger-ui.html", "/webjars/**", "/swagger/**"
-        );
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers(
+//                // -- Static resources
+//                "/css/**", "/images/**", "/js/**"
+//                // -- Swagger UI v2
+//                , "/v2/api-docs", "/swagger-resources/**"
+//                , "/swagger-ui.html", "/webjars/**", "/swagger/**"
+//        );
+//    }
 
 
 
