@@ -108,7 +108,7 @@ function QnaDetail() {
                         }})
                 ).json();
                 if(json === 1 ) {
-                    navigate('/qna/qnaboard');
+                    navigate('/qnaboard');
                 } else if(json.status === 403) {
                     navigate("/member/signin");
                 }
