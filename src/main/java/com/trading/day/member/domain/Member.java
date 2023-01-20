@@ -52,7 +52,7 @@ public class Member extends BaseTimeEntity {
 
     // Qna mapping
     @JsonIgnore // --> Json으로 변환 과정중에 무한으로 참조가 순환문제를 해결 --> 무한 순환을 끊어줌
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Qna> qnas = new ArrayList<>();
 
     // Apply (지원서)
@@ -71,7 +71,7 @@ public class Member extends BaseTimeEntity {
         qna.setMember(this);
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no", foreignKey = @ForeignKey(name="member_no"))
     @JsonIgnore
     private Set<UserRole> authorities;

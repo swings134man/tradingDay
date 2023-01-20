@@ -154,25 +154,15 @@ public class MemberService implements UserDetailsService{
         Member dbMember = memberRepository.findByMemberId(memberDTO.getMemberId());
 
         if(ObjectUtils.isEmpty(dbMember)) {
+            // 맴버 테이블에 조회된 결과가 없는 경우
             result = 0;
             return result;
         }
-        // 작성자명으로 qna 테이블을 조회
-        List<Qna> qnaList = qnaService.findByWriter(dbMember.getMemberId());
-
-        //answer, qna테이블 삭제
-        if(!ObjectUtils.isEmpty(qnaList)) {
-            for(int i = 0; i < qnaList.size(); i++) {
-                Long qnaId = qnaList.get(i).getQnaId();
-                Long answerId = answerService.findByQnaId(qnaId);
-
-                answerRepository.deleteByAnswerId(answerId);
-                qnaRepository.deleteByWriter(qnaList.get(i).getWriter());
-            }
-        }
-        // 권한, 유저권한 테이블 삭제
+        
+        // 유저권한 테이블 삭제
         urRepository.deleteByMemberNo(dbMember.getMemberNo());
-        memberRepository.deleteByMemberNo(dbMember.getMemberNo());
+        // 회원 데이터 삭제
+        memberRepository.delete(dbMember);
 
         return result;
     }
