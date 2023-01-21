@@ -37,8 +37,4 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
     // 조회
     List<Qna> findByWriter(String writer);
 
-    @Modifying
-    @Query(value = "delete from Qna where writer=:writer")
-    void deleteByWriter(@Param("writer") String writer);
-
 }

@@ -128,5 +128,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .build();
         tokenService.saveRefreshToken(tokenDTO);
 
+        // -------------------- 마지막 로그인 시간 save -----------------------------
+        memberService.saveLastLoginTime(details.getUsername());
+
     }
 }
