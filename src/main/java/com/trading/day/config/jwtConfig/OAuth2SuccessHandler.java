@@ -4,6 +4,7 @@ import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.jwtToken.service.TokenService;
 import com.trading.day.member.domain.Member;
 import com.trading.day.member.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -32,6 +33,7 @@ import java.util.Map;
  * 2023/01/03        taeil                   최초생성
  */
 @Component
+@Slf4j
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
@@ -58,21 +60,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 // 이메일로 맴버 조회 -> 없으면 신규 가입으로 리턴
                 response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
             } else {
-                String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
-                String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
-
-                Cookie cookie = new Cookie("refresh_token", refresh_token);
-                cookie.setPath("/");
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true);
-                response.addCookie(cookie);
-
-                TokenDTO tokenDTO = TokenDTO.builder()
-                        .userName(findMember.getMemberId())
-                        .refresh_token(refresh_token.substring("Bearer ".length()))
-                        .build();
-                tokenService.saveRefreshToken(tokenDTO);
-                response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
+                loginSuccess(findMember, response);
             }
         } else if(clientId.equals("kakao")) {
             Map<String, Object> kakao_account = (Map<String, Object>) principal.getAttributes().get("kakao_account");
@@ -82,24 +70,33 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
             if(ObjectUtils.isEmpty(findMember)) {
                 response.sendRedirect("http://localhost:3000/member/socialsignup?email="+email);
-
             } else {
-                String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
-                String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
-
-                Cookie cookie = new Cookie("refresh_token", refresh_token);
-                cookie.setPath("/");
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true);
-                response.addCookie(cookie);
-
-                TokenDTO tokenDTO = TokenDTO.builder()
-                        .userName(findMember.getMemberId())
-                        .refresh_token(refresh_token.substring("Bearer ".length()))
-                        .build();
-                tokenService.saveRefreshToken(tokenDTO);
-                response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
+                loginSuccess(findMember, response);
             }
         }
     }
-}
+
+    public void loginSuccess(Member findMember, HttpServletResponse response ) throws IOException
+    {
+        String auth_token = JWTUtil.makeSocialAuthToken(findMember.getMemberId());
+        String refresh_token = JWTUtil.makeSocialRefreshToken(findMember.getMemberId());
+
+        Cookie cookie = new Cookie("refresh_token", refresh_token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        TokenDTO tokenDTO = TokenDTO.builder()
+                .userName(findMember.getMemberId())
+                .refresh_token(refresh_token.substring("Bearer ".length()))
+                .build();
+        tokenService.saveRefreshToken(tokenDTO);
+        // 로그인 시간 업데이트
+        log.debug("---------------------------------나는 소셜---------------------------------");
+        memberService.saveLastLoginTime(findMember.getMemberId());
+
+        response.sendRedirect("http://localhost:3000/?jwt_token="+auth_token);
+    }
+
+}// class
