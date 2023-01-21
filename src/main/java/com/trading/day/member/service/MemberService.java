@@ -1,5 +1,6 @@
 package com.trading.day.member.service;
 
+import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.member.domain.*;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
@@ -26,7 +27,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.userdetails.User;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -280,17 +283,15 @@ public class MemberService implements UserDetailsService{
     }
 
     /**
-    * @info    : ROLE 권한 가져오는 Method - 실사용 코드
-    * @name    : roleFind
-    * @date    : 2022/10/13 4:10 AM
-    * @author  : SeokJun Kang(swings134@gmail.com)
-    * @version : 1.0.0
-    * @param   : Long id
-    * @return  : Optional<Role>
-    */
-    public Optional<Role> roleFind(Long id) {
-        Optional<Role> result = roleRepository.findById(id);
-        return result;
+     * methodName : saveLastLoginTime
+     * author : TAEIL KIM
+     * description : 로그인 시간을 저장함
+     * date : 2023/1/21
+     * @return void
+     */
+    public void saveLastLoginTime(String memberId) {
+        memberRepository.saveLoginTime(memberId);
+        log.debug("--------------- 로그인 시간 업데이트 -----------");
     }
     //-------------------------------------UserDetails-------------------------------------
     @Override

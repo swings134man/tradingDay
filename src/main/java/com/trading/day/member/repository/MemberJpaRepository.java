@@ -18,9 +18,8 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
     Member findByEmail(String email);
 
+    // 로그인 시간 업데이트
     @Modifying
-    @Query(value = "delete from Member where memberNo=:memberNo")
-    void deleteByMemberNo(@Param("memberNo") Long memberNo);
-
-
+    @Query(value = "update Member set LastLoginTime = current_timestamp where memberId = :memberId")
+    void saveLoginTime(@Param("memberId") String memberId);
 }

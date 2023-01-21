@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -43,7 +40,7 @@ public class Member extends BaseTimeEntity {
     private String address;                /* 주소 */
     private String detailAddr;             /*상세 주소*/
     private String pwd;                     /*비밀번호*/
-    private String socialEmail;             /*소셜 로그인이면 소셜 로그인 이메일*/
+    private LocalDateTime LastLoginTime;             /*마지막 로그인 시간*/
 
 
     // Item 게시판 Mapping
