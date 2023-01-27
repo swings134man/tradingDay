@@ -78,9 +78,9 @@ spring:
 # batch
     batch:
       jdbc:
-        initialize-schema: embedded
+        initialize-schema: always
       job:
-        enabled: true
+        enabled: false
   logging:
     level:
       com.trading.day: debug
@@ -101,6 +101,6 @@ spring:
       jdbc:
         initialize-schema: always
       job:
-        enabled: true
+        enabled: false
 
 
