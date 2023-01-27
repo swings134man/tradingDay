@@ -89,6 +89,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(checkFilter, BasicAuthenticationFilter.class)
+
                 .logout(logout ->
                         logout.deleteCookies("refresh_token"));
 
