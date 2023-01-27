@@ -40,7 +40,7 @@ public class Member extends BaseTimeEntity {
     private String address;                /* 주소 */
     private String detailAddr;             /*상세 주소*/
     private String pwd;                     /*비밀번호*/
-    private LocalDateTime LastLoginTime;             /*마지막 로그인 시간*/
+    private LocalDateTime lastLoginTime;             /*마지막 로그인 시간*/
 
 
     // Item 게시판 Mapping
@@ -83,6 +83,12 @@ public class Member extends BaseTimeEntity {
 
     //user details
     @Column(name = "activated")
-    private final boolean activated = true;
+    private boolean activated = true;
+
+    // Member inActive - 계정 비활성화
+    public Member setActivatedFalse() {
+        activated = false;
+        return this;
+    }
 
 }
