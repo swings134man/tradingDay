@@ -134,5 +134,21 @@ class MemberMgmtControllerTest {
 
     }
 
+    @Test
+    void addAcount_forBatchTest() {
+        Long save = 0L;
+        for (int i = 0; i < 10; i++) {
+            MemberDTO memberDTO = MemberDTO.builder()
+                    .memberId("test"+i)
+                    .name("test"+i)
+                    .email("test"+i+"@day.com")
+                    .address("서울 뿅뿅")
+                    .pwd("xptmxm"+i)
+                    .build();
+            save = service.save(memberDTO);
+        }
+            Assertions.assertThat(13L).isEqualTo(save);
+    }
+
 
 }//class
