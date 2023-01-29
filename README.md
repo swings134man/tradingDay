@@ -6,6 +6,7 @@ Trading Day for side Project <br/>
 * 프로젝트 인원  : 2명 (BE, FE, Infra) @swings134man, @caporatang
 * 프로젝트 기간  : 2022.10 ~ 2023.01
 <br/>
+
 --------------------------------------------------------------------------------
 ## Project Info & Skills
 
@@ -23,12 +24,12 @@ Trading Day for side Project <br/>
 - Swagger (API 문서 관리)
 - Model Mapper (Entity <-> DTO Mapping)
 - BootStrap5
-
 <br/>
+
 ### Open API
 - Kakao Login
-
 <br/>
+
 ### 배포 info
 - XXX
 <br/>
