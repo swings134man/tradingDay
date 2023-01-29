@@ -26,11 +26,11 @@ Trading Day for side Project <br/>
 - BootStrap5
 <br/>
 
-### Open API
+#### Open API
 - Kakao Login
 <br/>
 
-### 배포 info
+#### 배포 info
 - XXX
 <br/>
 
