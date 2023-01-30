@@ -306,15 +306,21 @@ public class MemberService implements UserDetailsService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String memberId) { // --> 맴버에서 가지고 오는건데
-        //TODO findOneWithAuthoritiesByMemberId --> 수정예정
-        return memberRepository.findOneWithAuthoritiesByMemberId(memberId)
-                .map(user -> createUser(memberId, user))
+        return memberRepository.findOneByMemberId(memberId)
+                .map(user -> createUserDetail(memberId, user))
                 .orElseThrow(() -> new UsernameNotFoundException(memberId + " -> 데이터베이스에서 찾을 수 없습니다."));
     }
-    private User createUser(String username, Member user) {
+
+    /**
+     * methodName : createUserDetail
+     * author : TAEIL KIM
+     * description : 계정 활성 체크와, 유저 디테일 리턴하는 메서드
+     *
+     * @return User
+     */
+    private User createUserDetail(String username, Member user) {
         if (!user.isActivated()) {
             throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
-
         }
 
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
