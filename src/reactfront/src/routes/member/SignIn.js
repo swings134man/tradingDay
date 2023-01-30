@@ -63,7 +63,7 @@ function SignIn() {
         }).catch(function (err){
             console.log(err);
             if(activated === false) {
-                alert('계정이 비활성 상태 입니다.');
+                alert('계정이 비활성 상태 입니다. 관리자에게 문의하여 비밀번호를 재설정하세요');
                 return;
             }
             alert('아이디와 비밀번호를 확인하세요');
