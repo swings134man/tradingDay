@@ -102,5 +102,21 @@ spring:
         initialize-schema: always
       job:
         enabled: false
-
-
+---
+# AWS RDS
+spring:
+  config:
+    activate:
+      on-profile: rds
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    추후 연결시 "" 지울것.
+    url: jdbc:mysql://"{엔드포인트}:{포트번호}/make?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+    username: root
+    password: test
+#  batch
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
