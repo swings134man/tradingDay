@@ -272,6 +272,25 @@ public class MemberService implements UserDetailsService{
         return out;
     }
 
+
+    /**
+     * methodName : searchActivated
+     * author : TAEIL KIM
+     * description : 계정 활성화 여부를 조회함
+     * date : 2023/1/30
+     * @return boolean
+     */
+    public boolean searchActivated(String memberId) {
+        boolean activated = true;
+        Member dbMember = memberRepository.findByMemberId(memberId);
+
+        if(!ObjectUtils.isEmpty(dbMember)) {
+            activated = dbMember.isActivated();
+        }
+
+        return activated;
+    }
+
     /**
      * methodName : saveLastLoginTime
      * author : TAEIL KIM
@@ -307,7 +326,6 @@ public class MemberService implements UserDetailsService{
                 grantedAuthorities);
     }
     // -------------------------------------소셜 로그인 사용 메서드----------------------------------------------------------
-
     /**
      * methodName : socialFindMember
      * author : TAEIL KIM
