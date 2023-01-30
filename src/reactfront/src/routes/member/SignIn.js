@@ -14,10 +14,23 @@ function SignIn() {
 
     const idRef = useRef(null);
     const pwdRef = useRef(null);
-    const navigate = useNavigate();
+    let activated;
 
-    const loginOnClick = (e) =>  {
-        e.preventDefault();
+    function searchActivated(memberId) {
+        axios.get("/member/v1/searchactivated", {
+            params: {
+                memberId : memberId
+            }
+        }).then(function (res) {
+            console.log(res.data)
+            activated = res.data;
+        }).catch(function (err) {
+            console.log(err)
+            console.log('계정활성여부 조회 중 에러가 발생했습니다');
+        });
+    }
+
+    function loginProcess() {
 
         const idVal = idRef.current.value;
         const pwdVal = pwdRef.current.value;
@@ -25,17 +38,19 @@ function SignIn() {
         if (idVal == "") {
             alert("아이디를 입력하세요");
             idRef.current.focus();
-                return;
+            return;
         } else if (pwdVal == "") {
             alert("비밀번호를 입력하세요");
             pwdRef.current.focus();
-                return;
+            return;
         }
-
+        // 계정 활성 여부 조회
+        searchActivated(idVal);
+        // 로그인 처리
         axios.post('/member/v1/login', {
-            memberId : idVal,
-            pwd : pwdVal
-        },
+                memberId : idVal,
+                pwd : pwdVal
+            },
             {withCredentials:true}
         ).then(function (res) {
             console.log(res);
@@ -45,11 +60,19 @@ function SignIn() {
             localStorage.setItem('auth_token', res.headers.auth_token);
             localStorage.setItem('memberId', res.data.username);
             window.location.assign("/");
-
         }).catch(function (err){
             console.log(err);
+            if(activated === false) {
+                alert('계정이 비활성 상태 입니다.');
+                return;
+            }
             alert('아이디와 비밀번호를 확인하세요');
         })
+    }
+
+    const loginOnClick = (e) =>  {
+        e.preventDefault();
+        loginProcess();
     } // login onClick
 
     function googleLoginLocation() {

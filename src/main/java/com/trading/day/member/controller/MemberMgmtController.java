@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -99,6 +100,21 @@ public class MemberMgmtController {
     public int deleteMember(@RequestBody MemberDTO memberDTO) {
         int result = memberService.deleteMember(memberDTO);
         return result;
+    }
+
+    /**
+     * methodName : searchActivated
+     * author : TAEIL KIM
+     * description : 계정 활성화 여부를 조회함
+     * date : 2023/1/30
+     * @return boolean
+     */
+    @GetMapping("/searchactivated")
+    @ApiOperation(value = "계정 활성화 여부 조회 api", notes = "계정 활성화 여부를 조회함")
+    @PreAuthorize("isAnonymous()")
+    public boolean searchActivated(@RequestParam String memberId) {
+        System.out.println("나는 컨트롤러");
+       return memberService.searchActivated(memberId);
     }
 
     /**

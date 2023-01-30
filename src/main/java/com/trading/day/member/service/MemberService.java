@@ -1,14 +1,11 @@
 package com.trading.day.member.service;
 
-import com.trading.day.config.BaseTimeEntity;
 import com.trading.day.member.domain.*;
 import com.trading.day.member.repository.MemberJpaRepository;
 import com.trading.day.member.repository.RoleJpaRepository;
 import com.trading.day.member.repository.UserRoleJpaRepository;
-import com.trading.day.qna.answer.domain.Answer;
 import com.trading.day.qna.answer.repository.AnswerRepository;
 import com.trading.day.qna.answer.service.AnswerService;
-import com.trading.day.qna.domain.Qna;
 import com.trading.day.qna.repository.QnaRepository;
 import com.trading.day.qna.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +24,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.userdetails.User;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,12 +37,7 @@ public class MemberService implements UserDetailsService{
 
     private final MemberJpaRepository memberRepository; // MEMBER
     private final UserRoleJpaRepository urRepository; // User_Role
-    private final RoleJpaRepository roleRepository; // Role
-    private final AnswerRepository answerRepository; // 문의답변 repo
-    private final QnaRepository qnaRepository; // 문의 repo
     private final ModelMapper modelMapper; // DTO <-> Entity 변환 라이브러리
-    private final QnaService qnaService;
-    private final AnswerService answerService;
 
     /**
      * methodName : save
@@ -282,6 +272,25 @@ public class MemberService implements UserDetailsService{
         return out;
     }
 
+
+    /**
+     * methodName : searchActivated
+     * author : TAEIL KIM
+     * description : 계정 활성화 여부를 조회함
+     * date : 2023/1/30
+     * @return boolean
+     */
+    public boolean searchActivated(String memberId) {
+        boolean activated = true;
+        Member dbMember = memberRepository.findByMemberId(memberId);
+
+        if(!ObjectUtils.isEmpty(dbMember)) {
+            activated = dbMember.isActivated();
+        }
+
+        return activated;
+    }
+
     /**
      * methodName : saveLastLoginTime
      * author : TAEIL KIM
@@ -317,7 +326,6 @@ public class MemberService implements UserDetailsService{
                 grantedAuthorities);
     }
     // -------------------------------------소셜 로그인 사용 메서드----------------------------------------------------------
-
     /**
      * methodName : socialFindMember
      * author : TAEIL KIM

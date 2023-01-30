@@ -23,34 +23,36 @@ function SignUp() {
     const addrDetailRef = useRef(null);
 
     const emailDupliChk = async () => {
-            await axios.get('/member/v1/chkdupliemail', {
-                params: {
-                    email: emailRef.current.value
-                }
-            }).then(function (res) {
-                console.log(res)
-                //setEmailDupli(res.data)
+        const emailValiForm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        const emailVal = emailRef.current.value;
 
-                if (!emailRef.current.value) {
-                    alert("이메일을 입력하세요")
-                } else if(res.data === 1) {
-                    alert("이미 가입되어 있는 이메일입니다.")
-                } else if(res.data === 0) {
-                    const useCfn = window.confirm("사용 가능한 이메일입니다. 사용 하시겠어요?")
-                    if(useCfn === true) {
-                        setEmailDisabled(true);
-                        console.log(emailDisabled);
-                    }
+        await axios.get('/member/v1/chkdupliemail', {
+            params: {
+                email: emailRef.current.value
+            }
+        }).then(function (res) {
+            if (!emailRef.current.value) {
+                alert("이메일을 입력하세요")
+            } else if (!emailValiForm.test(emailVal)) {
+                alert("이메일 형식을 확인 후 다시 입력해주세요");
+                emailRef.current.focus();
+            } else if(res.data === 1) {
+                alert("이미 가입되어 있는 이메일입니다.")
+                emailRef.current.focus();
+            } else if(res.data === 0) {
+                const useCfn = window.confirm("사용 가능한 이메일입니다. 사용 하시겠어요?")
+                if(useCfn === true) {
+                    setEmailDisabled(true);
+                    console.log(emailDisabled);
                 }
-            }).catch(function (err) {
-               console.log(err);
-            })
+            }
+        }).catch(function (err) {
+           console.log(err);
+        })
     }
 
-    const chkSubmit = async (e) => {
-        e.preventDefault();
+    const dupliIdChk = async (e) => {
 
-        console.log('test');
         // id 중복체크 온클릭 이벤트
         const idChkVal = idRef.current.value;
 
@@ -81,19 +83,20 @@ function SignUp() {
             return;
         } else if (json == 0) {
             const useCfn = window.confirm("사용 가능한 아이디입니다 사용 하시겠어요?")
-                if(useCfn === true) {
-                    setDisabled(true);
-                    console.log(disabled);
-                }
+            if(useCfn === true) {
+                setDisabled(true);
+                console.log(disabled);
+            }
         } else {
             alert("중복확인 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.")
         }
     }
 
+
+
     // 최종 회원가입 버튼에 대한 이벤트
     function onSubmit(e) {
         const nameValiForm = /^[가-힣]+$/;
-        const emailValiForm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         // --> 비밀번호는 특수문자 하나, 8글자 이상 16자 이하로 설정함.
         const pwdValiForm = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
         const phoneValiForm = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
@@ -117,10 +120,6 @@ function SignUp() {
         } else if (!nameValiForm.test(nameVal)) {
             alert("이름은 한글만 입력할수있어요");
             nameRef.current.focus();
-                return;
-        } else if (!emailValiForm.test(emailVal)) {
-            alert("이메일 형식을 확인 후 다시 입력해주세요");
-            emailRef.current.focus();
                 return;
         } else if (emailDisabled === false) {
             alert("이메일 중복체크 해야합니다.");
@@ -189,26 +188,27 @@ function SignUp() {
                 <div id="login">
                     <div id="login_form" style={{paddingBottom:50}}>
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
-                            <br/>
-                        <form onSubmit={chkSubmit}>
-                                <label >
-                                    <div style={{display: "flex", padding: 5}}>
-                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingRight: 5}}>user id</p>
-                                        <button className="btn"
-                                                style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}>중복
-                                        </button>
-                                    </div>
-                                    <input type="text"
-                                           placeholder="아이디"
-                                           className="size"
-                                           style={{marginBottom: 15}}
-                                           ref={idRef}
-                                           disabled={disabled === true}
-                                    />
-                                </label>
-                        </form>
-
-                        <form onSubmit={onSubmit}>
+                        <br/>
+                        <div className="d-flex justify-content-start">
+                            <label >
+                                <div style={{display: "flex", padding: 5}}>
+                                    <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingRight: 5}}>user id</p>
+                                </div>
+                            </label>
+                                <div>
+                                    <button className="btn"
+                                            style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}
+                                            onClick={dupliIdChk}> 중복 </button>
+                                </div>
+                        </div>
+                        <input type="text"
+                               placeholder="아이디"
+                               className="size"
+                               style={{marginBottom: 15}}
+                               ref={idRef}
+                               disabled={disabled === true} />
+                        <div>
+                        {/*<form onSubmit={onSubmit}>*/}
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
                                 <input type="text" placeholder="이름" className="size" style={{marginBottom: 15}} ref={nameRef}/>
@@ -237,47 +237,53 @@ function SignUp() {
                             </label>
 
                             <br/>
-                            <label style={{paddingBottom: 20}}>
-                                <br />
-                                <div className="d-flex justify-content-start">
-                                    <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: -20, paddingRight:5}}>E-mail</p>
-                                    <button
-                                        type="button"
-                                        className="btn"
-                                        onClick={emailDupliChk}
-                                            style={{fontSize: 12,
-                                                backgroundColor: "#217Af0",
-                                                width: 50,
-                                                height:10,
-                                                paddingBottom: 21,
-                                                color: "white",
-                                                }}> 중복 </button>
-                                </div>
-                                <input type="text"
-                                       placeholder="이메일"
-                                       className="size"
-                                       style={{paddingTop: -20}}
-                                       ref={emailRef}
-                                       disabled={emailDisabled === true}
-                                    />
-                            </label>
-                            <br />
-
-                            <label className="d-flex justify-content-start">
-                                <br />
-                                    <div >
-                                        <div className="d-flex justify-content-start">
-                                            {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
-                                            <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
-                                            <button type="button"
-                                                    className="btn"
-                                                    style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
-                                                    onClick={() => {
-                                                        handleComplete()}}
-                                                    onChange={handleInput}> 주소검색 </button>
+                            <div>
+                                <div className="d-flex justify-content-start" style={{paddingTop: 30}}>
+                                    <label >
+                                            <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingTop: -20, paddingRight:5}}>E-mail</p>
+                                    </label>
+                                        <div>
+                                            <button
+                                                type="button"
+                                                className="btn"
+                                                onClick={emailDupliChk}
+                                                style={{fontSize: 12,
+                                                        backgroundColor: "#217Af0",
+                                                        width: 50,
+                                                        height:10,
+                                                        paddingBottom: 21,
+                                                        color: "white",
+                                                        }}> 중복 </button>
                                         </div>
                                     </div>
-                            </label>
+                                <div >
+                                    <input type="text"
+                                           placeholder="이메일"
+                                           className="size"
+                                           ref={emailRef}
+                                           disabled={emailDisabled === true}
+                                        />
+                                </div>
+                            </div>
+                            <br />
+
+                            <div className="d-flex justify-content-start" style={{height:60}}>
+                                <label>
+                                    {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
+                                    <br />
+                                        <div >
+                                            <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
+                                        </div>
+                                </label>
+                                <div style={{paddingTop: 20}}>
+                                    <button type="button"
+                                            className="btn"
+                                            style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
+                                            onClick={() => {
+                                                handleComplete()}}
+                                            onChange={handleInput}> 주소검색 </button>
+                                </div>
+                            </div>
                             <div>
                                 <input type="text"
                                        placeholder="주소를 검색해주세요"
@@ -291,8 +297,8 @@ function SignUp() {
                                 </div>
                             <br />
                             <br />
-                        </form>
-
+                        {/*</form>*/}
+                        </div>
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>
                                 <input type="submit" value="가입!" className="btn" style={{backgroundColor: "#217Af0", color: "white"}}/>
