@@ -113,7 +113,6 @@ public class MemberMgmtController {
     @ApiOperation(value = "계정 활성화 여부 조회 api", notes = "계정 활성화 여부를 조회함")
     @PreAuthorize("isAnonymous()")
     public boolean searchActivated(@RequestParam String memberId) {
-        System.out.println("나는 컨트롤러");
        return memberService.searchActivated(memberId);
     }
 

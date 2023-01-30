@@ -15,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -66,13 +67,16 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         Cookie[] cookies = request.getCookies();
         Map<String, String> targetCookie = new HashMap<>();
 
-        for (Cookie cookie : cookies) {
-            targetCookie.put(cookie.getName(), cookie.getValue());
+        if(!ObjectUtils.isEmpty(cookies)) {
+            for (Cookie cookie : cookies) {
+                targetCookie.put(cookie.getName(), cookie.getValue());
+            }
+            if (targetCookie.get("refresh_token") != null) {
+                String cookieResult = targetCookie.get("refresh_token");
+                refresh_tokenVal = cookieResult.substring("Bearer ".length());
+            }
         }
-        if (targetCookie.get("refresh_token") != null) {
-            String cookieResult = targetCookie.get("refresh_token");
-            refresh_tokenVal = cookieResult.substring("Bearer ".length());
-        }
+
         if (refresh_tokenVal.isBlank()) {
             // 리프레시 토큰을 가지고 있지 않으면, 토큰 생성
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
