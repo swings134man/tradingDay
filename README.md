@@ -28,6 +28,8 @@ Trading Day for side Project <br/>
 
 #### Open API
 - Kakao Login
+- Google Login
+- react-daum-postcode (kakao 주소검색)
 <br/>
 
 #### 배포 info
@@ -49,7 +51,17 @@ Trading Day for side Project <br/>
 * MyPage
 1. 쪽지함 기능을 이용하여 회원에게 온 쪽지 열람 및 답장 기능.
 2. 회원정보 수정 및 탈퇴. 
-3. Admin(관리자) 전용 페이지 개설, -> 회원관리 및 사이트 관리.
 
+* Admin
+1. 어드민권한을 가졌을때, ADMIN페이지 노출
+2. 매니저 계정 생성
+3. 쪽지함 기능을 이용하여 회원에게 온 쪽지 열람 및 답장 기능.
 
+* Sign Up
+1. 이용자 사이트 회원가입
+
+* Log In
+1. Google 소셜 로그인 (기존 가입 내역 없는 경우 소셜 회원가입으로 이동)
+2. 카카오 소셜 로그인 (기존 가입 내역 없는 경우 소셜 회원가입으로 이동)
+3. 일반 이용자 로그인
 
