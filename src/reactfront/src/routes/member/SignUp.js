@@ -208,7 +208,6 @@ function SignUp() {
                                ref={idRef}
                                disabled={disabled === true} />
                         <div>
-                        {/*<form onSubmit={onSubmit}>*/}
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
                                 <input type="text" placeholder="이름" className="size" style={{marginBottom: 15}} ref={nameRef}/>
@@ -297,7 +296,6 @@ function SignUp() {
                                 </div>
                             <br />
                             <br />
-                        {/*</form>*/}
                         </div>
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>

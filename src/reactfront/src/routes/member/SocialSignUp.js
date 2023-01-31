@@ -24,8 +24,8 @@ function SignUp() {
     const searchAddr = useRef(null);
     const addrDetailRef = useRef(null);
 
-    const chkSubmit = async (e) => {
-        e.preventDefault();
+    const dupliIdChk = async () => {
+
 
         // id 중복체크 온클릭 이벤트
         const idChkVal = idRef.current.value;
@@ -149,7 +149,6 @@ function SignUp() {
         setPopup(!popup);
     }
     //--------------------------------주소검색 api----------------------
-
     return (
         <div>
             <div id="con">
@@ -157,26 +156,25 @@ function SignUp() {
                     <div id="login_form">
                             <h3 className="login" style={{letterSpacing: -1}}>Welcome Trade :)</h3>
                             <br/>
-                        <form onSubmit={chkSubmit}>
-                                <label >
-                                    <div style={{display: "flex", padding: 5}}>
-                                        <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingRight: 5}}>user id</p>
-                                        <button className="btn"
-                                                style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}>중복
-                                        </button>
-                                    </div>
-                                    <input type="text"
-                                           placeholder="아이디"
-                                           className="size"
-                                           style={{marginBottom: 15}}
-                                           ref={idRef}
-                                           disabled={disabled === true}
-                                    />
-                                </label>
-                        </form>
-                            <br />
-
-                        <form onSubmit={onSubmit}>
+                        <div className="d-flex justify-content-start">
+                            <label >
+                                <div style={{display: "flex", padding: 5}}>
+                                    <p style={{textAlign: "left", fontSize: 12, color:"#666", paddingRight: 5}}>user id</p>
+                                </div>
+                            </label>
+                            <div>
+                                <button className="btn"
+                                        style={{fontSize: 12,backgroundColor: "#217Af0", width: 50, height:10, paddingBottom: 21, color: "white"}}
+                                        onClick={dupliIdChk}> 중복 </button>
+                            </div>
+                        </div>
+                        <input type="text"
+                               placeholder="아이디"
+                               className="size"
+                               style={{marginBottom: 15}}
+                               ref={idRef}
+                               disabled={disabled === true} />
+                        <br />
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>user name</p>
                                 <input type="text" placeholder="이름" className="size" style={{marginBottom: 15}} ref={nameRef}/>
@@ -186,7 +184,7 @@ function SignUp() {
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}>Password </p>
                                 <input type="password" placeholder="특수문자 포함, 8글자 이상 16자 이하" className="size" ref={pwdRef}/>
-                        </label>
+                            </label>
                             <br />
                             <label>
                                 <p style={{textAlign: "left", fontSize: 12, color:"#666"}}></p>
@@ -212,23 +210,24 @@ function SignUp() {
                             </label>
                             <br />
 
-                            <label className="d-flex justify-content-start">
+                        <div className="d-flex justify-content-start" style={{height:60}}>
+                            <label>
+                                {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
                                 <br />
-                                    <div >
-                                        <div className="d-flex justify-content-start">
-                                            {popup && <Post company={enroll_company} setcompany={setEnroll_company}></Post>}
-                                            <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
-                                            <button type="button" className="btn"
-                                                    style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
-                                                    onClick={() => {
-                                                        handleComplete()}}
-                                                    onChange={handleInput}> 주소검색 </button>
-                                        </div>
-                                    </div>
+                                <div >
+                                    <p style={{ fontSize: 12, color:"#666", paddingRight: 8, paddingTop:5}} align="center">주소</p>
+                                </div>
                             </label>
-
+                            <div style={{paddingTop: 20}}>
+                                <button type="button"
+                                        className="btn"
+                                        style={{fontSize:11,fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 70, height: 30}}
+                                        onClick={() => {
+                                            handleComplete()}}
+                                        onChange={handleInput}> 주소검색 </button>
+                            </div>
+                        </div>
                             <div>
-
                                 <input type="text"
                                        placeholder="주소를 검색해주세요"
                                        className="size"
@@ -237,13 +236,11 @@ function SignUp() {
                                 />
                             </div>
                             <br />
-                                <div style={{marginTop: -8, paddingBottom: -100}} >
-                                    <input type="text" placeholder="상세주소" className="size" ref={addrDetailRef}/>
-                                </div>
+                            <div style={{marginTop: -8, paddingBottom: -100}} >
+                                <input type="text" placeholder="상세주소" className="size" ref={addrDetailRef}/>
+                            </div>
                             <br />
                             <br />
-                        </form>
-
                         <form onSubmit={onSubmit}>
                             <p style={{marginTop: -15}}>
                                 <input type="submit" Value="가입!" className="btn" style={{backgroundColor: "#217Af0", color: "white"}}/>
