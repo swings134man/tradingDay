@@ -329,7 +329,7 @@ function ItemDetail() {
                     <div align="center" style={{ padding : 75}}>
                     <hr />
                     {/*입력 form*/}
-                    <table border={1}>
+                    <table border={0}>
                         <tbody>
                         <tr height="50">
                             <td width="10%" className="col1" align="center">댓글 달기</td>

@@ -103,6 +103,17 @@ function ItemWrite() {
         }); // axios
     }// onClick
 
+    /*
+        onClick
+     */
+    const onClickCancle = () => {
+        const cancleConfirm = window.confirm("작성중이던 모든 내용이 사라집니다.");
+        if(!cancleConfirm) {
+            return;
+        }
+        navigate(-1);
+    }
+
 
     /*
         return 함수.
@@ -133,12 +144,12 @@ function ItemWrite() {
                                     </select>
                                 </td>
                         </tr>
-                        <tr>
-                            <th scope="row">이미지 업로드</th>
-                            <td colSpan="5">
-                                <input type="file" multiple="multiple" onChange={onAddImages} />
-                            </td>
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <th scope="row">이미지 업로드</th>*/}
+                        {/*    <td colSpan="5">*/}
+                        {/*        <input type="file" multiple="multiple" onChange={onAddImages} />*/}
+                        {/*    </td>*/}
+                        {/*</tr>*/}
                         <tr>
                             <th scope="row">내용</th>
                                 <td colSpan="6" className="view_text">
@@ -148,12 +159,12 @@ function ItemWrite() {
                         </tbody>
                     </table>
                     <div align="right">
+                        <button onClick={onClickCancle} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100}}>작성 취소</button>
                         <button onClick={onClick} className="btn btn-warning" style={{backgroundColor: "#217Af0", width: 100}} >
                             게시글 등록
                         </button>
                     </div>
             </div>
-
         </div>
     )
 }//func
