@@ -5,7 +5,7 @@ import {manageQuarter} from "./RoleQuarterUtil";
 
 import Note from "./Note";
 
-function TableTest({data}) {
+function QnaBoardTable({data}) {
     let date = "";
     const [userRole, setUserRole] = useState("");
 
@@ -86,4 +86,4 @@ function TableTest({data}) {
     )
 }
 
-export default TableTest;
+export default QnaBoardTable;

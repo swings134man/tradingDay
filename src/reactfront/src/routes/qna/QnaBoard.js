@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import TableTest from "../../components/TableTest";
+import QnaBoardTable from "../../components/QnaBoardTable";
 import 'bootstrap/dist/css/bootstrap.css';
 import {Link, useNavigate} from "react-router-dom";
 
@@ -36,7 +36,7 @@ function QnaBoard() {
     useEffect(() => {
         if(isCheckingBox) {
             const getData = async () => {
-                const res = await fetch(`/qna/v1/qnaByWriter?page=${page}&writer=${localStorage.getItem("memberId")}`, {
+                const res = await fetch(`/qna/v1/qnabywriter?page=${page}&writer=${localStorage.getItem("memberId")}`, {
                     headers: {
                         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
                     }
@@ -79,7 +79,7 @@ function QnaBoard() {
                     <h1>문의 게시판</h1>
                 </div>
 
-                <TableTest data={qnaList} />
+                <QnaBoardTable data={qnaList} />
                 <div align="right">
                     <button className="btn btn-warning" style={{fontWeight: "bold", color: "white", backgroundColor: "#217Af0", width: 100}}>
                         <Link to={"/qnawrite"} style={{color: "white"}}>

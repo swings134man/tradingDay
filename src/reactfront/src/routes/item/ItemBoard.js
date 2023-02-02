@@ -5,7 +5,7 @@ import {v4} from 'uuid';
 import axios from "axios";
 
 import Paging from "../../components/Paging";
-import TableTest from "../../components/TableTest";
+import QnaBoardTable from "../../components/QnaBoardTable";
 import Pagination from "react-js-pagination";
 import Note from "../../components/Note";
 
