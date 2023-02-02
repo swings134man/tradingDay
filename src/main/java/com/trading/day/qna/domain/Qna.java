@@ -51,6 +51,8 @@ public class Qna extends BaseTimeEntity {
 
     private String title;
     private String writer;
+    // mysql에 컬럼 만들때는 사이즈를 500~1000으로 설정해야함
+    // @Column(length = 1000)
     private String content;
 
     private String pwd;

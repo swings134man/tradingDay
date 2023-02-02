@@ -71,29 +71,30 @@ function QnaWrite() {
                     <h1>문의글 작성</h1>
                 </div>
                 <form onSubmit={onSubmit}>
-                    <table className="table table-striped table-bordered table-hover" >
-
+                    <table className="table  table-hover" >
                         <tbody>
                         <tr>
-                            <th scope="row">작성자</th>
-                            <td >{localStorage.getItem("memberId")}</td>
+                            <td colSpan="3" align="right">{ new Date().toLocaleDateString() }</td>
+                        </tr>
+                        <tr>
+                            <td colSpan="3" align="right">작성자 : {localStorage.getItem("memberId")}</td>
                         </tr>
                         <tr>
                             <th scope="row" >제목</th>
                             <td colSpan="3">
-                                <input type="text" id={"title"} ref={titleRef} placeholder="제목을 입력하세요"/>
+                                <input type="text" id={"title"} ref={titleRef} placeholder="제목을 입력하세요" style={{width:500}} maxLength={30}/>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">내용</th>
                             <td colSpan="4" className="view_text">
-                                <textarea ref={contentRef} style={{width: 500, height: 200}} placeholder="내용을 입력하세요"></textarea>
+                                <textarea ref={contentRef} style={{width: 500, height: 200}} placeholder="내용을 입력하세요" maxLength={255}></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">비밀번호</th>
                             <td colSpan="4" className="view_text">
-                                <input type="password" ref={pwdRef} placeholder="비밀번호" />
+                                <input type="password" ref={pwdRef} placeholder="비밀번호" maxLength={15}/>
                             </td>
                         </tr>
                         </tbody>
