@@ -289,4 +289,23 @@ public class ItemBoardService {
 
         return modelMapper.map(entityResult, ItemBoardDTO.class);
     }// savePost
+
+    /************
+     * @info : 게시판 상세페이지 - 게시글 모집상태 변경
+     * @name : ItemBoardService
+     * @date : 2023/02/03 7:37 PM
+     * @author : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @Description :
+     ************/
+    public ItemBoardDTO updateStatus(ItemBoardDTO.ItemRequest inDTO) {
+        Optional<ItemBoard> res = Optional.ofNullable(repository.findById(inDTO.getId()).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시물이 존재하지 않습니다")));
+        ItemBoard itemBoard = res.get();
+        itemBoard.setType(inDTO.getType());
+
+        return modelMapper.map(itemBoard, ItemBoardDTO.class);
+    }
+
+
 }//class

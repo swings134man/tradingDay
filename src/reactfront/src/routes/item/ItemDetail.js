@@ -235,6 +235,37 @@ function ItemDetail() {
 
         navigate('/applyWrite/' + data.id + '/' + data.writer);
     }
+    // 마감하기 버튼 : 글작성자 ONLY
+    const clickFin = () => {
+        const confirm = window.confirm("해당 게시글 모집상태를 '마감으로' 변경하시겠습니까?");
+        if(!confirm) {
+            return;
+        }
+
+        if(localStorage.getItem("memberId") !== data.writer) {
+            window.alert("해당 버튼의 권한이 없습니다.")
+            return;
+        }
+
+        axios.put('/item/v1/updateStatus', {
+            id: id,
+            type: "모집완료"
+        }, {
+            headers: {
+                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+            }
+        }).then(function (res){
+            window.alert("모집 상태 수정완료.");
+            window.location.reload();
+        }).catch(function (err) {
+            if(err.response.status === 403) {
+                navigate('/member/signin');
+            }
+            window.alert("모집 상태 수정중 문제가 발생했습니다.");
+        })
+
+
+    }
 
 
     return (
@@ -278,18 +309,33 @@ function ItemDetail() {
                             <td colSpan="6" align="center">
                                 {
                                     data.type === '모집중'
-                                    ?
-                                    <button className="btn btn-warning"
-                                            style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
-                                            onClick={clickApply}>
-                                        지원하기
-                                    </button>
+                                    ?(localStorage.getItem("memberId") === data.writer
+                                        ? <button className="btn btn-warning"
+                                                    style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
+                                                    onClick={clickFin}>
+                                                공고 마감하기
+                                          </button>
                                         :<button className="btn btn-warning"
-                                                 style={{backgroundColor: "#217Af0", width: 300, color: "white"}}
-                                                 onClick={clickApply}
-                                                 disabled={true}>
-                                            해당 모집공고는 마감되었습니다.
+                                                style={{backgroundColor: "#217Af0", width: 150, color: "white"}}
+                                                onClick={clickApply}>
+                                            지원하기
                                         </button>
+                                        ):(
+                                            localStorage.getItem("memberId") === data.writer
+                                            ?<button className="btn btn-warning"
+                                                     style={{backgroundColor: "#217Af0", width: 300, color: "white"}}
+                                                     onClick={clickApply}
+                                                     disabled={true}>
+                                                    이미 마감된 공고입니다.
+                                                </button>
+                                                :
+                                                <button className="btn btn-warning"
+                                                        style={{backgroundColor: "#217Af0", width: 300, color: "white"}}
+                                                        onClick={clickApply}
+                                                        disabled={true}>
+                                                    해당 모집공고는 마감되었습니다.
+                                                </button>
+                                        )
                                 }
                             </td>
                         </tr>

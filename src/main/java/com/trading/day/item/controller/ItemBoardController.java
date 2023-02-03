@@ -197,4 +197,20 @@ public class ItemBoardController {
 //
 //        return itemBoardDTO;
 //    }//savePost
+
+    /************
+     * @info : 게시판 상세 페이지 - 모집상태 변경 (update)
+     * @name : ItemBoardController
+     * @date : 2023/02/03 7:51 PM
+     * @author : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @Description :
+     ************/
+    @ApiOperation(value = "게시물 모집상태 변경 API", notes = "게시판 상세 페이지 모집상태 변경(status)")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("updateStatus")
+    public ItemBoardDTO updateStatus(@RequestBody ItemBoardDTO.ItemRequest inDTO) {
+        ItemBoardDTO itemBoardDTO = service.updateStatus(inDTO);
+        return itemBoardDTO;
+    }
 }//class
