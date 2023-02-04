@@ -58,8 +58,8 @@ spring:
          max-file-size: 100MB
          max-request-size: 150MB
          file-size-threshold: 2KB
-#         location: /Users/seokjunKang/intellij-gradle/day-file/
-         location: /Users/taeil/desktop/
+         location: /Users/seokjunKang/intellij-gradle/day-file/
+#         location: /Users/taeil/desktop/
 
 
 #file.dir: /Users/seokjunKang/intellij-gradle/day-file/
