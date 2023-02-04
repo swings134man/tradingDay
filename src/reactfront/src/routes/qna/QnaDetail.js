@@ -156,6 +156,12 @@ function QnaDetail() {
     const answerClickUpdate = async (e) => {
 
         const modiAnswerVal = modiAnswerRef.current.value;
+
+        if(!modiAnswerRef.current.value) {
+            alert('수정 내용을 입력하세요');
+            return;
+        }
+
         console.log(modiAnswerVal)
         answerId = e.target.getAttribute("data-id");
 
