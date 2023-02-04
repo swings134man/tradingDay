@@ -126,14 +126,14 @@ public class QnaController {
         return result;
     }
 
-    /**
-     * methodName : updateQna
-     * author : TAEIL KIM
-     * description :
-     *
-     * @param qnaInDTO
-     * @return qna dto
-     */
+   /**
+    * methodName : updateQna
+    * author : TAEIL KIM
+    * description :
+    *
+    * @param qnaInDTO
+    * @return qna dto
+    */
     @ApiOperation(value = "qna문의 수정 api", notes = "해당 고객이 남긴 문의글을 수정함")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/updateqna")

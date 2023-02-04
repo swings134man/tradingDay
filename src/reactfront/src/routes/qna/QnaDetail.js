@@ -67,7 +67,10 @@ function QnaDetail() {
 
     // 답변달기
     const answerSave = async () => {
-
+        if(!answerRef.current.value) {
+            alert('답변을 입력하세요');
+            return;
+        }
         axios.post("/answer/v1/save", {
             qnaId: qna.qnaId,
             content: answerRef.current.value,
