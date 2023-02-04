@@ -56,13 +56,19 @@ Trading Day for side Project <br/>
 
 - Main 화면
 <img src=“” width=“” height=“”/>
-<img width="1778" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
+<img width="1200" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
 
 
 - 회원가입, 로그인
-<img width="502" alt="스크린샷 2023-02-05 오전 2 39 08" src="https://user-images.githubusercontent.com/86291550/216781655-8998dd3b-b943-4997-a537-c7ce57c67110.png">
+<img width="350" alt="스크린샷 2023-02-05 오전 2 39 08" src="https://user-images.githubusercontent.com/86291550/216781655-8998dd3b-b943-4997-a537-c7ce57c67110.png">
 
-<img width="892" alt="스크린샷 2023-02-05 오전 2 39 18" src="https://user-images.githubusercontent.com/86291550/216781660-cbf0207e-f8b6-4965-ab3d-62e188abc692.png">
+<img width="500" alt="스크린샷 2023-02-05 오전 2 39 18" src="https://user-images.githubusercontent.com/86291550/216781660-cbf0207e-f8b6-4965-ab3d-62e188abc692.png">
+
+- 모집 게시판(TRADE)
+
+<img width="900" alt="스크린샷 2023-02-05 오전 2 43 30" src="https://user-images.githubusercontent.com/86291550/216781833-50b308b8-892e-4e23-8f8e-b121133f54c1.png">
+
+
 
 
 <br/>
@@ -93,6 +99,7 @@ Trading Day for side Project <br/>
 4. 다른 사람 게시물에 지원하기 기능 이용. -> 지원 후 게시물 작성자 MyPage 이동 후 지원서 List 확인
 5. 게시물 내부 댓글 등록, 수정, 삭제 테스트.(작성자, 관리자 Only)
 6. TRADE 게시판 리스트 - 모집 상태 색깔별 확인.
+7. 검색 조건 설정 후 검색 내용으로 게시물 검색 확인. 
 
 - 지원서 - Apply 
 1. TRADE 게시판에서 지원서 제출. 
