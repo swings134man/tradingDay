@@ -122,10 +122,7 @@ function SignUp() {
             alert("이름은 한글만 입력할수있어요");
             nameRef.current.focus();
                 return;
-        } else if (emailDisabled === false) {
-            alert("이메일 중복체크 해야합니다.");
-            return;
-        } else if (pwdVal !== pwdConfirmVal) {
+        }  else if (pwdVal !== pwdConfirmVal) {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             pwdRef.current.focus();
             return;
@@ -138,6 +135,9 @@ function SignUp() {
             return;
         } else if (!phoneValiForm.test(phoneVal)) {
             alert("전화번호 형식을 확인 후 다시 입력해주세요.");
+            return;
+        } else if (emailDisabled === false) {
+            alert("이메일 중복체크 해야합니다.");
             return;
         } else if (searchAddrVal  === "") {
             alert("주소를 입력하세요.");

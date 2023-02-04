@@ -40,6 +40,7 @@ function SignUp() {
             return;
         } else if (idChkVal.length < 4 || idChkVal.length > 12) {
             alert('아이디는 4글자이상 12자 이하로 입력해주세요');
+            return;
         }
 
         const uri = `/member/v1/chkdupliId?memberId=${idChkVal}`;

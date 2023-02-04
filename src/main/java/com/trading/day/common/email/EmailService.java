@@ -38,7 +38,6 @@ public class EmailService {
      * @return  :
      * @Description : 이메일주소, 내용, 제목이 필요함.
      */
-    @Async
     public boolean sendMailReject(EmailDTO inDTO) throws Exception{
         boolean msg = false;
 
@@ -71,7 +70,6 @@ public class EmailService {
      * @return  :
      * @Description :
      */
-    @Async
     public boolean sendMailMime(EmailDTO inDTO) {
         boolean msg = false;
 

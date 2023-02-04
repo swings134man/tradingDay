@@ -65,6 +65,7 @@ function ApplyDetail() {
             }
         }).then(function (res) {
             if(res.data === false) {
+                console.log(res);
                 window.alert("거절 처리 도중 오류가 발생했습니다.");
                 setLoading(false);
                 return;
