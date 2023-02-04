@@ -55,7 +55,7 @@ Trading Day for side Project <br/>
 <h2 id="feature">Site Info - 기능</h2>
 
 - Main 화면
-<img src=“” width=“” height=“”/>
+<!-- <img src=“” width=“” height=“”/> -->
 <img width="1200" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
 
 
@@ -64,11 +64,21 @@ Trading Day for side Project <br/>
 
 <img width="500" alt="스크린샷 2023-02-05 오전 2 39 18" src="https://user-images.githubusercontent.com/86291550/216781660-cbf0207e-f8b6-4965-ab3d-62e188abc692.png">
 
-- 모집 게시판(TRADE)
+- 모집 게시판(TRADE) - 구인글 작성, 지원
 
 <img width="900" alt="스크린샷 2023-02-05 오전 2 43 30" src="https://user-images.githubusercontent.com/86291550/216781833-50b308b8-892e-4e23-8f8e-b121133f54c1.png">
 
+<img width="900" alt="스크린샷 2023-02-05 오전 2 44 58" src="https://user-images.githubusercontent.com/86291550/216781894-47e66c79-af7c-49b8-970b-89aca848b048.png">
 
+- Qna - 질문 등록 및 답변 확인
+
+<img width="900" alt="스크린샷 2023-02-05 오전 2 47 07" src="https://user-images.githubusercontent.com/86291550/216782013-39a693a1-2da6-4043-a985-5f8d13f9c834.png">
+
+<img width="1200" alt="스크린샷 2023-02-05 오전 2 48 33" src="https://user-images.githubusercontent.com/86291550/216782022-60fd6fa0-2469-418f-a4cf-b7a9bc730522.png">
+
+- My Page - 지원서(지원서 답변), 개인정보수정, 쪽지함, 회원탈퇴
+
+<img width="1200" alt="스크린샷 2023-02-05 오전 2 50 52" src="https://user-images.githubusercontent.com/86291550/216782111-f1f7b97c-c4ad-4f7c-9340-03d744cfd7e5.png">
 
 
 <br/>
