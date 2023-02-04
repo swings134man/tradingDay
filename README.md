@@ -6,7 +6,6 @@
 <li><a href="#info">프로젝트 Info & Skills</a></li>
 <li><a href="#feature">프로젝트 기능</a></li>
 <li><a href="#test">통합 테스트 목록</a></li>
-<li><a href="#5"></a></li>
 </ul>
 
 
@@ -56,7 +55,7 @@ Trading Day for side Project <br/>
 
 - Main 화면
 <!-- <img src=“” width=“” height=“”/> -->
-<img width="1200" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
+<img width="900" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
 
 
 - 회원가입, 로그인
@@ -74,11 +73,11 @@ Trading Day for side Project <br/>
 
 <img width="900" alt="스크린샷 2023-02-05 오전 2 47 07" src="https://user-images.githubusercontent.com/86291550/216782013-39a693a1-2da6-4043-a985-5f8d13f9c834.png">
 
-<img width="1200" alt="스크린샷 2023-02-05 오전 2 48 33" src="https://user-images.githubusercontent.com/86291550/216782022-60fd6fa0-2469-418f-a4cf-b7a9bc730522.png">
+<img width="900" alt="스크린샷 2023-02-05 오전 2 48 33" src="https://user-images.githubusercontent.com/86291550/216782022-60fd6fa0-2469-418f-a4cf-b7a9bc730522.png">
 
 - My Page - 지원서(지원서 답변), 개인정보수정, 쪽지함, 회원탈퇴
 
-<img width="1200" alt="스크린샷 2023-02-05 오전 2 50 52" src="https://user-images.githubusercontent.com/86291550/216782111-f1f7b97c-c4ad-4f7c-9340-03d744cfd7e5.png">
+<img width="900" alt="스크린샷 2023-02-05 오전 2 50 52" src="https://user-images.githubusercontent.com/86291550/216782111-f1f7b97c-c4ad-4f7c-9340-03d744cfd7e5.png">
 
 
 <br/>
