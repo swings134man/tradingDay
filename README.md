@@ -69,7 +69,7 @@ Trading Day for side Project <br/>
 
 <img width="900" alt="스크린샷 2023-02-05 오전 2 44 58" src="https://user-images.githubusercontent.com/86291550/216781894-47e66c79-af7c-49b8-970b-89aca848b048.png">
 
-- Qna - 질문 등록 및 답변 확인
+- QnA - 질문 등록 및 답변 확인
 
 <img width="900" alt="스크린샷 2023-02-05 오전 2 47 07" src="https://user-images.githubusercontent.com/86291550/216782013-39a693a1-2da6-4043-a985-5f8d13f9c834.png">
 
@@ -124,10 +124,10 @@ Trading Day for side Project <br/>
 5. 쪽지 상세 페이지 내부 삭제 확인. 
 6. 쪽지 List 선택 항목 삭제 확인. 
 
-- Qna 
+- QnA
 1. 로그인 회원 only 글작성, 수정, 삭제 확인.
-2. Qna 글 클릭시 비밀번호 입력 후 페이지 진입 확인. 
-3. Qna 리스트 - 로그인한 ID 가 작성한 글만 버튼 기능 확인. 
+2. QnA 글 클릭시 비밀번호 입력 후 페이지 진입 확인. 
+3. QnA 리스트 - 로그인한 ID 가 작성한 글만 버튼 기능 확인. 
 4. 관리자의 답글, 수정, 삭제 확인. 
 
 - Batch 
