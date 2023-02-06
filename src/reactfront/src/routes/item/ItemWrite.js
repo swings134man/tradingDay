@@ -67,40 +67,62 @@ function ItemWrite() {
             }
         }
 
-        // axios 통신
-        // TODO : writer 추후 세션값 || 로그인 ID 기반 작성
-        const frm = new FormData();
         const data = {
             title: titleVal,
             content: contentVal,
             writer: localStorage.getItem("memberId"),
-            type: select};
-        frm.append("dto", new Blob([JSON.stringify(data)],  {type: "application/json"}));
-        // frm.append("files", imageList.values());
-        imageList.forEach((file) => {
-            // 파일 데이터 저장
-            frm.append('files', file);
-        });
-
-        //application/json , multipart/form-data
-        axios.post("/item/v1/savePost/images", frm, {
+            type: select
+        }
+        axios.post('/item/v1/savePost', data, {
             headers: {
-                "Content-Type": `multipart/form-data`,
-                AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
-            }})
-            .then(function (response) {
-                // response
-                console.log('res : ' + response.status); // 200
-                window.alert("게시글이 작성되었습니다!");
-                navigate('/item/itemBoard');
-            }).catch(function (error) {
-            // 오류발생시 실행
-            console.log('error message : '+ error);
-            if(error.response.status === 403) {
-                navigate("/member/signin");
+                "Content-Type": `application/json`,
+                 AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
             }
-            window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
-        }); // axios
+        }).then(function (res) {
+                    window.alert("게시글이 작성되었습니다!");
+                    navigate('/item/itemBoard');
+        }).catch(function (err) {
+                console.log('error message : '+ err);
+                if(err.response.status === 403) {
+                    navigate("/member/signin");
+                }
+                window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        }); //axios
+
+
+        // axios 통신 - Image 업로드
+        // const frm = new FormData();
+        // const data = {
+        //     title: titleVal,
+        //     content: contentVal,
+        //     writer: localStorage.getItem("memberId"),
+        //     type: select};
+        // frm.append("dto", new Blob([JSON.stringify(data)],  {type: "application/json"}));
+        // // frm.append("files", imageList.values());
+        // imageList.forEach((file) => {
+        //     // 파일 데이터 저장
+        //     frm.append('files', file);
+        // });
+        //
+        // //application/json , multipart/form-data
+        // axios.post("/item/v1/savePost/images", frm, {
+        //     headers: {
+        //         "Content-Type": `multipart/form-data`,
+        //         AUTHORIZATION:"Bearer "+localStorage.getItem("auth_token")
+        //     }})
+        //     .then(function (response) {
+        //         // response
+        //         console.log('res : ' + response.status); // 200
+        //         window.alert("게시글이 작성되었습니다!");
+        //         navigate('/item/itemBoard');
+        //     }).catch(function (error) {
+        //     // 오류발생시 실행
+        //     console.log('error message : '+ error);
+        //     if(error.response.status === 403) {
+        //         navigate("/member/signin");
+        //     }
+        //     window.alert("게시글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        // }); // axios
     }// onClick
 
     /*
