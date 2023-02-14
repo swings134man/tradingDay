@@ -51,7 +51,9 @@ Trading Day for side Project <br/>
 - 포트포워딩 -> 3000(React, Front)
 - EC2 인스턴스 내부 : SpringBoot, React 서버 구동
 
+<br/>
 - AWS EC2
+<br/>
 
 1. EC2 - 탄력적IP 적용 (고정IP)
 <img width="900" alt="EC2" src="https://user-images.githubusercontent.com/86291550/218850061-eab6775a-2dab-4579-a9aa-1c0879d5b52c.png">
