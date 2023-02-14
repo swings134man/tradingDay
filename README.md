@@ -45,6 +45,12 @@ Trading Day for side Project <br/>
 <br/>
 
 #### 배포 info
+##### info
+- Server : AWS EC2 (고정IP)
+- DB : AWS RDS MySQL 5.7.34
+- 포트포워딩 -> 3000(React, Front)
+- EC2 인스턴스 내부 : SpringBoot, React 서버 구동
+
 - AWS EC2
 
 1. EC2 - 탄력적IP 적용 (고정IP)
