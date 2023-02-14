@@ -46,16 +46,22 @@ Trading Day for side Project <br/>
 
 #### 배포 info
 - AWS EC2
-- AWS RDS
+
+1. EC2 - 탄력적IP 적용 (고정IP)
+<img width="900" alt="EC2" src="https://user-images.githubusercontent.com/86291550/218850061-eab6775a-2dab-4579-a9aa-1c0879d5b52c.png">
+<img width="900" alt="EC2_2" src="https://user-images.githubusercontent.com/86291550/218850181-fd54f3a2-b78b-447b-ab5f-b564b2ff8eb4.png">
+
+- AWS RDS - MySQL 5.7.34
+<img width="1727" alt="RDS" src="https://user-images.githubusercontent.com/86291550/218850283-239a0442-ed73-42f1-81e6-d428b0ff1fcb.png">
 
 
 <br/>
 <br/>
 <h2 id="feature">Site Info - 기능</h2>
 
-- Main 화면
+- Main 화면 (EC2 배포 - 고정 IP)
 <!-- <img src=“” width=“” height=“”/> -->
-<img width="900" alt="스크린샷 2023-02-05 오전 2 36 36" src="https://user-images.githubusercontent.com/86291550/216781650-2d23a619-8bbe-4e50-a8a6-bff9f58a1070.png">
+<img width="900" alt="메인" src="https://user-images.githubusercontent.com/86291550/218849871-f42d20bc-e87b-4d92-9844-2714979d73a8.png">
 
 
 - 회원가입, 로그인
