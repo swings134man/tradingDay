@@ -22,7 +22,7 @@ function ItemDetail() {
     useEffect(() => {
         const getData = async () => {
             // 파라미터 -> 보낼이름 : data
-            const item = await axios.get('/item/v1/detailPost', {
+            const item = await axios.get('/item/v1/detailPost2', {
                 params:{
                     id: id
                 }

@@ -307,4 +307,28 @@ public class ItemBoardService {
     }
 
 
+    /**
+     * @info    : 게시물 - 상세 페이지 조회 - Refactoring v2
+     * @name    : detailPostRefacor
+     * @date    : 2023/03/04 6:36 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   : Long id
+     * @return  : ItemBoardDTO
+     * @Description : 게시물 detail 페이지 조회 및 조회수 증가. Refactoring
+     */
+    @Transactional
+    public ItemBoardDTO detailPostRefacor(Long id) {
+        ItemBoard result = Optional.ofNullable(repository.findByBoardRefactor(id))
+                .orElseThrow(() ->
+                        new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
+//        ItemBoard result = repository.findByBoardRefactor(id);
+
+        System.out.println(">>>>>>>>> " + result.getView());
+        long view = result.getView() + 1L;
+        result.increaseView(view);
+
+        return modelMapper.map(result, ItemBoardDTO.class);
+    }
+
 }//class

@@ -212,4 +212,24 @@ public class ItemBoardController {
         ItemBoardDTO itemBoardDTO = service.updateStatus(inDTO);
         return itemBoardDTO;
     }
+
+
+    /**
+     * @info    : 게시판 상세 페이지 조회 - READ(Refactoring)
+     * @name    : detailPostRefacor
+     * @date    : 2023/03/04 6:38 PM
+     * @author  : SeokJun Kang(swings134@gmail.com)
+     * @version : 1.0.0
+     * @param   : Long id
+     * @return  : ItemBoardDTO
+     * @Description : 게시물 상세페이지 조회, 조회수 증가.
+     */
+    @ApiOperation(value = "게시물 상세 페이지 API(Refactor)", notes = "게시물 상세페이지 이동.(Refactor)")
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("detailPost2")
+    public ItemBoardDTO detailPostRefacor(@RequestParam Long id) {
+        System.out.println(">>>>>> controller =" + id);
+        return service.detailPostRefacor(id);
+
+    }
 }//class
