@@ -1,5 +1,6 @@
 package com.trading.day.config.jwtConfig;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trading.day.jwtToken.domain.TokenDTO;
 import com.trading.day.jwtToken.service.TokenService;
@@ -94,11 +95,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                         details, details.getAuthorities()
                 );
             } else {
-                // 리프레시 토큰이 유효하지 않다면 리프레시 토큰을 다시 만들어서 리턴해줌 --> 재로그인 시 필요 로직
-                UserDetails details = memberService.loadUserByUsername(verify.getMemberId());
-                return new UsernamePasswordAuthenticationToken(
-                        details, details.getAuthorities()
-                );
+                throw new TokenExpiredException("refresh_token is Expired");
             }
         }
     }
